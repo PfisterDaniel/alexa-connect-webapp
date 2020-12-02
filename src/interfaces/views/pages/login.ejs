@@ -1,0 +1,22 @@
+<%- include('../fragments/header'); -%>
+  <div class="container main-content">
+    <% if (message) { %>
+      <p><strong><%= message %></strong></p>
+    <% } %>
+    <%- include('../fragments/privacy-modal'); -%>
+
+    <div id="login">
+      <form class="form-signin" method="POST" action="/login">
+        <%- include('../fragments/login'); -%>
+      </form>
+    </div>
+  </div>
+  <script>
+    $('a[href$="#tosModal"]').on( "click", function() {
+      $('#tosModal').modal('show');
+    });
+    $('a[href$="#privacyModal"]').on( "click", function() {
+      $('#privacyModal').modal('show');
+    });
+  </script>
+<%- include('../fragments/footer'); -%>

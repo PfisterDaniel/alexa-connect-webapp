@@ -1,0 +1,36 @@
+<%- include('../fragments/header'); -%>
+  <div class="container main-content">
+      <form class="form-verifyResend" id="form-verifyResend">
+          <h1 class="h3 mb-3 font-weight-normal">Neue Verifizierungs-E-Mail anfordern</h1>
+          <p>Verwenden Sie dieses Formular, um Ihre Kontobestätigungs-E-Mail erneut anzufordern.</p>
+          <label for="email" class="sr-only">E-Mail Adresse</label>
+          <input type="email" id="email" class="form-control" placeholder="E-Mail Adresse" required autofocus title="E-Mail Adresse.">
+          <br>
+          <button class="btn btn-lg btn-secondary btn-block" id="submit" type="submit" value="submit">Senden</button>
+        </form>
+
+        <script type="application/javascript">
+          $("#form-verifyResend").submit(function(e) {
+              e.preventDefault();
+              var xhr = new XMLHttpRequest();
+              var email = document.getElementById('email').value;
+              var params = 'email=' + encodeURIComponent(email);
+              xhr.open('POST', '/verify-resend',true);
+              xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+              xhr.onreadystatechange = function () {
+                if( xhr.readyState == 4 && xhr.status == 202) {
+                  //new re-verification email sent to users email address
+                  alert(xhr.responseText);
+                  window.location = '/verify-resend';
+                } else if (xhr.readyState == 4 && (xhr.status == 400 || xhr.status == 500)) {
+                  //show error
+                  alert(xhr.responseText);
+                  window.location = '/verify-resend';
+                }
+              }
+            xhr.send(params);
+          });
+      </script>
+    </div>
+  </div>
+<%- include('../fragments/footer'); -%>

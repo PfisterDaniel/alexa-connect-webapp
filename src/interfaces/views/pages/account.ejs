@@ -1,0 +1,170 @@
+<%- include('../fragments/header'); -%>
+<div class="container main-content col-sm-6">
+  <form class="form-account" id="form-account">
+    <h1>Mein Account</h1>
+    <div class="form-group row">
+      <div class="col-sm-9 ">
+        Verwenden Sie dieses Formular, um Ihre E-Mail-Adresse und Ihr Land zu aktualisieren. Sie können auch von hier aus auf das Formular zum Zurücksetzen des Passworts verlinken.
+      </div>
+    </div>
+    <div class="form-group row">
+      <div class="col-sm-2">
+        <input id="userId" type="hidden">
+        <label for="username" class="col-form-label">Benutzername:</label>
+      </div>
+      <div class="col-sm-7">
+        <input type="text" id="username" name="username" pattern="^[a-z,A-Z,0-9,_]{5,15}$" class="form-control" placeholder="Benutzername" required title="a-z, A-Z, 0-9 Zeichen und 5-15 Zeichen." value= <%= user.username %> disabled>
+      </div>
+    </div>
+    <div class="form-group row">
+      <div class="col-sm-2">
+        <label for="email" class="col-form-label">E-Mail:</label>
+      </div>
+      <div class="col-sm-7">
+        <input type="email" class="form-control" id="email" value= <%= user.email %> required>
+      </div>
+    </div>
+    <div class="form-group row">
+      <div class="col-sm-2">
+        <label for="country" class="col-form-label">Land:</label>
+      </div>
+      <div class="col-sm-7">
+        <input type="text" id="country" class="form-control" required>
+        <input type="text" id="country_code" name="country_code" data-countrycodeinput="1" readonly="readonly" hidden />
+      </div>
+    </div>
+    <div class="form-group row">
+      <div class="col-sm-2">
+      </div>
+      <div class="col-sm-7 text-right">
+        <a href="/my-account" id="cancel" name="cancel" style="margin-left :5px" class="btn btn-secondary btn-space">Abbrechen</a>
+        <button class="btn btn-primary btn-space" style="margin-left :5px" id="submit" type="submit" value="submit">Änderungen speichern</button>
+      </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-sm-9 bg-light rounded">
+          Um Ihr Passwort zu ändern, klicken Sie auf die Schaltfläche unten.
+        </div>
+    </div>
+    <div class="form-group row">
+      <div class="col-sm-2">
+      </div>
+      <div class="col-sm-7 text-right">
+          <a href="/change-password" id="changepw" name="changepw" style="margin-left :5px" class="btn btn-info btn-space">Passwort ändern</a>
+      </div>
+    </div>
+    <div class="form-group row">
+      <div class="col-sm-9 bg-light rounded">
+        Setzen Sie Ihre Amazon OAuth-Token mithilfe der folgenden Schaltfläche zurück (beachten Sie, dass Sie Ihre Konten erneut verknüpfen müssen, um diesen Dienst erneut nutzen zu können!).
+      </div>
+    </div>
+    <div class="form-group row">
+      <div class="col-sm-2">
+      </div>
+      <div class="col-sm-7 text-right">
+        <button class="btn btn-danger btn-space" id="tokens" type="button" onclick="deleteOAuthTokens('<%= user._id %>')">Token löschen</button>
+      </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-sm-9 bg-light rounded">
+          Haben Sie beschlossen, Ihr Konto zu entfernen? Klicken Sie auf die Schaltfläche unten, um Ihr Konto und alle zugehörigen Daten zu löschen.
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-sm-2">
+        </div>
+        <div class="col-sm-7 text-right">
+            <button class="btn btn-danger btn-space" id="delete" type="button" onclick="deleteAccount('<%= user._id %>')">Account löschen</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<script>
+
+var cs = $("#country").countrySelect();
+
+$(document).ready(function() {
+  $("#form-account").submit(function(e) {
+    e.preventDefault();
+    saveAccount()
+  });
+
+  cs.countrySelect("selectCountry", user.country);
+
+});
+
+function saveAccount() {
+  // Check for changes against data passed to client on page load
+  // If no differences alert user, do nothing
+  // If differences, prompt user to confirm, then save account
+  var answer = confirm("Möchten Sie wirklich Änderungen an Ihrem Konto speichern?");
+  if (answer) {
+		var userId = $('#userId').val();
+    var email = $('#email').val();
+    var country = $("#country_code").val().trim();
+    if (user.email != email || user.country != country) {
+      var account = user;
+      account.email = email;
+      account.country = country;
+      if (account.username && account.email && account.country) {
+          //post update
+          //console.log("Updating" + JSON.stringify(account));
+          $.ajax({
+            url: '/account/' + account._id,
+            type: 'POST',
+            data: JSON.stringify(account),
+            dataType: 'json',
+            contentType: "application/json",
+            success: function(data){
+              //console.log("post response");
+              //console.log(data);
+              //reload
+              document.location.reload();
+            },
+          });
+          //console.log(JSON.stringify(account));
+      } else {
+        alert("Stellen Sie sicher, dass E-Mail-Adresse und Land eingestellt sind!");
+      }
+    }
+    else {
+      prompt("Sie haben weder E-Mail-Adresse noch Land geändert, es gibt nichts zu speichern!")
+    }
+  }
+}
+
+function deleteOAuthTokens(id) {
+  var answer = confirm("Möchten Sie Ihren OAuth-Token wirklich löschen? Sie müssen Ihre Amazon erneut verknüpfen, um diesen Dienst wieder verwenden zu können!");
+  if (answer) {
+    // Delete oauthTokens
+    $.ajax({
+				url:"/tokens/" + id,
+				type: 'DELETE',
+				success: function(data){
+					document.location.reload();
+				}
+    });
+  }
+}
+
+function deleteAccount(id) {
+  var answer = confirm("Sind Sie sicher, das Sie Ihren Account löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden!");
+  if (answer) {
+    // Delete user account
+    $.ajax({
+				url:"/account/" + id,
+				type: 'DELETE',
+				success: function(data){
+					document.location.reload();
+				}
+    });
+  }
+}
+
+var user = {};
+user = <%-JSON.stringify(user)%>;
+
+</script>
+
+<%- include('../fragments/footer'); -%>

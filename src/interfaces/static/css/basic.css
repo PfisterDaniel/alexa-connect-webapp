@@ -1,0 +1,148 @@
+.devrow {
+	padding: 5px;
+	margin: 1px;
+	border-style: solid;
+	border-color: black;
+	border: 1px solid;
+	border-radius: 5px;
+}
+
+.deviceActions {
+	order: 3;
+	display: flex;
+	flex-wrap: wrap;
+}
+.action {
+	padding: 1px;
+	margin: 1px;
+}
+
+.service {
+	padding: 5px;
+	margin: 1px;
+	border: 1px solid;
+}
+
+.serviceTitle {
+	float: left;
+	width: 200px;
+}
+
+.serviceId {
+	float: left;
+	width: 100px;
+}
+
+.serviceSecret {
+	float: left;
+	width: 150px;
+}
+
+.serviceDomains {
+}
+
+.form-changePassword {
+	width: 100%;
+	max-width: 440px;
+	padding: 15px;
+	margin: auto;
+}
+
+.form-lostPassword {
+	width: 100%;
+	max-width: 440px;
+	padding: 15px;
+	margin: auto;
+}
+
+.form-register {
+	width: 100%;
+	max-width: 440px;
+	padding: 15px;
+	margin: auto;
+}
+
+.form-register .checkbox {
+	font-weight: 400;
+}
+
+.form-register .form-control {
+	position: relative;
+	box-sizing: border-box;
+	height: auto;
+	padding: 10px;
+	font-size: 16px;
+}
+
+.form-signin {
+	width: 100%;
+	max-width: 440px;
+	padding: 15px;
+	margin: auto;
+}
+
+.form-signin .checkbox {
+	font-weight: 400;
+}
+
+.form-signin .form-control {
+	position: relative;
+	box-sizing: border-box;
+	height: auto;
+	padding: 10px;
+	font-size: 16px;
+}
+.form-signin .form-control:focus {
+	z-index: 2;
+}
+.form-signin input[type="username"] {
+	margin-bottom: -1px;
+	border-bottom-right-radius: 0;
+	border-bottom-left-radius: 0;
+}
+.form-signin input[type="password"] {
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+}
+
+.form-verifyResend {
+	width: 100%;
+	max-width: 440px;
+	padding: 15px;
+	margin: auto;
+}
+
+.form-verifySend {
+	width: 100%;
+	max-width: 440px;
+	padding: 15px;
+	margin: auto;
+}
+
+.col-sm-2 {
+	position: static !important;
+}
+
+.col-sm-6 {
+	position: static !important;
+}
+
+.col-sm-7 {
+	position: static !important;
+}
+
+.col-sm-9 {
+	position: static !important;
+}
+
+.darkmode--activated .modal-content {
+	background-color: #dedad6 !important;
+}
+
+.darkmode--activated .octicon {
+	filter: invert(100%);
+  }
+
+.darkmode--activated .action {
+  filter: invert(100%);
+}

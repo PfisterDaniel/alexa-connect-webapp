@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title><%= title %></title>
+
+  <!-- Bootsrap Code -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <!-- Docs TOC Sidebar CSS -->
+  <% if (locals.docs) {%>
+    <link rel="stylesheet" href="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.css" />
+  <% } %>
+  <!-- Site-specific Code -->
+  <link href="/static/css/navbar.css" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/basic.css">
+  <link rel="stylesheet" href="/static/css/countrySelect.css">
+  <!-- Flag Sprite Code -->
+  <link  rel=stylesheet href="/static/css/flags.css" type="text/css">
+  <!-- Octicons Code -->
+  <link rel="stylesheet" href="/static/octicons/build.css">
+  <!-- Call JQuery as used in forms too early to be in footer-->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <!-- Country Select Code -->
+  <script src="/static/js/countrySelect.min.js"></script>
+
+</head>
+
+<% if (locals.docs) {%>
+<body data-spy="scroll" data-target="#toc">
+<% } else { %>
+<body>
+<% } %>
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+        <a class="navbar-brand notranslate" href="#"><%= brand %></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-label="Toggle Navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbar">
+          <ul class="navbar-nav mr-auto">
+                <li <% if (locals.home) {%>class="active"<% } %>><a class="nav-link" href="/">Home</a></li>
+                <li <% if (locals.about) {%>class="active"<% } %>><a class="nav-link" href="/about">Über</a></li>
+                <li <% if (locals.privacy) {%>class="active"<% } %>><a class="nav-link" href="/privacy">Datenschutz</a></li>
+                <% if (user) { %>
+                  <% if (user.superuser == false) { %>
+                    <li <% if (locals.acc) {%>class="active"<% } %>><a class="nav-link" href="/my-account">Mein Account</a></li>
+                    <li <% if (locals.devs) {%>class="active"<% } %>><a class="nav-link" href="/devices">Meine Geräte</a></li>
+                  <% } %>
+                <% } %>
+                <% if (user) { %>
+                  <!-- <li><a class="nav-link" href="/logout">Logout <%= user.username %></a></li> -->
+                  <li><a class="nav-link" href="/logout">Abmelden</a></li>
+                <% } else { %>
+                  <li <% if (locals.login) {%>class="active"<% } %>><a class="nav-link" href="/login">Anmelden</a></li>
+                  <li <% if (locals.newuser) {%>class="active"<% } %>><a class="nav-link" href="/new-user">Registrieren</a></li>
+                <% } %>
+                <% if (user) { %>
+                  <% if (user.superuser == true) { %>
+                  <div class="dropdown">
+                      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Verwalten
+                      </button>
+                      <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                         <a class="dropdown-item" href="/admin/services">OAuth Services</a>
+                         <a class="dropdown-item" href="/admin/users">Alle Benutzer</a>
+                         <a class="dropdown-item" href="/admin/user-devices">Alle Geräte</a>
+                      </div>
+                  </div>
+                  <% } %>
+                <% } %>
+          </ul>
+        </div>
+      </nav>
+  <!-- <div class="container main"> -->

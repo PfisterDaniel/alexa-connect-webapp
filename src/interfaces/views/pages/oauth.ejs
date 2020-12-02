@@ -1,0 +1,63 @@
+<%- include('../fragments/header'); -%>
+  <div class="container main-content">
+    <h1 class="h3 mb-3 font-weight-normal">Verknüpfen mit <%= application.title %></h1>
+    <form action="/auth/finish" method="post">
+        <input name="transaction_id" value="<%= transaction_id %>" hidden>
+        <input name="response_type" value="<%= response_type %>" hidden>
+        <input name="client_id" value="<%= application.oauth_id %>" hidden>
+        <input name="auth_url" value="<%= decodeURIComponent(currentURL) %>" hidden>
+        <input name="scope" value="<%= scopes.join(',') %>" hidden>
+        <div>
+            <p>Um diesen Service nutzen zu können, müssen Sie:</p>
+            <ul class="list-unstyled">
+                <li><img class="octicon octicon-shield" src="/static/octicons/shield-16.svg"></img><a href='/new-user'>Account</a> erstellen.</li>
+                <li><img class="octicon octicon-checklist" src="/static/octicons/checklist-16.svg"></img> Definieren Sie ein oder mehrere <a href='/devices'>Geräte.</a></li>
+                <li><img class="octicon octicon-checklist" src="/static/octicons/cloud-download-16.svg"></img> <a href="#install-node-red-nodes"> Installieren Sie die zugehörigen <span translate="no">Node-RED</span> Knoten.</a></li>
+                <li><img class="octicon octicon-repo-forked" src="/static/octicons/repo-forked-16.svg"></img> <a href="#example-flows-and-node-outputs"> Richten Sie <span translate="no">Node-RED</span>-Flows</a> mit Ihren Geräten ein.</li>
+            </ul>
+            <hr>
+            <!-- <p><%= application.title %> is requesting permission to:</p>
+            <ul>
+                <% scopes.forEach(function(i){ %>
+                    <li><%= map[i] %></li>
+                <% });%>
+            </ul> -->
+            <% if (user) { %>
+                <p>Klicken Sie auf <em>Autorisieren</em> um <%= application.title %> die Berechtigung zur Steuerung Ihrer Geräte zu erteilen.</p>
+            <% } else { %>
+                <p>Bitte melden Sie sich mit Ihrem <a href='/'><span translate="no"><%= brand %></span></a> Account an.</p>
+                <p>Durch die Verknüpfung Ihres Kontos geben Sie <%= application.title %> Berechtigung zur Steuerung Ihrer Geräte.</p>
+            <% } %>
+        <div>
+
+        <% if (user) { %>
+            <% if (errors) { %>
+              <p style="color: red"><%= errors %></p>
+            <% } %>
+            <div class="form-group">
+                <p>Anmelden als <strong><%= user.name%></strong>.</p>
+                <a href="/logout?next=<%= currentURL %>">Not </a><%= user.username %>?
+                <input class="btn btn-lg btn-secondary btn-block" type="submit" value="Autorisieren">
+            </div>
+        <% } else { %>
+            <% if (errors) { %>
+              <p style="color: red"><%= errors %></p>
+            <% } %>
+            <div class="form-group">
+                <label for="username" class="sr-only">Benutzername</label>
+                <input type="text" id="username" name="username" class="form-control" autocapitalize="none" autocomplete="username" placeholder="Benutzername" required autofocus>
+                <small id="usernameHelpBlock" class="form-text text-muted">Hinweis: Der Benutzername unterscheidet zwischen Groß- und Kleinschreibung.</small>
+            </div>
+            <div>
+                <label for="password" class="sr-only">Passwort</label>
+                <input type="password" id="password" name="password" class="form-control" autocomplete="current-password" placeholder="Passwort" required>
+            </div>
+            <div>
+                <br>
+                <input class="btn btn-lg btn-secondary btn-block" type="submit" value="Authorise">
+            </div>
+        <% } %>
+
+    </form>
+  </div>
+<%- include('../fragments/footer'); -%>

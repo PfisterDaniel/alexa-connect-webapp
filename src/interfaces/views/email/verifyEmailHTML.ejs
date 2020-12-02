@@ -1,0 +1,16 @@
+<html>
+<head></head>
+<body>
+<p>Danke für die Registierung bei <%= brand %>.</p>
+
+<p>Dein Benutzername lautet: <%= username %>.</p>
+
+<p>Sie müssen nur Ihre E-Mail-Adresse verifizieren, um den Dienst nutzen zu können.</p>
+
+<p>Klicken Sie diesen Link: <a href="https://<%= fqdn %>/verify/<%= token %>" rel="nofollow"><a href="https://<%= fqdn %>/verify/<%= token %></a> um Ihren Account zu verifizieren. Dieser Link ist nur für die nächsten 12 Stunden gültig und funktioniert nur einmal.</p>
+
+<p>Um eine erneute Verifizierung anzufordern, verwenden Sie folgenden Link: <a href="https://<%= fqdn %>/verify-resend" rel="nofollow">https://<%= fqdn %>/verify-resend</a></p>
+
+
+</body>
+</html>
