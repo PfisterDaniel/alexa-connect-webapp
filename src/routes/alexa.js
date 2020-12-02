@@ -61,7 +61,7 @@ router.get('/devices',
 				}
 				dev.cookie = device.cookie;
 				dev.version = "0.0.3";
-				dev.manufacturerName = "Node-RED"
+				dev.manufacturerName = "Alexa-Connect"
 				devs.push(dev);
 			}
 			logger.log('debug', "[Alexa Discovery] Alexa Discovery response for user: " + req.user.username + ", response: " + JSON.stringify(devs));
