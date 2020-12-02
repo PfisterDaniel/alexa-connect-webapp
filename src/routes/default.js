@@ -135,7 +135,7 @@ router.post('/new-user', restrictiveLimiter, async (req, res) => {
 				mailer.send(req.body.email, process.env.MAIL_USER, 'Account Verifizierung für ' + process.env.BRAND, body.text, body.html, function(returnValue) {
 					// Success, 201 Created
 					if (returnValue == true) {
-						sendEventUid(req.path, "Security", "Create Account", req.ip, req.body.username, req.headers['user-agent']);
+
 						res.status(201).send('Es wurde eine Bestätigungs-E-Mail wurde an: ' + req.body.email + " gesendet. Sie müssen Ihre E-Mail Adresse verifizieren um diesen Dienst nutzen zu können!")
 					}
 					// Failed, 500 Internal Service Error
@@ -273,7 +273,6 @@ router.post('/verify-resend', defaultLimiter,  async (req, res) => {
 				// Send Verification Email
 				mailer.send(account.email, process.env.MAIL_USER, 'Account Verification for ' + process.env.BRAND, body.text, body.html, function(returnValue) {
 					if (returnValue == true) {
-						sendEventUid(req.path, "Security", "Send re-verification email", req.ip, account.username, req.headers['user-agent']);
 						logger.log('info' , "[Verify Resend] A new verification email has been sent to: " + account.email);
 						return res.status(202).send('Eine Bestätigungs-E-Mail wurde an ' + account.email + ' gesendet');
 					}
@@ -373,7 +372,6 @@ router.post('/change-password', defaultLimiter, async (req, res) => {
 		catch(e) {
 			// General error, send 500 status
 			logger.log('error' , "[Change Password] Error setting unauthenticated user's password, error: " + e.stack);
-			//sendEventUid(req.path, "Security", "Failed to Changed Password", req.ip, req.user.username, req.headers['user-agent']);
 			res.status(500).send("Fehler bei setzen des neues Passworts!");
 		}
 	}
