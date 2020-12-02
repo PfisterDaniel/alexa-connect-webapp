@@ -12,11 +12,11 @@
     "smart"
   ],
   "bugs": {
-    "url": "https://github.com/PfisterDaniel/alexa-connect/issues"
+    "url": "https://github.com/PfisterDaniel/alexa-connect-webapp/issues"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/PfisterDaniel/alexa-connect"
+    "url": "https://github.com/PfisterDaniel/alexa-connect-webapp"
   },
   "homepage": "https://service.alexa-connect.de/",
   "author": "Daniel Pfister <support@alexa-connect.de>",
