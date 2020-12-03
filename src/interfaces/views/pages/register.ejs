@@ -7,11 +7,8 @@
       </form>
       <script type="application/javascript">
         // Load CountrySelect
-        $("#country").countrySelect();
+        //$("#country").countrySelect();
 
-        $('a[href$="#tosModal"]').on( "click", function() {
-          $('#tosModal').modal('show');
-        });
         $('a[href$="#privacyModal"]').on( "click", function() {
           $('#privacyModal').modal('show');
         });
@@ -22,7 +19,8 @@
           var username = $('#username').val().trim().toLowerCase();
           var password = $('#password').val().trim();
           var email = $('#email').val().trim();
-          var country = $("#country_code").val().trim();
+          //var country = $("#country_code").val().trim();
+	        var country = "de";
 
           // Build Submit Paramaters
           var params = "username=" + encodeURIComponent(username)
@@ -42,7 +40,7 @@
               window.location.href = "/";
             }
             else if (xhr.readyState == 4 && (xhr.status == 400 || xhr.status == 409 || xhr.status == 500)) {
-              alert("Failed to create user account, response: " + xhr.responseText);
+              alert("Fehler beim erstellen des Benutzerkontos: " + xhr.responseText);
             }
           }
           xhr.send(params);

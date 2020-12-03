@@ -12,15 +12,15 @@
 	var pluginName = "countrySelect", id = 1, // give each instance its own ID for namespaced event handling
 	defaults = {
 		// Default country
-		defaultCountry: "",
+		defaultCountry: "de",
 		// Position the selected flag inside or outside of the input
 		defaultStyling: "inside",
         // don't display these countries
         excludeCountries: [],
 		// Display only these countries
-		onlyCountries: [],
+		onlyCountries: ["de"],
 		// The countries at the top of the list. Defaults to United States and United Kingdom
-		preferredCountries: [ "us", "gb" ]
+		preferredCountries: [ "de" ]
 	}, keys = {
 		UP: 38,
 		DOWN: 40,

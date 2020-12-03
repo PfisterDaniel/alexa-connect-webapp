@@ -42,9 +42,9 @@ router.get('/', defaultLimiter, async (req, res) => {
 ///////////////////////////////////////////////////////////////////////////
 // About
 ///////////////////////////////////////////////////////////////////////////
-router.get('/about', defaultLimiter, async (req, res) => {
+router.get('/impress', defaultLimiter, async (req, res) => {
 	//outputSessionID(req, "/about");
-	res.render('pages/about', {user: req.user, about: true, brand: process.env.BRAND, title: "Über | " + process.env.BRAND});
+	res.render('pages/impress', {user: req.user, impress: true, brand: process.env.BRAND, title: "Impressum | " + process.env.BRAND});
 });
 ///////////////////////////////////////////////////////////////////////////
 // Privacy

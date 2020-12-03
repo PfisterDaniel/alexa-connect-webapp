@@ -1,6 +1,6 @@
 <%- include('../fragments/header'); -%>
   <div class="container main-content">
-    <h1 class="h3 mb-3 font-weight-normal">Verknüpfen mit <%= application.title %></h1>
+    <h1 class="h3 mb-3 font-weight-normal"><center>Verknüpfung mit <%= application.title %></center></h1>
     <form action="/auth/finish" method="post">
         <input name="transaction_id" value="<%= transaction_id %>" hidden>
         <input name="response_type" value="<%= response_type %>" hidden>
@@ -8,15 +8,17 @@
         <input name="auth_url" value="<%= decodeURIComponent(currentURL) %>" hidden>
         <input name="scope" value="<%= scopes.join(',') %>" hidden>
         <div>
+            <center><img src="/static/images/alexa_connect_icons/alexa-connect.png"></center>
+            <br/>
             <p>Um diesen Service nutzen zu können, müssen Sie:</p>
             <ul class="list-unstyled">
-                <li><img class="octicon octicon-shield" src="/static/octicons/shield-16.svg"></img><a href='/new-user'>Account</a> erstellen.</li>
-                <li><img class="octicon octicon-checklist" src="/static/octicons/checklist-16.svg"></img> Definieren Sie ein oder mehrere <a href='/devices'>Geräte.</a></li>
-                <li><img class="octicon octicon-checklist" src="/static/octicons/cloud-download-16.svg"></img> <a href="#install-node-red-nodes"> Installieren Sie die zugehörigen <span translate="no">Node-RED</span> Knoten.</a></li>
-                <li><img class="octicon octicon-repo-forked" src="/static/octicons/repo-forked-16.svg"></img> <a href="#example-flows-and-node-outputs"> Richten Sie <span translate="no">Node-RED</span>-Flows</a> mit Ihren Geräten ein.</li>
+                <li><img class="octicon octicon-shield" src="/static/octicons/shield-16.svg"></img><a href='/new-user'> Einen Account</a> erstellen.</li>
+                <li><img class="octicon octicon-checklist" src="/static/octicons/checklist-16.svg"></img> Ein oder mehrere <a href='/devices'>Geräte anlegen.</a></li>
+                <li><img class="octicon octicon-list-unordered" src="/static/octicons/list-unordered-16.svg"></img> <a href="#"> Node-RED</span> Knoten installiern.</a></li>
+                <li><img class="octicon octicon-repo-forked" src="/static/octicons/repo-forked-16.svg"></img> Node-RED-Flows erstellen.</li>
             </ul>
             <hr>
-            <!-- <p><%= application.title %> is requesting permission to:</p>
+            <!-- <p><%= application.title %> benötigt folgende Berechtigungen:</p>
             <ul>
                 <% scopes.forEach(function(i){ %>
                     <li><%= map[i] %></li>
@@ -35,8 +37,8 @@
               <p style="color: red"><%= errors %></p>
             <% } %>
             <div class="form-group">
-                <p>Anmelden als <strong><%= user.name%></strong>.</p>
-                <a href="/logout?next=<%= currentURL %>">Not </a><%= user.username %>?
+                <p>Anmelden als <strong><%= user.username %></strong>.</p>
+                <a href="/logout?next=<%= currentURL %>">Sie sind nicht </a><%= user.username %>?
                 <input class="btn btn-lg btn-secondary btn-block" type="submit" value="Autorisieren">
             </div>
         <% } else { %>
@@ -54,7 +56,7 @@
             </div>
             <div>
                 <br>
-                <input class="btn btn-lg btn-secondary btn-block" type="submit" value="Authorise">
+                <input class="btn btn-lg btn-secondary btn-block" type="submit" value="Autorisieren">
             </div>
         <% } %>
 

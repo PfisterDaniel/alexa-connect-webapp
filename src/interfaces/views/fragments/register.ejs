@@ -1,19 +1,21 @@
-<h1 class="h3 mb-3 font-weight-normal">Account erstellen</h1>
+<h1 class="h3 mb-3 font-weight-normal"><center><strong>Benutzerkonto erstellen</strong></center></h1>
+<center><img src="/static/images/alexa_connect_icons/alexa-connect.png"></center>
+<br/>
 <div class="input-group mb-3">
     <div class="input-group-prepend">
-        <span class="input-group-text" style="width: 140px;" id="basic-addon2" disabled><strong>Benutzername</strong></span>
+        <span class="input-group-text" style="width: 50px;" id="basic-addon2" disabled><span class="iconify" data-icon="bx:bxs-user" data-width="25" data-height="25"></span></span>
     </div>
-    <input type="text" id="username" name="username" style="text-transform: lowercase;" pattern="^[a-z0-9]{5,15}$" class="form-control" autocapitalize="none" required autofocus title="a-z, 0-9 characters and be 5-15 chars." autocomplete="username">
+    <input type="text" id="username" name="username" style="text-transform: lowercase;" pattern="^[a-z0-9]{5,15}$" class="form-control" autocapitalize="none" required autofocus title="Benutzername" autocomplete="username">
 </div>
 <p><small id="usernameHelpBlock" class="form-text text-muted">Muss in Kleinbuchstaben geschrieben werden, 5-15 Zeichen einschließlich a-z und 0-9.</small></p>
 <div class="input-group mb-3">
     <div class="input-group-prepend">
-        <span class="input-group-text" style="width: 102px;" id="basic-addon2" disabled><strong>E-Mail</strong></span>
+        <span class="input-group-text" style="width: 50px;" id="basic-addon2" disabled><span class="iconify" data-icon="heroicons-solid:mail" data-width="25" data-height="25"></span></span>
     </div>
-    <input type="email" id="email" class="form-control" required title="Email address.">
+    <input type="email" id="email" class="form-control" required title="E-Mail Adresse">
 </div>
 <p><small id="emailHelpBlock" class="form-text text-muted">Sie müssen Ihre E-Mail-Adresse bestätigen.</small></p>
-<div class="input-group mb-3">
+<!--<div class="input-group mb-3">
     <div class="input-group-prepend">
         <span class="input-group-text" style="width: 102px;" id="basic-addon2" disabled><strong>Land</strong></span>
     </div>
@@ -21,13 +23,14 @@
     <input type="text" id="country_code" name="country_code" data-countrycodeinput="1" readonly="readonly" hidden />
 </div>
 <p><small id="countryHelpBlock" class="form-text text-muted">Muss mit dem Land des Amazon-Kontos übereinstimmen, das mit Alexa / Echo-Geräten verwendet wird.</small></p>
+-->
 <div class="input-group mb-3">
         <div class="input-group-prepend">
-            <span class="input-group-text" style="width: 140px;" id="basic-addon2" disabled><strong>Passwort</strong></span>
+            <span class="input-group-text" style="width: 50px;" id="basic-addon2" disabled><span class="iconify" data-icon="ri:lock-password-fill" data-width="25" data-height="25"></span></span>
         </div>
-        <input type="password" id="password" name="password" pattern="(?=^.{12,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" class="form-control" autocomplete="new-password" required title="Must include UpperCase, LowerCase, Number/Special and Minimum 12 Characters">
+        <input type="password" id="password" name="password" pattern="(?=^.{12,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" class="form-control" autocomplete="new-password" required title="Passwort">
 </div>
 <p><small id="passwordHelpBlock" class="form-text text-muted">Mindestens 12 Zeichen, muss Groß- / Kleinbuchstaben, numerische Zeichen / Symbolzeichen enthalten.</small></p>
-<small id="privacyLink" class="form-text text-muted"><a href="#privacyModal">Datenschutzbestimmungen anzeigen</a></small>
+<small id="privacyLink" class="form-text text-muted"><span class="iconify" data-icon="dashicons:privacy"></span> <a href="#privacyModal">Datenschutzbestimmungen anzeigen</a></small>
 <br>
 <button class="btn btn-lg btn-secondary btn-block" id="submit" type="submit" value="submit">Registrieren</button>

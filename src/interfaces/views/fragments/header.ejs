@@ -19,6 +19,7 @@
   <link  rel=stylesheet href="/static/css/flags.css" type="text/css">
   <!-- Octicons Code -->
   <link rel="stylesheet" href="/static/octicons/build.css">
+  <script src="https://code.iconify.design/1/1.0.7/iconify.min.js"></script>
   <!-- Call JQuery as used in forms too early to be in footer-->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <!-- Country Select Code -->
@@ -32,14 +33,14 @@
 <body>
 <% } %>
     <nav class="navbar navbar-expand-md navbar-dark bg-dark">
-        <a class="navbar-brand notranslate" href="#"><%= brand %></a>
+        <a class="navbar-brand notranslate" href="#"><img src="/static/images/alexa_connect_icons/alexa-connect.png" width="32px"> <%= brand %></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-label="Toggle Navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbar">
           <ul class="navbar-nav mr-auto">
                 <li <% if (locals.home) {%>class="active"<% } %>><a class="nav-link" href="/">Home</a></li>
-                <li <% if (locals.about) {%>class="active"<% } %>><a class="nav-link" href="/about">Über</a></li>
+                <li <% if (locals.impress) {%>class="active"<% } %>><a class="nav-link" href="/impress">Impressum</a></li>
                 <li <% if (locals.privacy) {%>class="active"<% } %>><a class="nav-link" href="/privacy">Datenschutz</a></li>
                 <% if (user) { %>
                   <% if (user.superuser == false) { %>

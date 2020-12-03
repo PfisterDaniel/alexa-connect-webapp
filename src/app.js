@@ -79,7 +79,7 @@ if (!(process.env.MONGO_HOST && process.env.MQTT_URL)) {
 }
 // Warn on not supply of MAIL username/ password/ server
 if (!(process.env.MAIL_SERVER && process.env.MAIL_USER && process.env.MAIL_PASSWORD)) {
-	logger.log('warn',"[Core] No MAIL_SERVER/ MAIL_USER/ MAIL_PASSWORD environment variable supplied. System generated emails will generate errors");
+	logger.log('warn',"[Core] No MAIL_SERVER/MAIL_USER/MAIL_PASSWORD environment variable supplied. System generated emails will generate errors");
 }
 
 ///////////////////////////////////////////////////////////////////////////
@@ -92,13 +92,25 @@ passport.use(new LocalStrategy((username, password, cb) => {
 	logger.log('debug',"[Auth] Passport Local Strategy, authentication called for user: " + username);
 	
 	// An error ocurred, do not authenticate
-	if (err) { return cb(err); }
+	if (err) {
+		return cb(err); 
+	}
+	if(!user){
+		logger.log('debug',"[Auth] User: " + username + " not found!");
+		return cb(null, false, new Error("Benutzername oder Passwort ist nicht korrekt! Bitte versuchen Sie es erneut."));
+	}
 	// Check user is active and verified, if not send customised error depending on scenario
 	if (user && (!user.active || !user.isVerifed)) {
-		if (!user.active) return cb(null, false, new Error("User account disabled!"));
-		if (!user.isVerified) return cb(null, false, new Error("User account not verified!"));
+		if (!user.active){
+			logger.log('debug',"[Auth] User: " + username + " is not active");
+			return cb(null, false, new Error("Ihr Benutzeraccount ist deaktiviert! Bitte wenden Sie sich an den Support."));
+		}
+		if (!user.isVerified) {
+			logger.log('debug',"[Auth] User: " + username + " is not verified!");
+			return cb(null, false, new Error("Ihr Benutzeraccount ist nicht verifiziert! Bitte verifizieren Sie Ihr Benutzerkonto."));
+		}
 	}
-    cb(null, user, error);
+	cb(null, user, error);
   });
 }));
 
@@ -108,19 +120,22 @@ passport.use(new BasicStrategy((username, password, cb) => {
 		logger.log('debug',"[Auth] Passport Basic Strategy, authentication called for user: " + username);
 		
 		// An error ocurred, do not authenticate
-		if (err) { return cb(err); }
-		// Check user is active, if not send customised error
-		//if (user && user.active == false ) {return cb(null, false, new Error("User account disabled!"))};
-
+		if (err) {
+			return cb(err); 
+		}
+		if(!user){
+			logger.log('debug',"[Auth] User: " + username + " not found!");
+			return cb(null, false, new Error("Benutzername oder Passwort ist nicht korrekt! Bitte versuchen Sie es erneut."));
+		}
 		// Check user is active and verified, if not send customised error depending on scenario
 		if (user && (!user.active || !user.isVerifed)) {
 			if (!user.active){
 				logger.log('debug',"[Auth] User: " + username + " is not active");
-				return cb(null, false, new Error("User account disabled!"));
+				return cb(null, false, new Error("Ihr Benutzeraccount ist deaktiviert! Bitte wenden Sie sich an den Support."));
 			}
 			if (!user.isVerified) {
 				logger.log('debug',"[Auth] User: " + username + " is not verified!");
-				return cb(null, false, new Error("User account not verified!"));
+				return cb(null, false, new Error("Ihr Benutzeraccount ist nicht verifiziert! Bitte verifizieren Sie Ihr Benutzerkonto."));
 			}
 		}
 		cb(null, user, error);

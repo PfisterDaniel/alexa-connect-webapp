@@ -90,7 +90,7 @@ router.get('/start',oauthServer.authorize(function(applicationID, redirectURI, d
 		user: req.user,
 		map: scopeMap,
 		brand: process.env.BRAND,
-		title: "Link Account | " + process.env.BRAND
+		title: "Verknüpfung | " + process.env.BRAND
 	});
 });
 ///////////////////////////////////////////////////////////////////////////

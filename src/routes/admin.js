@@ -263,7 +263,7 @@ const toggleUser = async(id, enabled) => {
 			// Disable account
 			account.active = false;
 			// Randomise MQTT password
-			account.mqttPass = crypto.randomBytes(16).toString('hex');
+			//account.mqttPass = crypto.randomBytes(16).toString('hex');
 			logger.log('verbose', "[Admin] Disabling User Account: " + account.username);
 		}
 		else {

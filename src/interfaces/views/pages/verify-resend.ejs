@@ -1,12 +1,18 @@
 <%- include('../fragments/header'); -%>
   <div class="container main-content">
       <form class="form-verifyResend" id="form-verifyResend">
-          <h1 class="h3 mb-3 font-weight-normal">Neue Verifizierungs-E-Mail anfordern</h1>
-          <p>Verwenden Sie dieses Formular, um Ihre Kontobestätigungs-E-Mail erneut anzufordern.</p>
-          <label for="email" class="sr-only">E-Mail Adresse</label>
-          <input type="email" id="email" class="form-control" placeholder="E-Mail Adresse" required autofocus title="E-Mail Adresse.">
+          <h1 class="h3 mb-3 font-weight-normal"><center><strong>Neue Verifizierung anfordern</strong></center></h1>
+          <center><img src="/static/images/alexa_connect_icons/alexa-connect.png"></center>
+          <br/>
+          <p>Verwenden Sie dieses Formular, um Ihre Verifizierungs-E-Mail erneut anzufordern.</p>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" style="width: 50px;" id="basic-addon2" disabled><span class="iconify" data-icon="heroicons-solid:mail" data-width="20" data-height="20"></span></span>
+            </div>
+            <input type="email" id="email" class="form-control" required placeholder="E-Mail Adresse" title="E-Mail Adresse">
+          </div>
           <br>
-          <button class="btn btn-lg btn-secondary btn-block" id="submit" type="submit" value="submit">Senden</button>
+          <button class="btn btn-lg btn-secondary btn-block" id="submit" type="submit" value="submit">Anfordern</button>
         </form>
 
         <script type="application/javascript">

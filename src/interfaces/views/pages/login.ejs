@@ -1,7 +1,12 @@
 <%- include('../fragments/header'); -%>
   <div class="container main-content">
-    <% if (message) { %>
-      <p><strong><%= message %></strong></p>
+    <% if (message != undefined && message != "") { %>
+      <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong><%= message %></strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Schließen">
+        <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
     <% } %>
     <%- include('../fragments/privacy-modal'); -%>
 

@@ -1,28 +1,37 @@
 <%- include('../fragments/header'); -%>
   <div class="container main-content">
       <form class="form-verifySend" id="form-verifySend">
-          <% if (message) { %>
-            <p><strong><%= message %></strong></p>
+          <% if (message != undefined && message != "") { %>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+              <strong><%= message %></strong>
+              <button type="button" class="close" data-dismiss="alert" aria-label="Schließen">
+              <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
           <% } %>
-          <h1 class="h3 mb-3 font-weight-normal">Account Verification</h1>
-          <p>Populate the Token value and click 'Verify Account' to complete the account verification process!</p>
+          <h1 class="h3 mb-3 font-weight-normal"><center><strong>Benutzerkonto verifizieren</strong></center></h1>
+          <center><img src="/static/images/alexa_connect_icons/alexa-connect.png"></center>
+          <br/>
+          
           <% if (token != undefined) { %>
+            <p>Klicken Sie auf "Account verifizieren", um den Kontoüberprüfungsprozess abzuschließen!</p>
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
-                  <span class="input-group-text" id="basic-addon2" disabled><strong>Token</strong></span>
+                  <span class="input-group-text" style="width: 50px;" id="basic-addon2" disabled><span class="iconify" data-icon="ri:key-fill" data-width="20" data-height="20"></span></span>
                 </div>
                 <input type="text" class="form-control" id="token" value="<%= token %>" required>
             </div>
           <% } else { %>
+            <p>Geben Sie den Verifizierung-Token ein und klicken Sie auf "Account verifizieren", um den Kontoüberprüfungsprozess abzuschließen!</p>
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
-                  <span class="input-group-text" id="basic-addon2"><strong>Token</strong></span>
+                  <span class="input-group-text" style="width: 50px;" id="basic-addon2" disabled><span class="iconify" data-icon="ri:key-fill" data-width="20" data-height="20"></span></span>
                 </div>
                 <input type="text" class="form-control" id="token" placeholder="Token" required>
             </div>
           <% } %>
           <br>
-          <button class="btn btn-lg btn-secondary btn-block" id="submit" type="submit" value="submit">Verify Account</button>
+          <button class="btn btn-lg btn-secondary btn-block" id="submit" type="submit" value="submit">Account verifizieren</button>
         </form>
 
         <script type="application/javascript">
