@@ -4,7 +4,7 @@
     <h1>Mein Account</h1>
     <div class="form-group row">
       <div class="col-sm-9 ">
-        Verwenden Sie dieses Formular, um Ihre E-Mail-Adresse und Ihr Land zu aktualisieren. Sie können auch von hier aus auf das Formular zum Zurücksetzen des Passworts verlinken.
+        Verwenden Sie dieses Formular, um Ihre E-Mail-Adresse aktualisieren oder um Ihr Passwort zu ändern. Desweiteren können Sie hier Ihre Amazon Verknüpfung entfernen oder Ihren Account löschen.
       </div>
     </div>
     <div class="form-group row">
@@ -24,7 +24,7 @@
         <input type="email" class="form-control" id="email" value= <%= user.email %> required>
       </div>
     </div>
-    <div class="form-group row">
+    <!--<div class="form-group row">
       <div class="col-sm-2">
         <label for="country" class="col-form-label">Land:</label>
       </div>
@@ -32,7 +32,7 @@
         <input type="text" id="country" class="form-control" required>
         <input type="text" id="country_code" name="country_code" data-countrycodeinput="1" readonly="readonly" hidden />
       </div>
-    </div>
+    </div>-->
     <div class="form-group row">
       <div class="col-sm-2">
       </div>
@@ -42,8 +42,8 @@
       </div>
     </div>
     <div class="form-group row">
-        <div class="col-sm-9 bg-light rounded">
-          Um Ihr Passwort zu ändern, klicken Sie auf die Schaltfläche unten.
+        <div class="col-sm-9">
+          Um Ihr Passwort zu ändern, klicken Sie auf die Schaltfläche "Passwort ändern".
         </div>
     </div>
     <div class="form-group row">
@@ -54,8 +54,8 @@
       </div>
     </div>
     <div class="form-group row">
-      <div class="col-sm-9 bg-light rounded">
-        Setzen Sie Ihre Amazon OAuth-Token mithilfe der folgenden Schaltfläche zurück (beachten Sie, dass Sie Ihre Konten erneut verknüpfen müssen, um diesen Dienst erneut nutzen zu können!).
+      <div class="col-sm-9">
+        Setzen Sie Ihre Amazon OAuth-Token mithilfe der folgenden Schaltfläche zurück (beachten Sie, dass Sie Ihre Konten erneut verknüpfen müssen, um diesen Dienst wieder nutzen zu können!).
       </div>
     </div>
     <div class="form-group row">
@@ -66,8 +66,8 @@
       </div>
     </div>
     <div class="form-group row">
-        <div class="col-sm-9 bg-light rounded">
-          Haben Sie beschlossen, Ihr Konto zu entfernen? Klicken Sie auf die Schaltfläche unten, um Ihr Konto und alle zugehörigen Daten zu löschen.
+        <div class="col-sm-9">
+          Haben Sie beschlossen, Ihr Konto zu entfernen? Klicken Sie auf die Schaltfläche "Account löschen", um Ihr Konto und alle zugehörigen Daten zu löschen.
         </div>
     </div>
     <div class="form-group row">

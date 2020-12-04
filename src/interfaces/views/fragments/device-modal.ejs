@@ -32,14 +32,14 @@
 								<div class="form-check">
 									<input title="Activity/ Scene" type="checkbox" class="form-check-input" id="ACTIVITY_TRIGGER" name="appType" value="ACTIVITY_TRIGGER" onclick='checkType(this)'>
 									<label class="form-check-label" for="ACTIVITY_TRIGGER">
-											Scene <img src="/static/images/alexa-24px.png"></img>
+											Szene <img src="/static/images/alexa-24px.png"></img>
 									</label>
 									<br />
 								</div>
 								<div class="form-check">
 									<input title="Contact Sensor" type="checkbox" class="form-check-input" id="CONTACT_SENSOR" name="appType" value="CONTACT_SENSOR" onclick='checkType(this)'>
 									<label class="form-check-label" for="CONTACT_SENSOR">
-											Kontakt-Sensor <img src="/static/images/alexa-24px.png"></img>
+											Kontaktsensor <img src="/static/images/alexa-24px.png"></img>
 									</label>
 								</div>
 								<div class="form-check">
@@ -114,7 +114,7 @@
 								<div class="form-check">
 									<input title="Temperature Sensor" type="checkbox" class="form-check-input" id="TEMPERATURE_SENSOR" name="appType" value="TEMPERATURE_SENSOR" onclick='checkType(this)'>
 									<label class="form-check-label" for="TEMPERATURE_SENSOR">
-											Temperatur-Sensor <img src="/static/images/alexa-24px.png"></img>
+											Temperatursensor <img src="/static/images/alexa-24px.png"></img>
 									</label>
 								</div>
 								<div class="form-check">
@@ -126,7 +126,7 @@
 								<div class="form-check">
 										<input title="ADVANCED" type="checkbox" class="form-check-input" id="OTHER" name="appType" value="OTHER" onclick='checkType(this)'>
 										<label class="form-check-label" for="OTHER">
-												<a data-toggle="tooltip" data-placement="right" title="'Expert' mode, define your own custom device. ! Results may vary !">Erweitert / Andere <img src="/static/images/alexa-24px.png"></img>&nbsp;<img class="octicon octicon-question" src="static/octicons/question-16.svg"></img></a>
+												<a data-toggle="tooltip" data-placement="right" title="'Expert'-Modus, definieren Sie Ihr eigenes benutzerdefiniertes Gerät. Achtung: Die Ergebnisse können variieren!">Erweitert / Andere <img src="/static/images/alexa-24px.png"></img>&nbsp;<span class="iconify" data-icon="ant-design:question-circle-filled"></span></a>
 										</label>
 									<br />
 								</div>
@@ -135,121 +135,121 @@
 						<!-- Enable/ disable capabilities based on types, hide this div if Advanced selected above -->
 						<div class="col-sm">
 							<div class="form-group" id="simpleOptions">
-								<h5 class="modal-title">Interfaces</h5>
+								<h5 class="modal-title">Schnittstellen</h5>
 								<fieldset class="form-group" id="capabilityType">
 									<div class="form-check">
 										<input title="Brightness Control" type="checkbox" class="form-check-input" name="capabilities" id="BrightnessController" value="BrightnessController">
 										<label class="form-check-label" for="BrightnessController">
-											<a data-toggle="tooltip" data-placement="right" title="Set percentage, increase, decrease, dim">Brightness <img class="octicon octicon-question" src="static/octicons/question-16.svg"></img></a>
+											<a data-toggle="tooltip" data-placement="right" title="Satzprozentsatz, Erhöhung, Abnahme, Dimmen">Helligkeit <span class="iconify" data-icon="ant-design:question-circle-filled"></span></a>
 										</label>
 										<br />
 									</div>
 									<div class="form-check">
 										<input title="Channel Control" type="checkbox" class="form-check-input" name="capabilities" id="ChannelController" value="ChannelController">
 										<label class="form-check-label" for="ChannelController">
-												<a data-toggle="tooltip" data-placement="right" title="Change channel by name or number">Channel <img class="octicon octicon-question" src="static/octicons/question-16.svg"></img></a>
+												<a data-toggle="tooltip" data-placement="right" title="Kanal nach Name oder Nummer ändern">Kanal <span class="iconify" data-icon="ant-design:question-circle-filled"></span></a>
 										</label>
 									<br />
 									</div>
 									<div class="form-check">
 										<input title="Color Control" type="checkbox" class="form-check-input" name="capabilities" id="ColorController" value="ColorController">
 										<label class="form-check-label" for="ColorController">
-												<a data-toggle="tooltip" data-placement="right" title="Set color by name">Color <img class="octicon octicon-question" src="static/octicons/question-16.svg"></img></a>
+												<a data-toggle="tooltip" data-placement="right" title="Festlegen der Farbe nach Namen">Farbe <span class="iconify" data-icon="ant-design:question-circle-filled"></span></a>
 										</label>
 										<br />
 									</div>
 									<div class="form-check">
 										<input title="Color Temperature Control" type="checkbox" class="form-check-input" name="capabilities" id="ColorTemperatureController" value="ColorTemperatureController">
 										<label class="form-check-label" for="ColorTemperatureController">
-												<a data-toggle="tooltip" data-placement="right" title="Set color temperature, increase, decrease, cooler, warmer">Color Temperature <img class="octicon octicon-question" src="static/octicons/question-16.svg"></img></a>
+												<a data-toggle="tooltip" data-placement="right" title="Einstellen der Farbtemperatur, Erhöhung, Abnahme, Kühler, Wärmer">Farbtemperatur <span class="iconify" data-icon="ant-design:question-circle-filled"></span></a>
 										</label>
 										<br />
 									</div>
 									<div class="form-check">
 										<input title="Contact Sensor" type="checkbox" class="form-check-input" name="capabilities" id="ContactSensor" value="ContactSensor">
 										<label class="form-check-label" for="ContactSensor">
-											<a data-toggle="tooltip" data-placement="right" title="Make sensor data retrievable">Contact Sensor <img class="octicon octicon-question" src="static/octicons/question-16.svg"></img></a>
+											<a data-toggle="tooltip" data-placement="right" title="Machen Sie Sensordaten abrufbar">Kontaktsensor <span class="iconify" data-icon="ant-design:question-circle-filled"></span></a>
 										</label>
 									</div>
 									<div class="form-check">
 											<input title="Input Control" type="checkbox" class="form-check-input" name="capabilities" id="InputController" value="InputController">
 										<label class="form-check-label" for="InputController">
-												<a data-toggle="tooltip" data-placement="right" title="Set device input by name, i.e. HDMI1, Phono">Input <img class="octicon octicon-question" src="static/octicons/question-16.svg"></img></a>
+												<a data-toggle="tooltip" data-placement="right" title="Geräteeingang nach Namen einstellen, z.B. HDMI1">Eingang <span class="iconify" data-icon="ant-design:question-circle-filled"></span></a>
 										</label>
 										<br />
 									</div>
 									<div class="form-check">
 											<input title="Lock Control" type="checkbox" class="form-check-input" name="capabilities" id="LockController" value="LockController">
 										<label class="form-check-label" for="LockController">
-											<a data-toggle="tooltip" data-placement="right" title="Lock and unlock">Lock <img class="octicon octicon-question" src="static/octicons/question-16.svg"></img></a>
+											<a data-toggle="tooltip" data-placement="right" title="Sperren oder Entsperren">Türschloss <span class="iconify" data-icon="ant-design:question-circle-filled"></span></a>
 										</label>
 										<br />
 									</div>
 									<div class="form-check">
 										<input title="Motion Sensor" type="checkbox" class="form-check-input" name="capabilities" id="MotionSensor" value="MotionSensor">
 										<label class="form-check-label" for="MotionSensor">
-											<a data-toggle="tooltip" data-placement="right" title="Make sensor data retrievable">Motion Sensor <img class="octicon octicon-question" src="static/octicons/question-16.svg"></img></a>
+											<a data-toggle="tooltip" data-placement="right" title="Machen Sie Sensordaten abrufbar">Bewegungsmelder <span class="iconify" data-icon="ant-design:question-circle-filled"></span></a>
 										</label>
 									</div>
 									<div class="form-check">
 										<input title="Percentage Control" type="checkbox" class="form-check-input" name="capabilities" id="PercentageController" value="PercentageController">
 									<label class="form-check-label" for="PercentageController">
-											<a data-toggle="tooltip" data-placement="right" title="Set percentage, reduce, increase">Percentage <img class="octicon octicon-question" src="static/octicons/question-16.svg"></img></a>
+											<a data-toggle="tooltip" data-placement="right" title="Prozent festlegen, reduzieren, erhöhen">Prozent <span class="iconify" data-icon="ant-design:question-circle-filled"></span></a>
 									</label>
 									<br />
 									</div>
 									<div class="form-check">
 											<input title="Playback Control" type="checkbox" class="form-check-input" name="capabilities" id="PlaybackController" value="PlaybackController">
 										<label class="form-check-label" for="PlaybackController">
-												<a data-toggle="tooltip" data-placement="right" title="Play, pause, stop, rewind, fast-forword, next, previous">Playback <img class="octicon octicon-question" src="static/octicons/question-16.svg"></img></a>
+												<a data-toggle="tooltip" data-placement="right" title="Spielen, Pausieren, Anhalten, Zurückspulen, nächste, vorherige">Playback <span class="iconify" data-icon="ant-design:question-circle-filled"></span></a>
 										</label>
 										<br />
 									</div>
 									<div class="form-check">
 											<input title="Power Control" type="checkbox" class="form-check-input" name="capabilities" id="PowerController" value="PowerController">
 										<label class="form-check-label" for="PowerController">
-												<a data-toggle="tooltip" data-placement="right" title="Turn on, turn off">Power <img class="octicon octicon-question" src="static/octicons/question-16.svg"></img></a>
+												<a data-toggle="tooltip" data-placement="right" title="Einschalten, Ausschalten">Power <span class="iconify" data-icon="ant-design:question-circle-filled"></span></a>
 										</label>
 										<br />
 									</div>
 									<div class="form-check">
 											<input title="Range Control" type="checkbox" class="form-check-input" name="capabilities" id="RangeController" value="RangeController">
 										<label class="form-check-label" for="RangeController">
-												<a data-toggle="tooltip" data-placement="right" title="Blinds 1-100 with Open and Close presets, other devices 1 -> 10 with Low, Medium and High presets ">Range<img class="octicon octicon-question" src="static/octicons/question-16.svg"></img></a>
+												<a data-toggle="tooltip" data-placement="right" title="Blinds 1-100 with Open and Close presets, other devices 1 -> 10 with Low, Medium and High presets ">Bereich <span class="iconify" data-icon="ant-design:question-circle-filled"></span></a>
 										</label>
 										<br />
 									</div>
 									<div class="form-check">
 											<input title="Scene Control" type="checkbox" class="form-check-input" name="capabilities" id="SceneController" value="SceneController">
 										<label class="form-check-label" for="SceneController">
-												<a data-toggle="tooltip" data-placement="right" title="Enable scene or activity (collection of actions)">Scene <img class="octicon octicon-question" src="static/octicons/question-16.svg"></img></a>
+												<a data-toggle="tooltip" data-placement="right" title="Szene oder Aktivität aktivieren (Auflistung von Aktionen)">Szene <span class="iconify" data-icon="ant-design:question-circle-filled"></span></a>
 										</label>
 										<br />
 									</div>
 									<div class="form-check">
 										<input title="Speaker Control" type="checkbox" class="form-check-input" name="capabilities" id="Speaker" value="Speaker">
 										<label class="form-check-label" for="Speaker">
-												<a data-toggle="tooltip" data-placement="right" title="'Smart' speaker, set volume to specific value, increase, decrease, mute and unmute">Speaker <img class="octicon octicon-question" src="static/octicons/question-16.svg"></img></a>
+												<a data-toggle="tooltip" data-placement="right" title="'Smarter'-Lautsprecher, Lautstärke auf bestimmten Wert einstellen, erhöhen, verringern, stummschalten und stummschalten">Lautsprecher <span class="iconify" data-icon="ant-design:question-circle-filled"></span></a>
 										</label>
 										<br />
 									</div>
 									<div class="form-check">
 										<input title="Step Speaker Control" type="checkbox" class="form-check-input" name="capabilities" id="StepSpeaker" value="StepSpeaker">
 										<label class="form-check-label" for="StepSpeaker">
-											<a data-toggle="tooltip" data-placement="right" title="'Dumb'-speaker, increase, decrease volume, mute and unmute">Speaker (basic) <img class="octicon octicon-question" src="static/octicons/question-16.svg"></img></a>
+											<a data-toggle="tooltip" data-placement="right" title="'Standard'-Lautsprecher, erhöhen, Volumen verringern, stummschalten und stummschalten">Lautsprecher (Basic) <span class="iconify" data-icon="ant-design:question-circle-filled"></span></a>
 										</label>
 										<br />
 									</div>
 									<div class="form-check">
 										<input title="Temperature Sensor" type="checkbox" class="form-check-input" name="capabilities" id="TemperatureSensor" value="TemperatureSensor">
 										<label class="form-check-label" for="TemperatureSensor">
-											<a data-toggle="tooltip" data-placement="right" title="Make sensor data retrievable">Temperature Sensor <img class="octicon octicon-question" src="static/octicons/question-16.svg"></img></a>
+											<a data-toggle="tooltip" data-placement="right" title="Machen Sie Sensordaten abrufbar">Temperatursensor <span class="iconify" data-icon="ant-design:question-circle-filled"></span></a>
 										</label>
 									</div>
 									<div class="form-check">
 										<input title="Thermostat Control" type="checkbox" class="form-check-input" name="capabilities" id="ThermostatController" value="ThermostatController">
 										<label class="form-check-label" for="ThermostatController">
-											<a data-toggle="tooltip" data-placement="right" title="Set temperature, increase, decrease, set mode to heat or cool">Thermostat <img class="octicon octicon-question" src="static/octicons/question-16.svg"></img></a>
+											<a data-toggle="tooltip" data-placement="right" title="Temperatur einstellen, erhöhen, verringern, Modus auf Heizen oder Kühlen einstellen">Thermostat <span class="iconify" data-icon="ant-design:question-circle-filled"></span></a>
 										</label>
 										<br />
 									</div>
@@ -262,7 +262,7 @@
 						<div class="col-sm">
 							<fieldset class="form-group">
 								<div id="thermostatModeOptions">
-									<h5 class="modal-title">Thermostat-Modies</h5>
+									<h5 class="modal-title">Thermostat-Modi</h5>
 									<div class="form-check">
 										<input title="AUTO" type="checkbox" class="form-check-input" name="thermostatModes" id="AUTO" value="AUTO">
 										<label class="form-check-label" for="AUTO">Auto </label>
@@ -288,7 +288,7 @@
 						<div class="col-sm">
 							<fieldset class="form-group">
 								<div id="validRangeOptions">
-									<h5 class="modal-title">Supported Range</h5>
+									<h5 class="modal-title">Unterstützter Bereich</h5>
 									<div class="input-group mb-3">
 										<div class="input-group-prepend">
 											<span class="input-group-text" id="inputGroup-sizing-default">Min (°/K)</span>
@@ -311,11 +311,11 @@
 									<div class="form-check form-check-inline" style="padding-left:5px;">
 										<input class="form-check-input" type="checkbox" name="radioScale" id="Celsius" value="CELSIUS" disabled>
 										<br>
-										<label class="form-check-label" id="lblCelsius" for="Celsius">°Celsius</label>
+										<label class="form-check-label" id="lblCelsius" for="Celsius">°C</label>
 									</div>
 									<div class="form-check form-check-inline" style="padding-top: 10px;">
 										<input class="form-check-input" type="checkbox" name="radioScale" id="Farenheit" value="FAHRENHEIT" disabled>
-										<label class="form-check-label" id="lblFarenheit" for="Farenheit">°Fahrenheit</label>
+										<label class="form-check-label" id="lblFarenheit" for="Farenheit">°F</label>
 									</div>
 								</div>
 							</fieldset>
@@ -327,9 +327,9 @@
 									<div class="form-check">
 										<input title="Report State" type="checkbox" class="form-check-input" id="ReportState">
 										<label class="form-check-label" for="ReportState">
-											<a data-toggle="tooltip" data-placement="right" title="Die Statusberichterstattung über die Alexa App ist auf 100 Anforderungen pro Stunde pro Gerät begrenzt">Zustandsberichterstattung <img class="octicon octicon-question" src="static/octicons/question-16.svg"></img></a>
+											<a data-toggle="tooltip" data-placement="right" title="Die Statusberichterstattung über die Alexa App ist auf 100 Anforderungen pro Stunde pro Gerät begrenzt">Zustandsberichterstattung <span class="iconify" data-icon="ant-design:question-circle-filled"></span></a>
 										</label>
-										<small id="reportStateInfo" class="form-text text-muted"><a href="/docs#state-reporting">See State Reporting help for more information</a></small>
+										<!--<small id="reportStateInfo" class="form-text text-muted"><a href="/docs#state-reporting">See State Reporting help for more information</a></small>-->
 									</div>
 								</fieldset>
 							</div>
@@ -337,8 +337,8 @@
 						</div>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" data-dismiss="modal">Abbrechen</button>
 						<button class="btn btn-primary" id="submit" type="submit" value="submit">Speichern</button>
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Abbrechen</button>
 					</div>
 				</div>
 			</form>

@@ -10,7 +10,7 @@
 <% } %>
 <% if (grants == 0) { %>
 	<div class="alert alert-danger alert-dismissible fade show" role="alert">
-		<strong>Warnung!</strong> Sie müssen noch Ihr Amazon-Konto verknüpfen, um diesen Service nutzen zu können! Für mehr Information siehe: <a href='/docs'>Info</a>.
+		<strong>Warnung!</strong> Sie müssen noch Ihr Amazon-Konto verknüpfen, um diesen Service nutzen zu können!</a>.
 		<button type="button" class="close" data-dismiss="alert" aria-label="Schließen">
 		<span aria-hidden="true">&times;</span>
 		</button>
@@ -21,13 +21,13 @@
 <div class="container main-content">
 	<h1>Geräte des Benutzers: <%= user.username %></h1>
 	<h3>Gesamt Anzahl: <%= count %></h3>
-	<table class="table table-responsive table-sm table-striped">
+	<table class="table table-responsive-sm table-striped">
 		<thead>
 			<tr>
 				<th scope="col">Name</th>
 				<th scope="col">Beschreibung</th>
 				<th scope="col">Fähigkeit</th>
-				<th scope="col">Verwalten</th>
+				<th scope="col" colspan="2">Verwalten</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -36,20 +36,58 @@
 					<th scope="row"><%= device.friendlyName %></th>
 					<td><%= device.description %></td>
 					<td>
-						<% device.capabilities.forEach(function(action){ %>
-							<img class="action" src="/static/images/<%= action %>.png" title="<%= action %>">
+						<% device.capabilities.forEach(function(action){ 
+							if ( action == "BrightnessController") { %>
+								<span class="iconify" data-icon="carbon:brightness-contrast" data-inline="false" data-width="32" data-height="32"></span>
+							<% } else if(action == "ChannelController") { %>
+								<span class="iconify" data-icon="ic:outline-settings-remote" data-inline="false" data-width="32" data-height="32"></span>
+							<% } else if(action == "ColorController") { %>
+								<span class="iconify" data-icon="clarity:color-palette-solid" data-inline="false" data-width="32" data-height="32"></span>
+							<% } else if(action == "ColorTemperatureController") { %>
+								<span class="iconify" data-icon="ic:round-invert-colors" data-inline="false" data-width="32" data-height="32"></span>
+							<% } else if(action == "ContactSensor") { %>
+								<span class="iconify" data-icon="ic:outline-sensor-window" data-inline="false" data-width="32" data-height="32"></span>
+							<% } else if(action == "InputController") { %>
+								<span class="iconify" data-icon="cil:input-hdmi" data-inline="false" data-width="32" data-height="32"></span>
+							<% } else if(action == "LockController") { %>
+								<span class="iconify" data-icon="ri:door-lock-fill" data-inline="false" data-width="32" data-height="32"></span>
+							<% } else if(action == "MotionSensor") { %>
+								<span class="iconify" data-icon="mdi:motion-sensor" data-inline="false" data-width="32" data-height="32"></span>
+							<% } else if(action == "PercentageController") { %>
+								<span class="iconify" data-icon="mdi:brightness-percent" data-inline="false" data-width="32" data-height="32"></span>
+							<% } else if(action == "PlaybackController") { %>	
+								<span class="iconify" data-icon="zmdi:tv-play" data-inline="false" data-width="32" data-height="32"></span>		
+							<% } else if(action == "PowerController") { %>
+								<span class="iconify" data-icon="clarity:power-solid" data-inline="false" data-width="32" data-height="32"></span>
+							<% } else if(action == "RangeController") { %>
+								<span class="iconify" data-icon="entypo:progress-two" data-inline="false" data-width="32" data-height="32"></span>
+							<% } else if(action == "SceneController") { %>
+								<span class="iconify" data-icon="uil:scenery" data-inline="false" data-width="32" data-height="32"></span>
+							<% } else if(action == "Speaker") { %>
+								<span class="iconify" data-icon="zmdi:speaker" data-inline="false" data-width="32" data-height="32"></span>
+							<% } else if(action == "StepSpeaker") { %>
+								<span class="iconify" data-icon="wpf:speaker" data-inline="false" data-width="32" data-height="32"></span>
+							<% } else if(action == "TemperatureSensor") { %>
+								<span class="iconify" data-icon="la:temperature-low" data-inline="false" data-width="32" data-height="32"></span>
+							<% } else if(action == "ThermostatController") { %>
+								<span class="iconify" data-icon="mdi:thermostat" data-inline="false" data-width="32" data-height="32"></span>
+							<% }else { %>
+								<span class="iconify" data-icon="carbon:undefined-filled" data-inline="false" data-width="32" data-height="32"></span> <%= action %>
+							<% } %> 
 						<% }); %>
 					</td>
 					<td>
-						<button type="button" class="btn btn-secondary" onclick="edit('<%= device._id %>')">Bearbeiten</button>
-						<button type="button" class="btn btn-danger" onclick="deleteDevice('<%= device._id%>')">Löschen</button>
+						<center><button type="button" class="btn btn-secondary" onclick="edit('<%= device._id %>')" title="Gerät bearbeiten"><span class="iconify" data-icon="mdi:database-edit"></span></button></center>
+					</td>
+					<td>
+						<center><button type="button" class="btn btn-danger" onclick="deleteDevice('<%= device._id%>')" title="Gerät löschen"><span class="iconify" data-icon="ic:baseline-delete-forever"></span></button></center>
 					</td>
 				</tr>
 			<% }); %>
 		</tbody>
 	</table>
 	<div style="padding-top: 10px;">
-		<button type="button" class="btn btn-secondary" onclick="addDevice();">Gerät hinzufügen</button>
+		<button type="button" class="btn btn-secondary" onclick="addDevice();" title="Neues Gerät hinzufügen"><span class="iconify" data-icon="ic:baseline-add-circle"></span> Hinzufügen</button>
 	</div>
 	<br />
 	<p>Amazon Alexa-Benutzer müssen Geräte manuell aktualisieren, entweder über die Alexa-App oder mit den Worten "Alexa, suche Geräte".</p>
@@ -1018,7 +1056,7 @@ function edit(id) {
 }
 
 function deleteDevice(id) {
-	var answer = confirm("Are you sure you want to delete this device?");
+	var answer = confirm("Sind Sie sicher, das Sie das Gerät löschen möchten?");
 	if(answer) {
 		$.ajax({
 			url:"/device/" + id,

@@ -2,18 +2,17 @@
 	<div class="container main-content">
 		<h1>Benutzergeräte</h1>
 		<h3>Gesamt Anzahl: <%= devicecount %></h3>
-		<table id="tblDevices" class="table table-responsive table-sm table-striped" style="display:none">
+		<table id="tblDevices" class="table table-responsive-sm table-striped" style="display:none">
 			<thead>
 				<tr>
-				  <th scope="col">Endpunkt ID</th>
+				  <th scope="col">ID</th>
 				  <th scope="col">Benutzername</th>
 				  <th scope="col">Bezeichnung</th>
-				  <th scope="col">Fähigkeiten</th>
+				  <th scope="col">Fähigkeit</th>
 				  <th scope="col">Typ</th>
-				  <th scope="col">Report State</th>
-				  <th scope="col">Status</th>
-                  		  <!--<th scope="col">Edit</th>-->
-				  <th scope="col">Verwalten</th>
+				  <th scope="col"><center>Statusreport</center></th>
+				  <th scope="col"><center>Status</center></th>
+				  <th scope="col"><center>Verwalten</center></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -22,24 +21,67 @@
 						<th scope="row"><%= device.endpointId %></th>
 						<td><%= device.username %></td>
 						<td><%= device.friendlyName %></td>
-                        			<td>
+                        <td>
 							<ul class="list-unstyled">
-								<% device.capabilities.forEach(function(capability){ %>
+								<!--<% device.capabilities.forEach(function(capability){ %>
 									<li><%= capability %></li>
+								<% }); %>-->
+								<% device.capabilities.forEach(function(action){ 
+									if ( action == "BrightnessController") { %>
+										<span class="iconify" data-icon="carbon:brightness-contrast" data-inline="false" data-width="32" data-height="32"></span>
+									<% } else if(action == "ChannelController") { %>
+										<span class="iconify" data-icon="ic:outline-settings-remote" data-inline="false" data-width="32" data-height="32"></span>
+									<% } else if(action == "ColorController") { %>
+										<span class="iconify" data-icon="clarity:color-palette-solid" data-inline="false" data-width="32" data-height="32"></span>
+									<% } else if(action == "ColorTemperatureController") { %>
+										<span class="iconify" data-icon="ic:round-invert-colors" data-inline="false" data-width="32" data-height="32"></span>
+									<% } else if(action == "ContactSensor") { %>
+										<span class="iconify" data-icon="ic:outline-sensor-window" data-inline="false" data-width="32" data-height="32"></span>
+									<% } else if(action == "InputController") { %>
+										<span class="iconify" data-icon="cil:input-hdmi" data-inline="false" data-width="32" data-height="32"></span>
+									<% } else if(action == "LockController") { %>
+										<span class="iconify" data-icon="ri:door-lock-fill" data-inline="false" data-width="32" data-height="32"></span>
+									<% } else if(action == "MotionSensor") { %>
+										<span class="iconify" data-icon="mdi:motion-sensor" data-inline="false" data-width="32" data-height="32"></span>
+									<% } else if(action == "PercentageController") { %>
+										<span class="iconify" data-icon="mdi:brightness-percent" data-inline="false" data-width="32" data-height="32"></span>
+									<% } else if(action == "PlaybackController") { %>	
+										<span class="iconify" data-icon="zmdi:tv-play" data-inline="false" data-width="32" data-height="32"></span>		
+									<% } else if(action == "PowerController") { %>
+										<span class="iconify" data-icon="clarity:power-solid" data-inline="false" data-width="32" data-height="32"></span>
+									<% } else if(action == "RangeController") { %>
+										<span class="iconify" data-icon="entypo:progress-two" data-inline="false" data-width="32" data-height="32"></span>
+									<% } else if(action == "SceneController") { %>
+										<span class="iconify" data-icon="uil:scenery" data-inline="false" data-width="32" data-height="32"></span>
+									<% } else if(action == "Speaker") { %>
+										<span class="iconify" data-icon="zmdi:speaker" data-inline="false" data-width="32" data-height="32"></span>
+									<% } else if(action == "StepSpeaker") { %>
+										<span class="iconify" data-icon="wpf:speaker" data-inline="false" data-width="32" data-height="32"></span>
+									<% } else if(action == "TemperatureSensor") { %>
+										<span class="iconify" data-icon="la:temperature-low" data-inline="false" data-width="32" data-height="32"></span>
+									<% } else if(action == "ThermostatController") { %>
+										<span class="iconify" data-icon="mdi:thermostat" data-inline="false" data-width="32" data-height="32"></span>
+									<% }else { %>
+										<span class="iconify" data-icon="carbon:undefined-filled" data-inline="false" data-width="32" data-height="32"></span> <%= action %>
+									<% } %> 
 								<% }); %>
 							</ul>
-                        			</td>
-                        			<td>
+						</td>
+						<td>
 							<ul class="list-unstyled">
 								<% device.displayCategories.forEach(function(category){ %>
 									<li><%= category %></li>
 								<% }); %>
 							</ul>
-                        			</td>
-                        			<td><%= device.reportState %></td>
-						<td><button type="button" class="btn btn-secondary" onclick="viewState('<%= device._id %>')">State</button></td>
-						<!--<td><button type="button" class="btn btn-secondary" onclick="editDevice('<%= device._id %>')">Bearbeiten</button></td>-->
-                        			<td><button type="button" class="btn btn-danger" onclick="deleteDevice('<%= device._id %>')">Löschen</button></td>
+						</td>
+						<% if (device.reportState == true) { %>
+							<td><center><span class="iconify" data-icon="openmoji:check-mark"></span></center></td>
+						<% } %>
+						<% if (device.reportState == false) { %>
+							<td><center><span class="iconify" data-icon="openmoji:cross-mark"></span></center></td>
+						<% } %>
+						<td><center><button type="button" class="btn btn-secondary" onclick="viewState('<%= device._id %>')" title="Geräte Status anzeigen"><span class="iconify" data-icon="mdi:state-machine"></span></button></center></td>
+						<td><center><button type="button" class="btn btn-danger" onclick="deleteDevice('<%= device._id %>')" title="Gerät löschen"><span class="iconify" data-icon="ic:baseline-delete-forever"></span></button></center></td>
 					</tr>
 				<% }); %>
 			</tbody>
@@ -51,13 +93,13 @@
 			<div class="modal-dialog modal-dialog-centered" role="document">
 			  <div class="modal-content">
 				<div class="modal-header">
-				  <h5 class="modal-title" id="stateModalTitle">Device State</h5>
+				  <h5 class="modal-title" id="stateModalTitle"><span class="iconify" data-icon="mdi:state-machine"></span> Geräte Status</h5>
 				  <button type="button" class="close" data-dismiss="modal" aria-label="Schließen">
 					<span aria-hidden="true">&times;</span>
 				  </button>
 				</div>
 				<div class="modal-body">
-					<label for="state">State: </label>
+					<label for="state">Status: </label>
 					<br>
 					<textarea id="state" class="form-control" disabled></textarea>
 				</div>

@@ -254,7 +254,7 @@ const createServer = async() => {
 		app.set('views', path.join(__dirname, 'interfaces/views/'));
 		// Configure static content
 		app.use('/static', express.static(path.join(__dirname, '/interfaces/static')));
-		app.use('/static/octicons', express.static('node_modules/@primer/octicons/build'), express.static('node_modules/@primer/octicons/build/svg')); // Octicons router
+
 		// Setup robots.txt
 		app.use(robots({UserAgent: '*', Allow: '/', CrawlDelay: '5', Sitemap: 'https://' + process.env.WEB_HOSTNAME + '/sitemap.xml'}))
 		// Setup site map, based on example here: https://www.npmjs.com/package/sitemap#example-of-using-sitemapjs-with-express
@@ -271,12 +271,10 @@ const createServer = async() => {
 				const smStream = new SitemapStream({ hostname: 'https://' + process.env.WEB_HOSTNAME + '/' })
 				const pipeline = smStream.pipe(createGzip())
 				smStream.write({ url: '/',  changefreq: 'weekly', priority: 0.5 })
-				smStream.write({ url: '/about/',  changefreq: 'weekly',  priority: 0.5})
-				smStream.write({ url: '/docs',  changefreq: 'weekly',  priority: 0.5 })
+				smStream.write({ url: '/impress/',  changefreq: 'weekly',  priority: 0.5})
 				smStream.write({ url: '/login/',  changefreq: 'monthly',  priority: 0.3})
 				smStream.write({ url: '/new-user/',  changefreq: 'monthly',  priority: 0.3})
 				smStream.write({ url: '/privacy/',  changefreq: 'monthly',  priority: 0.3})
-				smStream.write({ url: '/tos/',  changefreq: 'monthly',  priority: 0.3})
 				smStream.end()
 				// cache the response
 				streamToPromise(pipeline).then(sm => sitemap = sm)

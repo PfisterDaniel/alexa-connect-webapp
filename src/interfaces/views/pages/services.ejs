@@ -2,15 +2,14 @@
 <div class="container main-content">
   <h1>Services</h1>
   <!-- <div class="serviceHeader" > -->
-    <table class="table table-responsive table-striped">
+    <table class="table table-responsive-sm table-striped">
         <thead>
           <tr>
             <th scope="col">Bezeichnung</th>
             <th scope="col">OAuth ID</th>
             <th scope="col">OAuth Secret-Key</th>
             <th scope="col">Domain</th>
-            <th scope="col">Bearbeiten</th>
-            <th scope="col">Verwalten</th>
+            <th scope="col" colspan="2">Verwalten</th>
           </tr>
         </thead>
         <tbody>
@@ -20,14 +19,14 @@
                   <td><%= service.oauth_id %></td>
                   <td><%= service.oauth_secret %></td>
                   <td><%= service.domains.join(',') %></td>
-                  <td><button class="btn btn-warning" onclick="edit('<%= service._id %>')">Bearbeiten</button></td>
-                  <td><button class="btn btn-danger" style="margin-left:5px" onclick="deleteService('<%= service._id%>')">Löschen</button></td>
+                  <td><button class="btn btn-warning" onclick="edit('<%= service._id %>')"><span class="iconify" data-icon="mdi:database-edit"></span></button></td>
+                  <td><button class="btn btn-danger" style="margin-left:5px" onclick="deleteService('<%= service._id%>')"><span class="iconify" data-icon="ic:baseline-delete-forever"></span></button></td>
               </tr>
             <% }); %>
         </tbody>
     </table>
   <div style="padding-top: 10px;">
-    <button class="btn btn-primary" onclick="addService();">Neuer Service</button>
+    <button class="btn btn-primary" onclick="addService();"><span class="iconify" data-icon="ic:baseline-add-circle"></span> Hinzufügen</button>
   </div>
 </div>
 
@@ -36,7 +35,7 @@
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="newServiceModal">Neuen OAuth-Endpunkt</h5>
+            <h5 class="modal-title" id="newServiceModal">OAuth-Service hinzufügen</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
             </button>
@@ -54,8 +53,8 @@
           </div>
           <div class="modal-footer">
               <div>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Abbruch</button>
                 <button type="button" class="btn btn-primary" onclick='saveService()'>Speichern</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Abbruchen</button>
             </div>
           </div>
         </div>
@@ -136,7 +135,7 @@
   }
 
   function deleteService(id) {
-    var answer = confirm("Are you sure you want to delete this service?");
+    var answer = confirm("Sind Sie sicher das Sie den Service entfernen möchten?");
     if(answer) {
       $.ajax({
         url:"/admin/service/" + id,
