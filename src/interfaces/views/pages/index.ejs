@@ -1,150 +1,131 @@
 <%- include('../fragments/header'); -%>
 
-  <div class="container main-content">
-    <h1 class="notranslate"><%= brand %></h1>
-    <p>Welcome to the registration point for <%= brand %> - this service works with Amazon Alexa</p>
-    <hr />
-    <p></p>
+    <div class="container main-content">
+        <h1 class="notranslate">
+            <%= brand %>
+        </h1>
 
-    <h2>Capabilities</h2>
-    <p><%= brand %> supports an array of capabilities, these are outlined in the table below. Note that some capabilities are region-specific</a>
-      Current regional limitations affecting this service:</p>
-    <br>
-    <table class="table table-responsive table-striped">
-      <thead>
-        <tr>
-          <th scope="col">Alexa Interface</th>
-          <th scope="col">Google Trait</th>
-          <th scope="col">Supported Controls</th>
-          <th scope="col">Example Usage</th>
-          <th scope="col">Example Commands</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <th scope="row">Brightness Control</th>
-          <th scope="row">Brightness</th>
-          <td>0-100%, increase, decrease</td>
-          <td>MQTT-enabled smart bulb/ light</td>
-          <td>"Alexa, set Lounge Light to 50%", "Alexa, (increase | reduce | dim) Lounge Light"</td>
-        </tr>
-        <tr>
-          <th scope="row">Channel Control</th>
-          <th scope="row">Experimental (number only)</th>
-          <td>Channel number or name etc. </td>
-          <td>HTTP Out node</td>
-          <td>"Alexa, set Lounge TV channel to (101 | BBC1)"</td>
-        </tr>
-        <tr>
-          <th scope="row">Color Control</th>
-          <th scope="row">ColorSetting</th>
-          <td>Red, Green, Blue etc. </td>
-          <td>MQTT-enabled smart bulb/ light</td>
-          <td>"Alexa, set Lounge Light to (Green | Red | Yellow | etc)"</td>
-        </tr>
-        <tr>
-          <th scope="row">Color Temperature Control</th>
-          <th scope="row">ColorSetting</th>
-          <td>Warm, Warm White, Incandescent, Soft White, White, Daylight, Daylight White, Cool, Cool White</td>
-          <td>MQTT-enabled smart bulb/ light</td>
-          <td>"Alexa, set Lounge Light to Warm White"</td>
-        </tr>
-        <tr>
-          <th scope="row">Contact Sensor</th>
-          <th scope="row">ContactSensor</th>
-          <td>*No commands*</td>
-          <td>N/A</td>
-          <td>"Alexa, is the Kitchen window open?" Note you can also use this interface as a trigger. </td>
-        </tr>
-        <tr>
-          <th scope="row">Input Control</th>
-          <th scope="row">None</th>
-          <td>HDMI1, HDMI2, HDMI3, HDMI4, phono, audio1, audio2 and "chromecast"</td>
-          <td>Yamaha Music Cast Amplifier</td>
-          <td>"Alexa, on AV Receiver change input to HDMI1"</td>
-        </tr>
-        <tr>
-          <th scope="row">Lock Control</th>
-          <th scope="row">Experimental*</th>
-          <td>Lock/ Unlock</td>
-          <td>MQTT connected Lock</td>
-          <td>"Alexa, Lock Front Door"</td>
-        </tr>
-        <tr>
-          <th scope="row">Motion Sensor</th>
-          <th scope="row">MotionSensor</th>
-          <td>*No commands*</td>
-          <td>N/A</td>
-          <td>You can use this interface as a trigger with Alexa</td>
-        </tr>
-        <tr>
-          <th scope="row">Playback Control</th>
-          <th scope="row">Experimental</th>
-          <td>Play, Pause, Stop, Fast Forward, Rewind, Next, Previous, Start Over</td>
-          <td>Kodi RPC (including Plex Addon control)</td>
-          <td>"Alexa, (pause | play | stop) Kitchen TV"</td>
-        </tr>
-        <tr>
-          <th scope="row">Percentage Control</th>
-          <th scope="row">None</th>
-          <td>Increase by%, decrease by %, set to specific %</td>
-          <td>Any MQTT enabled Fan</td>
-          <td>"Alexa, set Bedroom Fan to 50%"</td>
-        </tr>
-        <tr>
-          <th scope="row">Power Control</th>
-          <th scope="row">OnOff</th>
-          <td>On/ Off</td>
-          <td>Any MQTT enabled smart-switch/ plug, KODI RPC (w/ HDMI CEC)</td>
-          <td>"Alexa, turn (on | off) Kitchen Light", "Alexa, turn (on | off) Kitchen TV"</td>
-        </tr>
-        <tr>
-          <th scope="row">Range Control</th>
-          <th scope="row">OpenClose (Support for Blinds/ Awning only)</th>
-          <td>0-100 (Blinds), 0-10 (Anything else)</td>
-          <td>Any MQTT enabled smart blinds.</td>
-          <td>"Alexa, (raise | lower) Kitchen Blind", "Alexa, set Kitchen Blind to 100"</td>
-        </tr>
-        <tr>
-          <th scope="row">Scene Control</th>
-          <th scope="row">Scene</th>
-          <td>On/ Off</td>
-          <td>Any MQTT enabled smart-switch</td>
-          <td>"Alexa, turn on Movie Night"</td>
-        </tr>
-        <tr>
-          <th scope="row">Speaker Control</th>
-          <th scope="row">Experimental</th>
-          <td>Set volume to #, increase/ decrease volume, mute, unmute</td>
-          <td>Amplifier, AVR, any device that can be set to a specific volume</td>
-          <td>"Alexa, (increase | decrease | mute) volume on AV Receiver," "Alexa, set volume on AV Receiver to 50"</td>
-        </tr>
-        <tr>
-          <th scope="row">Step Speaker Control</th>
-          <th scope="row">None</th>
-          <td>Increase/ decrease volume, mute, unmute</td>
-          <td>Device that cannot be set to specific volume, only increase/ decrease and mute</td>
-          <td>"Alexa, (increase | decrease | mute) volume on AV Receiver"</td>
-        </tr>
-        <tr>
-          <th scope="row">Temperature Sensor</th>
-          <th scope="row">None</th>
-          <td>*No commands*</td>
-          <td>N/A</td>
-          <td>"Alexa, what is the temperature the Lounge?"</td>
-        </tr>
-        <tr>
-          <th scope="row">Thermostat Control (Single Point)</th>
-          <th scope="row">TemperatureSetting</th>
-          <td>Auto, Eco, Heat, Cool, specific temperature</td>
-          <td>Any Thermostat endpoint in Node-Red</td>
-          <td>"Alexa, set Thermostat to 22 degrees"</td>
-        </tr>
-      </tbody>
-    </table>
-    <br />
-    <p>*See market/ region specific restrictions above table.</p>
-    <p><b>Disclaimer</b>: I/ the creators of this service and website are not responsible for any issues arising from it's use, including loss or damaged equipment, property, injury or life.
-    You consume this service at your own risk.</p>
-</div>
-<%- include('../fragments/footer'); -%>
+        <!--<hr />
+        <p></p>
+
+        <h2>Fähigkeiten</h2>
+        <p>
+            <%= brand %> unterstützt eine Reihe von Funktionen, die in der folgenden Tabelle aufgeführt sind.</a>
+        </p>
+        <br>
+        <table class="table table-responsive table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Alexa Schnittstelle</th>
+                    <th scope="col">Unterstützte Kommandos</th>
+                    <th scope="col">Beispiel</th>
+                    <th scope="col">Sprachbefehl (Beispiel)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row">Brightness Control</th>
+                    <td>0-100%, erhöhen, verringern</td>
+                    <td>MQTT-enabled smart bulb/ light</td>
+                    <td>"Alexa, set Lounge Light to 50%", "Alexa, (increase | reduce | dim) Lounge Light"</td>
+                </tr>
+                <tr>
+                    <th scope="row">Channel Control</th>
+                    <td>Kanalnummer oder Name usw.</td>
+                    <td>HTTP Out node</td>
+                    <td>"Alexa, set Lounge TV channel to (101 | BBC1)"</td>
+                </tr>
+                <tr>
+                    <th scope="row">Color Control</th>
+                    <td>Rot, Grün, Blau usw. </td>
+                    <td>MQTT-enabled smart bulb/ light</td>
+                    <td>"Alexa, set Lounge Light to (Green | Red | Yellow | etc)"</td>
+                </tr>
+                <tr>
+                    <th scope="row">Color Temperature Control</th>
+                    <td>Warm, warmweiß, weißglühend, weichweiß, weiß, tageslicht, tageslichtweiß, kalt, kaltweiß</td>
+                    <td>MQTT-enabled smart bulb/ light</td>
+                    <td>"Alexa, set Lounge Light to Warm White"</td>
+                </tr>
+                <tr>
+                    <th scope="row">Contact Sensor</th>
+                    <td>*Keine Befehle*</td>
+                    <td>Nicht verfügbar</td>
+                    <td>"Alexa, ist das Wohnzimmerfenster geöffnet?"</td>
+                </tr>
+                <tr>
+                    <th scope="row">Input Control</th>
+                    <td>HDMI1, HDMI2, HDMI3, HDMI4, Analog, Audio1, Audio2</td>
+                    <td>Yamaha Verstärker</td>
+                    <td>"Alexa, am AV-Receiver den Eingang auf HDMI1 ändern"</td>
+                </tr>
+                <tr>
+                    <th scope="row">Lock Control</th>
+                    <td>Sperren / Ensperren</td>
+                    <td>MQTT connected Lock</td>
+                    <td>"Alexa, sperre die Haustür"</td>
+                </tr>
+                <tr>
+                    <th scope="row">Motion Sensor</th>
+                    <td>*Keine Befehle*</td>
+                    <td>Nicht verfügbar</td>
+                    <td>Sie können diese Schnittstelle als Auslöser für Alexa verwenden</td>
+                </tr>
+                <tr>
+                    <th scope="row">Playback Control</th>
+                    <td>Wiedergabe, Pause, Stopp, Schnellvorlauf, Rücklauf, Wiedergabe, Zurück, Neu starten</td>
+                    <td>Kodi</td>
+                    <td>"Alexa, (Pause | Wiedergabe | Stop) Fenseher"</td>
+                </tr>
+                <tr>
+                    <th scope="row">Percentage Control</th>
+                    <td>Erhöhung um%, Verringerung um%, Einstellung auf bestimmte%</td>
+                    <td>Any MQTT enabled Fan</td>
+                    <td>"Alexa, setze Ventilator auf 50%"</td>
+                </tr>
+                <tr>
+                    <th scope="row">Power Control</th>
+                    <td>AN / AUS</td>
+                    <td>Any MQTT enabled smart-switch/ plug, KODI RPC (w/ HDMI CEC)</td>
+                    <td>"Alexa, turn (on | off) Kitchen Light", "Alexa, turn (on | off) Kitchen TV"</td>
+                </tr>
+                <tr>
+                    <th scope="row">Range Control</th>
+                    <td>0-100 (Blinds), 0-10 (Anything else)</td>
+                    <td>Any MQTT enabled smart blinds.</td>
+                    <td>"Alexa, (raise | lower) Kitchen Blind", "Alexa, set Kitchen Blind to 100"</td>
+                </tr>
+                <tr>
+                    <th scope="row">Scene Control</th>
+                    <td>On/ Off</td>
+                    <td>Any MQTT enabled smart-switch</td>
+                    <td>"Alexa, turn on Movie Night"</td>
+                </tr>
+                <tr>
+                    <th scope="row">Speaker Control</th>
+                    <td>Set volume to #, increase/ decrease volume, mute, unmute</td>
+                    <td>Amplifier, AVR, any device that can be set to a specific volume</td>
+                    <td>"Alexa, (increase | decrease | mute) volume on AV Receiver," "Alexa, set volume on AV Receiver to 50"</td>
+                </tr>
+                <tr>
+                    <th scope="row">Step Speaker Control</th>
+                    <td>Increase/ decrease volume, mute, unmute</td>
+                    <td>Device that cannot be set to specific volume, only increase/ decrease and mute</td>
+                    <td>"Alexa, (increase | decrease | mute) volume on AV Receiver"</td>
+                </tr>
+                <tr>
+                    <th scope="row">Temperature Sensor</th>
+                    <td>*No commands*</td>
+                    <td>N/A</td>
+                    <td>"Alexa, what is the temperature the Lounge?"</td>
+                </tr>
+                <tr>
+                    <th scope="row">Thermostat Control (Single Point)</th>
+                    <td>Auto, Eco, Heat, Cool, specific temperature</td>
+                    <td>Any Thermostat endpoint in Node-Red</td>
+                    <td>"Alexa, set Thermostat to 22 degrees"</td>
+                </tr>
+            </tbody>
+        </table>-->
+    </div>
+    <%- include('../fragments/footer'); -%>

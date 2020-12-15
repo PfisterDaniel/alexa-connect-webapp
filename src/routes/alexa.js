@@ -115,7 +115,7 @@ router.post('/command2',
 		try {
 			// User has generated a command, thus must have Alexa linked with their account, add 'Amazon' to active services
 			if (!req.user.activeServices || (req.user.activeServices && req.user.activeServices.indexOf("Amazon")) == -1) {updateUserServices(req.user.username, "Amazon")};
-			logger.log('debug', "[Alexa API] Received command for user: " + req.user.username + ", command: " + JSON.stringify(req.body));
+			logger.log('info', "[Alexa API] Received command for user: " + req.user.username + ", command: " + JSON.stringify(req.body));
 			// Find matching device
 			var device = await Devices.findOne({username:req.user.username, endpointId:req.body.directive.endpoint.endpointId});
 			// Validate command against any limits set on devices
@@ -130,7 +130,7 @@ router.post('/command2',
 			var response = await buildCommandResponseAsync(device, req);
 			// If response undefined, return error 500 status
 			if (response == undefined) return res.status(500).send()
-			//logger.log('debug', "[Alexa API] Command response: " + response);
+			logger.log('debug', "[Alexa API] Command response: " + JSON.stringify(response));
 			// Generate MQTT topic
 			var topic = "command/" + req.user.username + "/" + req.body.directive.endpoint.endpointId;
 			// Cleanup req.body prior to using as source for MQTT command message
@@ -151,9 +151,11 @@ router.post('/command2',
 				source: "Alexa",
 				timestamp: Date.now()
 			};
+			logger.log('info', "[Alexa Command] ID: " + req.body.directive.header.messageId);
 			// Add command object to ongoingCommands for tracking
 			ongoingCommands[req.body.directive.header.messageId] = command;
 			//client.hset(req.body.directive.header.messageId, 'command', command); // Command drops into redis database, used to generate failure messages if not ack
+			//return res.status(200).send(response);
 		}
 		catch(e) {
 			logger.log('error', "[Alexa Command] Failed to execute command for user: " + req.user.username + ", error: " + e.stack);

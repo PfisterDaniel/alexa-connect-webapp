@@ -50,7 +50,7 @@ module.exports.restrictiveLimiter = limiter({
 module.exports.getStateLimiter = limiter({
 	lookup: function(req, res, opts, next) {
 		  opts.lookup = ['params.dev_id']
-		  opts.total = 100
+		  opts.total = 1000
 		  opts.expire = 1000 * 60 * 60
 		  return next()
 	},
