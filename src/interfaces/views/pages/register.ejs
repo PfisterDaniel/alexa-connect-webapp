@@ -2,6 +2,7 @@
   <%- include('../fragments/privacy-modal'); -%>
 
   <div class="container main-content">
+    <% if (allow_user_registration == "true" ) {%>
       <form class="form-register" id="form-register">
         <%- include('../fragments/register'); -%>
       </form>
@@ -48,5 +49,10 @@
         });
 
       </script>
+      <% } else { %>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          <strong>Fehler!</strong> Die Benutzer-Registrierung ist auf diesem Server nicht gestattet!</a>
+        </div>
+      <% } %>
   </div>
 <%- include('../fragments/footer'); -%>

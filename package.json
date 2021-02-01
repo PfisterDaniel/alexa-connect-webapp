@@ -1,7 +1,7 @@
 {
   "name": "alex-connect-web-app",
   "version": "0.1.0",
-  "description": "",
+  "description": "Alexa Connect WebApp",
   "main": "src/app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -22,7 +22,7 @@
   "author": "Daniel Pfister <support@alexa-connect.de>",
   "license": "Apache-2.0",
   "dependencies": {
-    "axios" : "^0.19.2",
+    "axios" : "^0.21.1",
     "body-parser": "^1.19.0",
     "cookie-session": "^1.4.0",
     "connect-flash": "^0.1.1",

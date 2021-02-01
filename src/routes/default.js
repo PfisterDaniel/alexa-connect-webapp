@@ -37,28 +37,28 @@ let usernameRegExp = /^[a-z0-9]{5,15}$/;
 ///////////////////////////////////////////////////////////////////////////
 router.get('/', defaultLimiter, async (req, res) => {
 	// outputSessionID(req, "/");
-	res.render('pages/index', {user: req.user, home: true, brand: process.env.BRAND, title: "Home | " + process.env.BRAND});
+	res.render('pages/index', {user: req.user, home: true, allow_user_registration: (process.env.ALLOW_REGISTRATION || false), brand: process.env.BRAND, title: "Home | " + process.env.BRAND});
 });
 ///////////////////////////////////////////////////////////////////////////
 // About
 ///////////////////////////////////////////////////////////////////////////
 router.get('/impress', defaultLimiter, async (req, res) => {
 	//outputSessionID(req, "/about");
-	res.render('pages/impress', {user: req.user, impress: true, brand: process.env.BRAND, title: "Impressum | " + process.env.BRAND});
+	res.render('pages/impress', {user: req.user, impress: true, allow_user_registration: (process.env.ALLOW_REGISTRATION || false), brand: process.env.BRAND, title: "Impressum | " + process.env.BRAND});
 });
 ///////////////////////////////////////////////////////////////////////////
 // Privacy
 ///////////////////////////////////////////////////////////////////////////
 router.get('/privacy', defaultLimiter, async (req, res) => {
 	//outputSessionID(req, "/privacy");
-	res.render('pages/privacy', {user: req.user, privacy: true, brand: process.env.BRAND, title: "Datenschutz | " + process.env.BRAND, fqdn: process.env.WEB_HOSTNAME});
+	res.render('pages/privacy', {user: req.user, privacy: true, allow_user_registration: (process.env.ALLOW_REGISTRATION || false), brand: process.env.BRAND, title: "Datenschutz | " + process.env.BRAND, fqdn: process.env.WEB_HOSTNAME});
 });
 ///////////////////////////////////////////////////////////////////////////
 // Login (Get)
 ///////////////////////////////////////////////////////////////////////////
 router.get('/login', defaultLimiter, async (req, res) => {
 	//outputSessionID(req, "/login");
-	res.render('pages/login',{user: req.user, login: true, brand: process.env.BRAND, title: "Anmeldung | " + process.env.BRAND, fqdn: process.env.WEB_HOSTNAME, message: req.flash('error')});
+	res.render('pages/login',{user: req.user, login: true, allow_user_registration: (process.env.ALLOW_REGISTRATION || false), brand: process.env.BRAND, title: "Anmeldung | " + process.env.BRAND, fqdn: process.env.WEB_HOSTNAME, message: req.flash('error')});
 });
 ///////////////////////////////////////////////////////////////////////////
 // Logout
@@ -96,70 +96,74 @@ router.post('/login', defaultLimiter,
 ///////////////////////////////////////////////////////////////////////////
 router.get('/new-user', defaultLimiter, async (req, res) => {
 	//outputSessionID(req, "/new-user");
-    res.render('pages/register',{user: req.user, newuser: true, brand: process.env.BRAND, title: "Registrierung | " + process.env.BRAND, fqdn: process.env.WEB_HOSTNAME});
+    res.render('pages/register',{user: req.user, newuser: true, allow_user_registration: (process.env.ALLOW_REGISTRATION || false), brand: process.env.BRAND, title: "Registrierung | " + process.env.BRAND, fqdn: process.env.WEB_HOSTNAME});
 });
 ///////////////////////////////////////////////////////////////////////////
 // Register/ Newuser (Post) restrictiveLimiter
 ///////////////////////////////////////////////////////////////////////////
 router.post('/new-user', restrictiveLimiter, async (req, res) => {
 	try {
-		var body = JSON.parse(JSON.stringify(req.body));
-		if (body.hasOwnProperty('username') && body.hasOwnProperty('email') && body.hasOwnProperty('country') && body.hasOwnProperty('password')) {
-			// Check password meets complexity requirements (for programmatic consumers)
-			if (passwordRegExp.test(req.body.password) == false) return res.status(400).send('Passwort erfüllt nicht die Komplexitätsanforderungen!');
-			// Check email address format (for programmatic consumers)
-			if (emailRegExp.test(req.body.email) == false) return res.status(400).send('Das Format der E-Mail Adresse ist nicht korrekt!');
-			// Check username format (for programmatic consumers)
-			if (usernameRegExp.test(req.body.username) == false) return res.status(400).send('Das Format des Benutzernamens ist nicht korrekt!');
-			// Get country from user supplied entry
-			var userCountry = await countries.findByCountryCode(req.body.country.toUpperCase());
-			// Check for any account that match given email address
-			var users = await Account.findOne({email: req.body.email});
-			// If no matching users and we have country information proceed to create account
-			if (!users && userCountry.statusCode == 200) {
-				// Lookup region from userCountry, used to route Alexa state reports
-				var region = userCountry.data[0].region;
-				// Force new usernames to be lowercase, will also prevent duplicate usernames with case variances
-				var username = req.body.username.toLowerCase();
-				// Generate random, temporary MQTT password
-				var mqttPass = crypto.randomBytes(16).toString('hex');
-				// Register new user, Passport will verify username is unique, MQTT password set to random in case of later failures
-				var account = await Account.register(new Account({ username : username, email: req.body.email, country: req.body.country.toUpperCase(), region: region,  password: mqttPass, mqttPass: mqttPass, active: true }), req.body.password);
-				//Generate Mail Verification Token
-				var mailToken = new verifyEmail({ user: account, token: crypto.randomBytes(16).toString('hex') });
-				// Save Mail Verification Token
-				await mailToken.save();
-				// Generate Verification Email
-				var body = mailer.buildVerifyEmail(mailToken.token, account.username, process.env.WEB_HOSTNAME);
-				// Send  Verification Email
-				mailer.send(req.body.email, process.env.MAIL_USER, 'Account Verifizierung für ' + process.env.BRAND, body.text, body.html, function(returnValue) {
-					// Success, 201 Created
-					if (returnValue == true) {
+		if(process.env.ALLOW_REGISTRATION == "true"){
+			var body = JSON.parse(JSON.stringify(req.body));
+			if (body.hasOwnProperty('username') && body.hasOwnProperty('email') && body.hasOwnProperty('country') && body.hasOwnProperty('password')) {
+				// Check password meets complexity requirements (for programmatic consumers)
+				if (passwordRegExp.test(req.body.password) == false) return res.status(400).send('Passwort erfüllt nicht die Komplexitätsanforderungen!');
+				// Check email address format (for programmatic consumers)
+				if (emailRegExp.test(req.body.email) == false) return res.status(400).send('Das Format der E-Mail Adresse ist nicht korrekt!');
+				// Check username format (for programmatic consumers)
+				if (usernameRegExp.test(req.body.username) == false) return res.status(400).send('Das Format des Benutzernamens ist nicht korrekt!');
+				// Get country from user supplied entry
+				var userCountry = await countries.findByCountryCode(req.body.country.toUpperCase());
+				// Check for any account that match given email address
+				var users = await Account.findOne({email: req.body.email});
+				// If no matching users and we have country information proceed to create account
+				if (!users && userCountry.statusCode == 200) {
+					// Lookup region from userCountry, used to route Alexa state reports
+					var region = userCountry.data[0].region;
+					// Force new usernames to be lowercase, will also prevent duplicate usernames with case variances
+					var username = req.body.username.toLowerCase();
+					// Generate random, temporary MQTT password
+					var mqttPass = crypto.randomBytes(16).toString('hex');
+					// Register new user, Passport will verify username is unique, MQTT password set to random in case of later failures
+					var account = await Account.register(new Account({ username : username, email: req.body.email, country: req.body.country.toUpperCase(), region: region, password: mqttPass, mqttPass: mqttPass, active: true }), req.body.password);
+					//Generate Mail Verification Token
+					var mailToken = new verifyEmail({ user: account, token: crypto.randomBytes(16).toString('hex') });
+					// Save Mail Verification Token
+					await mailToken.save();
+					// Generate Verification Email
+					var body = mailer.buildVerifyEmail(mailToken.token, account.username, process.env.WEB_HOSTNAME);
+					// Send  Verification Email
+					mailer.send(req.body.email, process.env.MAIL_USER, 'Account Verifizierung für ' + process.env.BRAND, body.text, body.html, function(returnValue) {
+						// Success, 201 Created
+						if (returnValue == true) {
 
-						res.status(201).send('Es wurde eine Bestätigungs-E-Mail wurde an: ' + req.body.email + " gesendet. Sie müssen Ihre E-Mail Adresse verifizieren um diesen Dienst nutzen zu können!")
+							res.status(201).send('Es wurde eine Bestätigungs-E-Mail wurde an: ' + req.body.email + " gesendet. Sie müssen Ihre E-Mail Adresse verifizieren um diesen Dienst nutzen zu können!")
+						}
+						// Failed, 500 Internal Service Error
+						else {
+							res.status(500).send('Bestätigungs-E-Mai konnte nicht gesendet werden!');
+						}
+					});
+				}
+				else {
+					// User exists with this email address, 409 Conflict
+					if (users) {
+						logger.log('error', "[New User] Cannot create new user, user with email address already exists!");
+						return res.status(409).send('Ein Benutzer mit dieser E-Mail-Adresse existiert bereits!');
 					}
-					// Failed, 500 Internal Service Error
+					// Error occurred with userCountry, 500 Internal Service Error
 					else {
-						res.status(500).send('Bestätigungs-E-Mai konnte nicht gesendet werden!');
+						logger.log('error', "[New User] Creation failed, country status code: " + userCountry.statusCode);
+						return res.status(500).send('Erstellung des Benutzeraccounts fehlgeschlagen!');
 					}
-				});
+				}
 			}
 			else {
-				// User exists with this email address, 409 Conflict
-				if (users) {
-					logger.log('error', "[New User] Cannot create new user, user with email address already exists!");
-					return res.status(409).send('Ein Benutzer mit dieser E-Mail-Adresse existiert bereits!');
-				}
-				// Error occurred with userCountry, 500 Internal Service Error
-				else {
-					logger.log('error', "[New User] Creation failed, country status code: " + userCountry.statusCode);
-					return res.status(500).send('Erstellung des Benutzeraccounts fehlgeschlagen!');
-				}
+				// Missing critical body elements, 400 Bad Request
+				return res.status(400).send('Bitte füllen Sie alle Pflichtfelder aus!');
 			}
-		}
-		else {
-			// Missing critical body elements, 400 Bad Request
-			return res.status(400).send('Bitte füllen Sie alle Pflichtfelder aus!');
+		}else{
+			return res.status(400).send('Auf diesem Server können keine Benutzer registriert werden!');
 		}
 	}
 	catch (e) {
@@ -169,16 +173,89 @@ router.post('/new-user', restrictiveLimiter, async (req, res) => {
 	}
 });
 ///////////////////////////////////////////////////////////////////////////
+// Create User from Admin-Account
+///////////////////////////////////////////////////////////////////////////
+router.post('/admin-create-user', defaultLimiter,
+	ensureAuthenticated,
+	async (req, res) => {
+		try {
+			// Get POST data
+			var body = JSON.parse(JSON.stringify(req.body));
+			if (body.hasOwnProperty('username') && body.hasOwnProperty('email') && body.hasOwnProperty('country') && body.hasOwnProperty('password')) {
+				// Check password meets complexity requirements (for programmatic consumers)
+				if (passwordRegExp.test(req.body.password) == false) return res.status(400).send('Passwort erfüllt nicht die Komplexitätsanforderungen!');
+				// Check email address format (for programmatic consumers)
+				if (emailRegExp.test(req.body.email) == false) return res.status(400).send('Das Format der E-Mail Adresse ist nicht korrekt!');
+				// Check username format (for programmatic consumers)
+				if (usernameRegExp.test(req.body.username) == false) return res.status(400).send('Das Format des Benutzernamens ist nicht korrekt!');
+				// Get country from user supplied entry
+				var userCountry = await countries.findByCountryCode(req.body.country.toUpperCase());
+				// Check for any account that match given email address
+				var users = await Account.findOne({email: req.body.email});
+				// If no matching users and we have country information proceed to create account
+				if (!users && userCountry.statusCode == 200) {
+					// Lookup region from userCountry, used to route Alexa state reports
+					var region = userCountry.data[0].region;
+					// Force new usernames to be lowercase, will also prevent duplicate usernames with case variances
+					var username = req.body.username.toLowerCase();
+					// Generate random, temporary MQTT password
+					var mqttPass = crypto.randomBytes(16).toString('hex');
+					// Register new user, Passport will verify username is unique, MQTT password set to random in case of later failures
+					var account = await Account.register(new Account({ username : username, email: req.body.email, country: req.body.country.toUpperCase(), region: region, password: mqttPass, mqttPass: mqttPass, active: true, isVerified: true }), req.body.password);
+					// Generate MQTT topics/ ACL for Super User Account
+					var topics = new Topics({topics: [
+						'command/' +account.username+'/#',
+						'state/' + account.username + '/#',
+						'response/' + account.username + '/#',
+						'message/' + account.username + '/#'
+					]});
+					// Save topics/ ACL
+					await topics.save();
+					// Detect if account salt not returned by Account.register() helper function, if not use findByUsername to return/ this functionality is due to be removed form passport-local-mongoose
+					if (!account.hash || !account.salt || account.hash == undefined || account.salt == undefined) account = await Account.findByUsername(username, true);
+					// Generate Super User MQTT password PBKDF2 hash
+					var mqttPass = "PBKDF2$sha256$901$" + account.salt + "$" + account.hash;
+					// Update Super User account
+					await Account.updateOne({username: account.username},{$set: {password: mqttPass, mqttPass: mqttPass, topics: topics._id}});
+					logger.log('info' , "[Admin Create User] Created Useraccount!");
+					return res.status(200).send('Benutzeraccount erfolgreich erstellt.');
+				}else {
+					// User exists with this email address, 409 Conflict
+					if (users) {
+						logger.log('error', "[Admin Create User] Cannot create new user, user with email address already exists!");
+						return res.status(409).send('Ein Benutzer mit dieser E-Mail-Adresse existiert bereits!');
+					}
+					// Error occurred with userCountry, 500 Internal Service Error
+					else {
+						logger.log('error', "[Admin Create User] Creation failed, country status code: " + userCountry.statusCode);
+						return res.status(500).send('Erstellung des Benutzeraccounts fehlgeschlagen!');
+					}
+				}
+			}else {
+				// Missing critical body elements, 400 Bad Request
+				return res.status(400).send('Bitte füllen Sie alle Pflichtfelder aus!');
+			}
+
+			
+		}
+		catch(e){
+			logger.log('warn', "[Admin Create User] Error on create User, error: " + e.stack);
+			res.status(500).send("Benutzerkonto kann nicht erstellt werden!");
+		}
+});
+
+
+///////////////////////////////////////////////////////////////////////////
 // Verify GET
 ///////////////////////////////////////////////////////////////////////////
 router.get(['/verify', '/verify/:token'], defaultLimiter, async (req, res) => {
 	let message = undefined;
 	if (!req.params.token) {
 		message = 'Kein Token-Wert in der URL angegeben, bitte stellen Sie sicher, dass Sie den Token-Wert unten manuell eingeben!';
-		res.render('pages/verify',{token: undefined, user: req.user, brand: process.env.BRAND, title: "Account verifizieren | " + process.env.BRAND, message: message});
+		res.render('pages/verify',{token: undefined, user: req.user, allow_user_registration: (process.env.ALLOW_REGISTRATION || false), brand: process.env.BRAND, title: "Account verifizieren | " + process.env.BRAND, message: message});
 	}
 	else {
-		res.render('pages/verify',{token: req.params.token, user: req.user, brand: process.env.BRAND, title: "Account verifizieren | " + process.env.BRAND, message: message});
+		res.render('pages/verify',{token: req.params.token, user: req.user, allow_user_registration: (process.env.ALLOW_REGISTRATION || false), brand: process.env.BRAND, title: "Account verifizieren | " + process.env.BRAND, message: message});
 	}
 });
 ///////////////////////////////////////////////////////////////////////////
@@ -249,7 +326,7 @@ router.post('/verify', defaultLimiter, async (req, res) => {
 // Verify Resend GET
 ///////////////////////////////////////////////////////////////////////////
 router.get('/verify-resend', defaultLimiter, async (req, res) => {
-    res.render('pages/verify-resend', {user: req.user, brand: process.env.BRAND, title: "Verifizierungs-Mail anfordern | " + process.env.BRAND});
+    res.render('pages/verify-resend', {user: req.user, allow_user_registration: (process.env.ALLOW_REGISTRATION || false), brand: process.env.BRAND, title: "Verifizierungs-Mail anfordern | " + process.env.BRAND});
 });
 ///////////////////////////////////////////////////////////////////////////
 // Verify Resend POST
@@ -307,10 +384,10 @@ router.get(['/change-password', '/change-password/:token'], restrictiveLimiter, 
 	let message = undefined;
 	if (!req.params.token && !req.user) {
 		message = 'Kein Token-Wert in der URL angegeben, bitte stellen Sie sicher, dass Sie den Token-Wert unten manuell eingeben haben!';
-		res.render('pages/change-password',{token: undefined, user: req.user, brand: process.env.BRAND, title: "Passwort ändern | " + process.env.BRAND, message: message})
+		res.render('pages/change-password',{token: undefined, user: req.user, allow_user_registration: (process.env.ALLOW_REGISTRATION || false), brand: process.env.BRAND, title: "Passwort ändern | " + process.env.BRAND, message: message})
 	}
 	else {
-		res.render('pages/change-password',{token: req.params.token, user: req.user, brand: process.env.BRAND, title: "Passwort ändern | " + process.env.BRAND, message: message})
+		res.render('pages/change-password',{token: req.params.token, user: req.user, allow_user_registration: (process.env.ALLOW_REGISTRATION || false), brand: process.env.BRAND, title: "Passwort ändern | " + process.env.BRAND, message: message})
 	}
 });
 ///////////////////////////////////////////////////////////////////////////
@@ -382,7 +459,7 @@ router.post('/change-password', defaultLimiter, async (req, res) => {
 ///////////////////////////////////////////////////////////////////////////
 router.get('/lost-password', defaultLimiter, async (req, res) => {
 	//outputSessionID(req, "/lost-password");
-    res.render('pages/lost-password', { user: req.user, brand: process.env.BRAND, title: "Passwort zurücksetzen | " + process.env.BRAND});
+    res.render('pages/lost-password', { user: req.user, allow_user_registration: (process.env.ALLOW_REGISTRATION || false), brand: process.env.BRAND, title: "Passwort zurücksetzen | " + process.env.BRAND});
 });
 ///////////////////////////////////////////////////////////////////////////
 // lost-password (Post) restrictiveLimiter
@@ -421,7 +498,7 @@ router.get('/my-account', defaultLimiter,
 		try {
 			//outputSessionID(req, "/my-account");
 			var user = await Account.findOne({username: req.user.username});
-			res.render('pages/account',{user: user, acc: true, brand: process.env.BRAND, title: "Mein Account | " + process.env.BRAND});
+			res.render('pages/account',{user: user, acc: true, allow_user_registration: (process.env.ALLOW_REGISTRATION || false), brand: process.env.BRAND, title: "Mein Account | " + process.env.BRAND});
 		}
 		catch(e) {
 			// General error, send 500 status
@@ -466,7 +543,7 @@ router.get('/devices', defaultLimiter,
 		if (!req.user.isVerified || req.user.isVerified == false){verified = false}
 		else {verified = true}
 		// Render Device page
-		res.render('pages/devices',{user: req.user, devices: devices, count: countDevs, grants: countUserGrants[0].countGrants, isVerified: verified, fqdn: process.env.WEB_HOSTNAME, devs: true, brand: process.env.BRAND, title: "Meine Geräte | " + process.env.BRAND});
+		res.render('pages/devices',{user: req.user, devices: devices, count: countDevs, grants: countUserGrants[0].countGrants, isVerified: verified, fqdn: process.env.WEB_HOSTNAME, devs: true, allow_user_registration: (process.env.ALLOW_REGISTRATION || false), brand: process.env.BRAND, title: "Meine Geräte | " + process.env.BRAND});
 	}
 	catch(e){
 		// General error, send 500 status

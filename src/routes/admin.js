@@ -29,7 +29,7 @@ router.get('/services', defaultLimiter,
 		try {
 			if (req.user.superuser === true) {
 				let apps = await oauthModels.Application.find({});
-				res.render('pages/services',{user:req.user, services: apps, brand: process.env.BRAND, title: "OAuth Services | " + process.env.BRAND});
+				res.render('pages/services',{user:req.user, services: apps, allow_user_registration: (process.env.ALLOW_REGISTRATION || false), brand: process.env.BRAND, title: "OAuth Services | " + process.env.BRAND});
 			} else {
 				res.redirect(303, '/');
 			}
@@ -65,7 +65,7 @@ router.get('/users', defaultLimiter,
 						"countDevices": { "$sum": "$deviceCount.count" }
 					  }}
 				 ]);
-				res.render('pages/users',{user:req.user, users: usersAndDevs, usercount: totalCount, brand: process.env.BRAND, title: "User Admin | " + process.env.BRAND});
+				res.render('pages/users',{user:req.user, users: usersAndDevs, usercount: totalCount, allow_user_registration: (process.env.ALLOW_REGISTRATION || false), brand: process.env.BRAND, title: "User Admin | " + process.env.BRAND});
 			}
 			else {
 				res.redirect(303, '/');
@@ -156,7 +156,7 @@ router.get('/user-devices', defaultLimiter,
 			if (req.user.superuser === true) {
 				let devices = await Devices.find({});
 				let count = await Devices.countDocuments({});
-				res.render('pages/user-devices',{user:req.user, devices: devices, devicecount: count, brand: process.env.BRAND, title: "Device Admin | " + process.env.BRAND});
+				res.render('pages/user-devices',{user:req.user, devices: devices, devicecount: count, allow_user_registration: (process.env.ALLOW_REGISTRATION || false), brand: process.env.BRAND, title: "Device Admin | " + process.env.BRAND});
 			}
 			else {
 				res.redirect(303, '/');

@@ -2,8 +2,12 @@
 	<div class="container main-content">
 		<h1>Benutzerkonten</h1>
 		<h3>Gesamt Anzahl: <%= usercount %></h3>
+		
 		<table id="tblUsers" class="table table-responsive table-sm table-striped" style="font-size:14px;display:none">
 			<thead>
+				<tr>
+					<td colspan="13"><button title="Benutzer hinzufügen" type="button" style="float: right;" class="btn btn-success"  onClick="addUserAccount();" ><span class="iconify" data-icon="fa-solid:user-plus">&nbsp Benutzer hinzufügen</span></button></td>
+				</tr>
 				<tr>
 				  <th scope="col">Benutzername</th>
 				  <th scope="col"><center>Administrator</center></th>
@@ -83,6 +87,80 @@
 					</div>
 					<div class="modal-footer">
 						<button class="btn btn-success" id="submit" type="submit" value="submit">Speichern</button>
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Abbrechen</button>	
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<!-- Add Edit Modal -->
+	<div class="modal fade" id="userModalAdd" tabindex="-1" role="dialog" aria-labelledby="userModalAdd" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered" role="document">
+			  <div class="modal-content">
+				<div class="modal-header">
+				  <h5 class="modal-title" id="userModalAddTitle"><span class="iconify" data-icon="fa-solid:user-plus"></span> Neuen Benutzer hinzufügen</h5>
+				  <button type="button" class="close" data-dismiss="modal" aria-label="Schließen">
+					<span aria-hidden="true">&times;</span>
+				  </button>
+				</div>
+				<form class="form-user" id="form-user-add">
+					<div class="modal-body">
+						<div class="form-group">
+							<div class="input-group mb-3">
+								<div class="input-group-prepend">
+									<span class="input-group-text" style="width: 50px; height: 38px;" id="basic-addon2" disabled>
+										<span class="iconify" data-icon="bx:bxs-user" data-width="25"></span>
+									</span>
+								</div>
+								<input type="text" id="username_add" style="text-transform: lowercase;" pattern="^[a-z0-9]{5,15}$" class="form-control" autocapitalize="none" autofocus title="Benutzername" autocomplete="username" placeholder="" required />
+							</div>
+							<p style="margin-top: -18px; margin-left: 52px;"><small id="usernameHelpBlock" class="form-text text-muted">Muss 5-15 Zeichen enthalten einschließlich a-z und 0-9.</small></p>
+
+							<div class="input-group mb-3">
+								<div class="input-group-prepend">
+									<span class="input-group-text" style="width: 50px; height: 38px;" id="basic-addon2" disabled>
+										<span class="iconify" data-icon="heroicons-solid:mail" data-width="25"></span>
+									</span>
+								</div>
+								<input type="email" id="email_add" class="form-control" title="E-Mail Adresse" placeholder="" required />
+							</div>
+							<p style="margin-top: -18px; margin-left: 52px;"><small id="emailHelpBlock" class="form-text text-muted">Muss eine gültige E-Mail Adresse enthalten.</small></p>
+							
+							<div class="input-group mb-3">
+								<div class="input-group-prepend">
+									<span class="input-group-text" style="width: 50px; height: 38px;" id="basic-addon2" disabled>
+										<span class="iconify" data-icon="ri:lock-password-fill" data-width="25"></span>
+									</span>
+								</div>
+								<input type="text" id="password_add" pattern="(?=^.{12,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" class="form-control" title="E-Mail Adresse" placeholder="" required />
+							</div>
+							<p style="margin-top: -18px; margin-left: 52px;"><small id="passwordHelpBlock" class="form-text text-muted">Mindestens 12 Zeichen, muss Groß- / Kleinbuchstaben, numerische Zeichen / Symbolzeichen enthalten.</small></p>
+
+							<div class="input-group mb-3">
+								<div class="input-group-prepend">
+									<span class="input-group-text" style="width: 60px;" id="basic-addon2" disabled><strong>Land</strong></span>
+								</div>
+								<input type="text" style="width: 405px" id="country_add" class="form-control" required>
+								<input type="text" id="country_add_code" name="country_add_code" data-countrycodeinput="1" readonly="readonly" hidden />
+							</div>
+							<p style="margin-top: -18px; margin-left: 62px;"><small id="countryHelpBlock" class="form-text text-muted">Muss mit dem Land des Amazon-Kontos übereinstimmen, das mit Alexa / Echo-Geräten verwendet wird.</small></p>
+							
+							<!--<label for="username_add">Benutzername: </label>
+							<input id="username_add" class="form-control" type="text" required>
+							<br>
+							<label for="email_add">E-Mail Adresse:</label>
+							<input type="email" id="email_add" class="form-control" required>
+							<br>
+							<label for="country_add">Land</label>
+							<input type="text" id="country_add" class="form-control" required>
+							<input type="text" id="country_add_code" name="country_add_code" data-countrycodeinput="1" readonly="readonly" hidden/>
+							<br>
+							<label for="password_add">Passwort:</label>
+							<input type="text" id="password_add" class="form-control" required>-->
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button class="btn btn-success" id="submit" type="submit" value="submit">Benutzer hinzufügen</button>
 						<button type="button" class="btn btn-secondary" data-dismiss="modal">Abbrechen</button>	
 					</div>
 				</form>
@@ -195,6 +273,10 @@
 			e.preventDefault();
 			saveAccount()
 		});
+		$("#form-user-add").submit(function(e) {
+			e.preventDefault();
+			addUserSave();
+		});
 		$("#form-deleteAuthToken").submit(function(e) {
 			e.preventDefault();
 			deleteTokens();
@@ -215,7 +297,7 @@
 	});
 
 	var cs = $("#country").countrySelect();
-
+	var cs_add = $("#country_add").countrySelect();
 
 	$('#deleteAuthToken').on('show.bs.modal', function (event) {
 		$('#delAuthID').val("");
@@ -267,7 +349,10 @@
 
 	function clearModal() {
 		$('#username').val("");
+		$('#username_add').val("");
 		$('#email').val("");
+		$('#email_add').val("");
+		$('#password_add').val("");
 		$('#userId').val("");
 		$('#delAuthID').val("");
 		$('#resetTopicsUsernameVal').val("");
@@ -369,6 +454,40 @@
 					document.location.reload();
 				}
 			});
+		}
+	}
+
+	function addUserAccount(){
+		clearModal();
+		cs_add.countrySelect("selectCountry","DE");
+		$("#userModalAdd").modal();
+	}
+	function addUserSave(){
+		var username = $('#username_add').val();
+		var email = $('#email_add').val();
+		var country = $("#country_add_code").val().trim();
+		var password = $('#password_add').val();
+		console.log('{"username": "' + username + '", "email": "' + email + '", "country": "' + country + '", "password": "' + password + '"}');
+		if (username && email && country && password) {
+			$.ajax({
+				url: '/admin-create-user',
+				type: 'POST',
+				data: '{"username": "' + username + '", "email": "' + email + '", "country": "' + country + '", "password": "' + password + '"}',
+				dataType: 'json',
+				contentType: "application/json"
+				
+			})
+			.fail(function(jqXHR, textStatus){
+				if(jqXHR.status == 200){
+					alert(jqXHR.responseText);
+					document.location.reload();
+				}else{
+					alert(jqXHR.responseText);
+				}
+				
+			});
+		}else {
+			alert("Es müssen alle Felder gefüllt sein!");
 		}
 	}
 

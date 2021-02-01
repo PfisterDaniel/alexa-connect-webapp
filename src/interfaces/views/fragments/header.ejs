@@ -55,7 +55,9 @@
                   <li><a class="nav-link" href="/logout">Abmelden</a></li>
                 <% } else { %>
                   <li <% if (locals.login) {%>class="active"<% } %>><a class="nav-link" href="/login">Anmelden</a></li>
-                  <li <% if (locals.newuser) {%>class="active"<% } %>><a class="nav-link" href="/new-user">Registrieren</a></li>
+                  <% if (allow_user_registration == "true" ) {%>
+                    <li <% if (locals.newuser) {%>class="active"<% } %>><a class="nav-link" href="/new-user">Registrieren</a></li>
+                  <% } %>
                 <% } %>
                 <% if (user) { %>
                   <% if (user.superuser == true) { %>

@@ -44,6 +44,7 @@ var mongo_user = (process.env.MONGO_USER);
 var mongo_password = (process.env.MONGO_PASSWORD);
 var mongo_host = (process.env.MONGO_HOST || "mongodb");
 var mongo_port = (process.env.MONGO_PORT || "27017");
+var allow_user_registration = (process.env.ALLOW_REGISTRATION || false);
 // MQTT Settings
 var mqtt_user = (process.env.MQTT_USER);
 var mqtt_password = (process.env.MQTT_PASSWORD);
@@ -81,7 +82,15 @@ if (!(process.env.MONGO_HOST && process.env.MQTT_URL)) {
 if (!(process.env.MAIL_SERVER && process.env.MAIL_USER && process.env.MAIL_PASSWORD)) {
 	logger.log('warn',"[Core] No MAIL_SERVER/MAIL_USER/MAIL_PASSWORD environment variable supplied. System generated emails will generate errors");
 }
+if (!(process.env.ALLOW_REGISTRATION)) {
+	logger.log('warn',"[Core] No ALLOW_REGISTRATION environment variable supplied. User registration will be disabled");
+}
 
+if(allow_user_registration == "true"){
+	logger.log('info',"[Core] User registration is allowed.");
+}else{
+	logger.log('info',"[Core] User registration is disabled.");
+}
 ///////////////////////////////////////////////////////////////////////////
 // Passport Configuration
 ///////////////////////////////////////////////////////////////////////////

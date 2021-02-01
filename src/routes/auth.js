@@ -89,6 +89,7 @@ router.get('/start',oauthServer.authorize(function(applicationID, redirectURI, d
 		application: req.oauth2.client,
 		user: req.user,
 		map: scopeMap,
+		allow_user_registration: (process.env.ALLOW_REGISTRATION || false),
 		brand: process.env.BRAND,
 		title: "Verknüpfung | " + process.env.BRAND
 	});
