@@ -7,10 +7,6 @@
 
   <!-- Bootsrap Code -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  <!-- Docs TOC Sidebar CSS -->
-  <% if (locals.docs) {%>
-    <link rel="stylesheet" href="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.css" />
-  <% } %>
   <!-- Site-specific Code -->
   <link href="/static/css/navbar.css" rel="stylesheet">
   <link rel="stylesheet" href="/static/css/basic.css">
@@ -23,17 +19,29 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <!-- Country Select Code -->
   <script src="/static/js/countrySelect.min.js"></script>
+  <!-- Icons -->
+  <link rel="apple-touch-icon" sizes="180x180" href="/static/apple-touch-icon.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/static/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="194x194" href="/static/favicon-194x194.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/static/android-chrome-192x192.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon-16x16.png">
+  <link rel="manifest" href="/static/site.webmanifest">
+  <link rel="mask-icon" href="/static/safari-pinned-tab.svg" color="#5bbad5">
+  <link rel="shortcut icon" href="/static/favicon.ico">
+  <meta name="apple-mobile-web-app-title" content="Alexa-Connect">
+  <meta name="application-name" content="Alexa-Connect">
+  <meta name="msapplication-TileColor" content="#603cba">
+  <meta name="msapplication-TileImage" content="/static/mstile-144x144.png">
+  <meta name="msapplication-config" content="/static/browserconfig.xml">
+  <meta name="theme-color" content="#ffffff">
 
   <link rel="stylesheet" href="https://res.cloudinary.com/dxfq3iotg/raw/upload/v1569006288/BBBootstrap/choices.min.css?version=7.0.0">
   <script src="https://res.cloudinary.com/dxfq3iotg/raw/upload/v1569006273/BBBootstrap/choices.min.js?version=7.0.0"></script>
 
 </head>
 
-<% if (locals.docs) {%>
-<body data-spy="scroll" data-target="#toc">
-<% } else { %>
 <body>
-<% } %>
     <nav class="navbar navbar-expand-md navbar-dark bg-dark">
         <a class="navbar-brand notranslate" href="#"><img src="/static/images/alexa_connect_icons/alexa-connect.png" width="32px"> <%= brand %></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-label="Toggle Navigation">
@@ -51,7 +59,6 @@
                   <% } %>
                 <% } %>
                 <% if (user) { %>
-                  <!-- <li><a class="nav-link" href="/logout">Logout <%= user.username %></a></li> -->
                   <li><a class="nav-link" href="/logout">Abmelden</a></li>
                 <% } else { %>
                   <li <% if (locals.login) {%>class="active"<% } %>><a class="nav-link" href="/login">Anmelden</a></li>

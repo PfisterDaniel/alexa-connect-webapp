@@ -282,7 +282,9 @@ const createServer = async() => {
 				smStream.write({ url: '/',  changefreq: 'weekly', priority: 0.5 })
 				smStream.write({ url: '/impress/',  changefreq: 'weekly',  priority: 0.5})
 				smStream.write({ url: '/login/',  changefreq: 'monthly',  priority: 0.3})
-				smStream.write({ url: '/new-user/',  changefreq: 'monthly',  priority: 0.3})
+				if(allow_user_registration == "true"){
+					smStream.write({ url: '/new-user/',  changefreq: 'monthly',  priority: 0.3})
+				}
 				smStream.write({ url: '/privacy/',  changefreq: 'monthly',  priority: 0.3})
 				smStream.end()
 				// cache the response

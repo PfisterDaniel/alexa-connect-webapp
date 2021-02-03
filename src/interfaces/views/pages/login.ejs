@@ -17,11 +17,14 @@
     </div>
   </div>
   <script>
-    $('a[href$="#tosModal"]').on( "click", function() {
-      $('#tosModal').modal('show');
-    });
     $('a[href$="#privacyModal"]').on( "click", function() {
       $('#privacyModal').modal('show');
     });
+    
+    function lowercaseUsername(){
+        var srch=document.getElementById("username");
+        str = srch.value;
+        srch.value=str.toLowerCase();
+    }
   </script>
 <%- include('../fragments/footer'); -%>
