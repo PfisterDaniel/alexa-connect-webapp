@@ -37,7 +37,8 @@ let usernameRegExp = /^[a-z0-9]{5,15}$/;
 ///////////////////////////////////////////////////////////////////////////
 router.get('/', defaultLimiter, async (req, res) => {
 	// outputSessionID(req, "/");
-	res.render('pages/index', {user: req.user, home: true, allow_user_registration: (process.env.ALLOW_REGISTRATION || false), brand: process.env.BRAND, title: "Home | " + process.env.BRAND});
+	//res.render('pages/index', {user: req.user, home: true, allow_user_registration: (process.env.ALLOW_REGISTRATION || false), brand: process.env.BRAND, title: "Home | " + process.env.BRAND});
+	res.render('pages/login',{user: req.user, login: true, allow_user_registration: (process.env.ALLOW_REGISTRATION || false), brand: process.env.BRAND, title: "Anmeldung | " + process.env.BRAND, fqdn: process.env.WEB_HOSTNAME, message: req.flash('error')});
 });
 ///////////////////////////////////////////////////////////////////////////
 // About

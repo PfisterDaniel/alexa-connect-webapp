@@ -1,1294 +1,1349 @@
 <%- include('../fragments/header'); -%>
 
-<% if (isVerified == false) { %>
-	<div class="alert alert-danger alert-dismissible fade show" role="alert">
-		<strong>Warnung!</strong> Sie müssen Ihr Konto verifizieren! Zum abschließen der Registrierung senden Sie sich eine Verifizierungs-Mail und bestätigen Sie diese: <a href='https://<%= fqdn %>/verify-resend'>https://<%= fqdn %>/verify-resend</a>
-		<button type="button" class="close" data-dismiss="alert" aria-label="Schließen">
+    <% if (isVerified == false) { %>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>Warnung!</strong> Sie müssen Ihr Konto verifizieren! Zum abschließen der Registrierung senden Sie sich eine Verifizierungs-Mail und bestätigen Sie diese: <a href='https://<%= fqdn %>/verify-resend'>https://<%= fqdn %>/verify-resend</a>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Schließen">
 		<span aria-hidden="true">&times;</span>
 		</button>
-	</div>
-<% } %>
-<% if (grants == 0) { %>
-	<div class="alert alert-danger alert-dismissible fade show" role="alert">
-		<strong>Warnung!</strong> Sie müssen noch Ihr Amazon-Konto verknüpfen, um diesen Service nutzen zu können!</a>.
-		<button type="button" class="close" data-dismiss="alert" aria-label="Schließen">
+        </div>
+        <% } %>
+            <% if (grants == 0) { %>
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>Warnung!</strong> Sie müssen noch Ihr Amazon-Konto verknüpfen, um diesen Service nutzen zu können!</a>.
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Schließen">
 		<span aria-hidden="true">&times;</span>
 		</button>
-	</div>
-<% } %>
+                </div>
+                <% } %>
 
 
-<div class="container main-content">
-	<h1>Geräte des Benutzers: <%= user.username %></h1>
-	<h3>Gesamt Anzahl: <%= count %></h3>
-	<table class="table table-responsive-sm table-striped">
-		<thead>
-			<tr>
-				<th scope="col">Name</th>
-				<th scope="col">Beschreibung</th>
-				<th scope="col">Fähigkeit</th>
-				<th scope="col" colspan="3">Verwalten</th>
-			</tr>
-		</thead>
-		<tbody>
-			<% devices.forEach(function(device){ %>
-				<tr>
-					<th scope="row"><%= device.friendlyName %></th>
-					<td><%= device.description %></td>
-					<td>
-						<% device.capabilities.forEach(function(action){ 
+                    <div class="container main-content">
+                        <h1>Geräte des Benutzers:
+                            <%= user.username %>
+                        </h1>
+                        <h3>Gesamt Anzahl:
+                            <%= count %>
+                        </h3>
+                        <table class="table table-responsive-sm table-striped">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Beschreibung</th>
+                                    <th scope="col">Fähigkeit</th>
+                                    <th scope="col" colspan="3">Verwalten</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% devices.forEach(function(device){ %>
+                                    <tr>
+                                        <th scope="row">
+                                            <%= device.friendlyName %>
+                                        </th>
+                                        <td>
+                                            <%= device.description %>
+                                        </td>
+                                        <td>
+                                            <% device.capabilities.forEach(function(action){ 
 							if ( action == "BrightnessController") { %>
-								<span class="iconify" data-icon="carbon:brightness-contrast" data-inline="false" data-width="32" data-height="32" title="Helligkeit verändern"></span>
-							<% } else if(action == "ChannelController") { %>
-								<span class="iconify" data-icon="ic:outline-settings-remote" data-inline="false" data-width="32" data-height="32"></span>
-							<% } else if(action == "ColorController") { %>
-								<span class="iconify" data-icon="clarity:color-palette-solid" data-inline="false" data-width="32" data-height="32" title="Farbe verändern"></span>
-							<% } else if(action == "ColorTemperatureController") { %>
-								<span class="iconify" data-icon="ic:round-invert-colors" data-inline="false" data-width="32" data-height="32" title="Farbtemperatur verändern"></span>
-							<% } else if(action == "ContactSensor") { %>
-								<span class="iconify" data-icon="ic:outline-sensor-window" data-inline="false" data-width="32" data-height="32" title="Status geöffnet oder geschlossen anzeigen"></span>
-							<% } else if(action == "InputController") { %>
-								<span class="iconify" data-icon="cil:input-hdmi" data-inline="false" data-width="32" data-height="32"></span>
-							<% } else if(action == "LockController") { %>
-								<span class="iconify" data-icon="ri:door-lock-fill" data-inline="false" data-width="32" data-height="32"></span>
-							<% } else if(action == "MotionSensor") { %>
-								<span class="iconify" data-icon="mdi:motion-sensor" data-inline="false" data-width="32" data-height="32"></span>
-							<% } else if(action == "PercentageController") { %>
-								<span class="iconify" data-icon="mdi:brightness-percent" data-inline="false" data-width="32" data-height="32"></span>
-							<% } else if(action == "PlaybackController") { %>	
-								<span class="iconify" data-icon="zmdi:tv-play" data-inline="false" data-width="32" data-height="32"></span>		
-							<% } else if(action == "PowerController") { %>
-								<span class="iconify" data-icon="clarity:power-solid" data-inline="false" data-width="32" data-height="32"></span>
-							<% } else if(action == "RangeController") { %>
-								<span class="iconify" data-icon="entypo:progress-two" data-inline="false" data-width="32" data-height="32"></span>
-							<% } else if(action == "SceneController") { %>
-								<span class="iconify" data-icon="uil:scenery" data-inline="false" data-width="32" data-height="32"></span>
-							<% } else if(action == "Speaker") { %>
-								<span class="iconify" data-icon="zmdi:speaker" data-inline="false" data-width="32" data-height="32"></span>
-							<% } else if(action == "StepSpeaker") { %>
-								<span class="iconify" data-icon="wpf:speaker" data-inline="false" data-width="32" data-height="32"></span>
-							<% } else if(action == "TemperatureSensor") { %>
-								<span class="iconify" data-icon="la:temperature-low" data-inline="false" data-width="32" data-height="32" title="Temperatur anzeigen"></span>
-							<% } else if(action == "ThermostatController") { %>
-								<span class="iconify" data-icon="mdi:thermostat" data-inline="false" data-width="32" data-height="32" title="Temperatur verändern"></span>
-							<% }else { %>
-								<span class="iconify" data-icon="carbon:undefined-filled" data-inline="false" data-width="32" data-height="32"></span> <%= action %>
-							<% } %> 
-						<% }); %>
-					</td>
-					<td>
-						<center><button type="button" class="btn btn-secondary" onclick="edit('<%= device._id %>')" title="Gerät bearbeiten"><span class="iconify" data-icon="mdi:database-edit"></span></button></center>
-					</td>
-					<td><center><button type="button" class="btn btn-info" onclick="viewState('<%= device._id %>')" title="Geräte Status anzeigen"><span class="iconify" data-icon="mdi:state-machine"></span></button></center></td>
-					<td>
-						<center><button type="button" class="btn btn-danger" onclick="deleteDevice('<%= device._id%>')" title="Gerät löschen"><span class="iconify" data-icon="ic:baseline-delete-forever"></span></button></center>
-					</td>
-				</tr>
-			<% }); %>
-		</tbody>
-	</table>
-	<div style="padding-top: 10px;">
-		<button type="button" class="btn btn-secondary" onclick="addDevice();" title="Neues Gerät hinzufügen"><span class="iconify" data-icon="ic:baseline-add-circle"></span> Hinzufügen</button>
-	</div>
-	<br />
-	<p>Amazon Alexa-Benutzer müssen Geräte manuell aktualisieren, entweder über die Alexa-App oder mit den Worten "Alexa, suche Geräte".</p>
-</div>
+                                                <span class="iconify" data-icon="carbon:brightness-contrast" data-inline="false" data-width="32" data-height="32" title="Helligkeit verändern"></span>
+                                                <% } else if(action == "ChannelController") { %>
+                                                    <span class="iconify" data-icon="ic:outline-settings-remote" data-inline="false" data-width="32" data-height="32"></span>
+                                                    <% } else if(action == "ColorController") { %>
+                                                        <span class="iconify" data-icon="clarity:color-palette-solid" data-inline="false" data-width="32" data-height="32" title="Farbe verändern"></span>
+                                                        <% } else if(action == "ColorTemperatureController") { %>
+                                                            <span class="iconify" data-icon="ic:round-invert-colors" data-inline="false" data-width="32" data-height="32" title="Farbtemperatur verändern"></span>
+                                                            <% } else if(action == "ContactSensor") { %>
+                                                                <span class="iconify" data-icon="ic:outline-sensor-window" data-inline="false" data-width="32" data-height="32" title="Status geöffnet oder geschlossen anzeigen"></span>
+                                                                <% } else if(action == "InputController") { %>
+                                                                    <span class="iconify" data-icon="cil:input-hdmi" data-inline="false" data-width="32" data-height="32"></span>
+                                                                    <% } else if(action == "LockController") { %>
+                                                                        <span class="iconify" data-icon="ri:door-lock-fill" data-inline="false" data-width="32" data-height="32"></span>
+                                                                        <% } else if(action == "MotionSensor") { %>
+                                                                            <span class="iconify" data-icon="mdi:motion-sensor" data-inline="false" data-width="32" data-height="32"></span>
+                                                                            <% } else if(action == "PercentageController") { %>
+                                                                                <span class="iconify" data-icon="mdi:brightness-percent" data-inline="false" data-width="32" data-height="32"></span>
+                                                                                <% } else if(action == "PlaybackController") { %>
+                                                                                    <span class="iconify" data-icon="zmdi:tv-play" data-inline="false" data-width="32" data-height="32"></span>
+                                                                                    <% } else if(action == "PowerController") { %>
+                                                                                        <span class="iconify" data-icon="clarity:power-solid" data-inline="false" data-width="32" data-height="32"></span>
+                                                                                        <% } else if(action == "RangeController") { %>
+                                                                                            <span class="iconify" data-icon="entypo:progress-two" data-inline="false" data-width="32" data-height="32"></span>
+                                                                                            <% } else if(action == "SceneController") { %>
+                                                                                                <span class="iconify" data-icon="uil:scenery" data-inline="false" data-width="32" data-height="32"></span>
+                                                                                                <% } else if(action == "Speaker") { %>
+                                                                                                    <span class="iconify" data-icon="zmdi:speaker" data-inline="false" data-width="32" data-height="32"></span>
+                                                                                                    <% } else if(action == "StepSpeaker") { %>
+                                                                                                        <span class="iconify" data-icon="wpf:speaker" data-inline="false" data-width="32" data-height="32"></span>
+                                                                                                        <% } else if(action == "TemperatureSensor") { %>
+                                                                                                            <span class="iconify" data-icon="la:temperature-low" data-inline="false" data-width="32" data-height="32" title="Temperatur anzeigen"></span>
+                                                                                                            <% } else if(action == "ThermostatController") { %>
+                                                                                                                <span class="iconify" data-icon="mdi:thermostat" data-inline="false" data-width="32" data-height="32" title="Temperatur verändern"></span>
+                                                                                                                <% }else { %>
+                                                                                                                    <span class="iconify" data-icon="carbon:undefined-filled" data-inline="false" data-width="32" data-height="32"></span>
+                                                                                                                    <%= action %>
+                                                                                                                        <% } %>
+                                                                                                                            <% }); %>
+                                        </td>
+                                        <td>
+                                            <center><button type="button" class="btn btn-secondary" onclick="edit('<%= device._id %>')" title="Gerät bearbeiten"><span class="iconify" data-icon="mdi:database-edit"></span></button></center>
+                                        </td>
+                                        <td>
+                                            <center><button type="button" class="btn btn-info" onclick="viewState('<%= device._id %>')" title="Geräte Status anzeigen"><span class="iconify" data-icon="mdi:state-machine"></span></button></center>
+                                        </td>
+                                        <td>
+                                            <center><button type="button" class="btn btn-danger" onclick="deleteDevice('<%= device._id%>')" title="Gerät löschen"><span class="iconify" data-icon="ic:baseline-delete-forever"></span></button></center>
+                                        </td>
+                                    </tr>
+                                    <% }); %>
+                            </tbody>
+                        </table>
+                        <div style="padding-top: 10px;">
+                            <button type="button" class="btn btn-secondary" onclick="addDevice();" title="Neues Gerät hinzufügen"><span class="iconify" data-icon="ic:baseline-add-circle"></span> Hinzufügen</button>
+                        </div>
+                        <br />
+                        <p>Die Geräte müssen in der Alexa-App manuell aktualisieren, entweder über die Alexa-App oder mit den Worten "Alexa, suche Geräte".</p>
+                    </div>
 
-<!-- State Modal -->
-<div class="modal fade" id="stateModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-	<div class="modal-dialog modal-dialog-centered" role="document">
-	  <div class="modal-content">
-		<div class="modal-header">
-		  <h5 class="modal-title" id="stateModalTitle"><span class="iconify" data-icon="mdi:state-machine"></span> Geräte Status</h5>
-		  <button type="button" class="close" data-dismiss="modal" aria-label="Schließen">
+                    <!-- State Modal -->
+                    <div class="modal fade" id="stateModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="stateModalTitle"><span class="iconify" data-icon="mdi:state-machine"></span> Geräte Status</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Schließen">
 			<span aria-hidden="true">&times;</span>
 		  </button>
-		</div>
-		<div class="modal-body">
-			<label for="state">Status: </label>
-			<br>
-			<textarea id="state" class="form-control" disabled></textarea>
-		</div>
-		<div class="modal-footer">
-			<button type="button" class="btn btn-secondary" data-dismiss="modal">Schließen</button>
-		</div>
-	</div>
-</div>
-</div>
-<!-- State Modal End -->
+                                </div>
+                                <div class="modal-body">
+                                    <label for="state">Status: </label>
+                                    <br>
+                                    <textarea id="state" class="form-control" disabled></textarea>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Schließen</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- State Modal End -->
 
-<%- include('../fragments/device-modal'); -%>
+                    <%- include('../fragments/device-modal'); -%>
 
-<script>
+                        <script>
+                            $(document).ready(function() {
+                                $('[data-toggle="tooltip"]').tooltip();
+                            });
 
-$(document).ready(function () {
-	$('[data-toggle="tooltip"]').tooltip();
-});
+                            $("#form-device").submit(function(e) {
+                                e.preventDefault();
+                                saveDevice()
+                            });
 
-$("#form-device").submit(function(e) {
-	e.preventDefault();
-	saveDevice()
-});
+                            ///////////////////////////////////////////////////////////////////////////
+                            // Interface/ Capability-specific validation/ element show and hide
+                            ///////////////////////////////////////////////////////////////////////////
+                            //Enable/ disable minimumValue/ maximumValue and scale elements
+                            $("#ThermostatController").change(function(e) {
+                                if ($(this).is(':checked') == false) {
+                                    $('#validRangeOptions').hide();
+                                    $('#thermostatModeOptions').hide();
+                                    $('#maximumValue').attr("disabled", "disabled");
+                                    $('#minimumValue').attr("disabled", "disabled");
+                                    $("#maximumValue").prop('required', false);
+                                    $("#minimumValue").prop('required', false);
+                                    // Check if scale set, if so don't re-add validation requirement
+                                    if ($('#TemperatureSensor').prop('checked') == false && $('#TEMPERATURE_SENSOR').prop('checked') == false) {
+                                        $('#validRangeScaleOptions').hide()
+                                        $('#Celsius').attr("disabled", "disabled");
+                                        $('#Farenheit').attr("disabled", "disabled");
+                                        $("#Celsius").prop('required', false);
+                                        $("#Farenheit").prop('required', false);
+                                    }
+                                    //else {
+                                    $('#THERMOSTAT').prop('checked', false);
+                                    //}
 
-///////////////////////////////////////////////////////////////////////////
-// Interface/ Capability-specific validation/ element show and hide
-///////////////////////////////////////////////////////////////////////////
-//Enable/ disable minimumValue/ maximumValue and scale elements
-$("#ThermostatController").change(function(e) {
-	if ( $(this).is(':checked') == false) {
-		$('#validRangeOptions').hide();
-		$('#thermostatModeOptions').hide();
-		$('#maximumValue').attr("disabled", "disabled");
-		$('#minimumValue').attr("disabled", "disabled");
-		$("#maximumValue").prop('required',false);
-		$("#minimumValue").prop('required',false);
-		// Check if scale set, if so don't re-add validation requirement
-		if ($('#TemperatureSensor').prop('checked') == false && $('#TEMPERATURE_SENSOR').prop('checked') == false){
-			$('#validRangeScaleOptions').hide()
-			$('#Celsius').attr("disabled", "disabled");
-			$('#Farenheit').attr("disabled", "disabled");
-			$("#Celsius").prop('required',false);
-			$("#Farenheit").prop('required',false);
-		}
-		//else {
-		$('#THERMOSTAT').prop('checked', false);
-		//}
-
-	}
-	else {
-		$('#ReportState').prop('checked', true);
-		$('#stateReporting').show();
-		$('#validRangeOptions').show();
-		$('#validRangeScaleOptions').show();
-		$('#thermostatModeOptions').show();
-		$('#maximumValue').removeAttr("disabled");
-		$('#minimumValue').removeAttr("disabled");
-		$('#Celsius').removeAttr("disabled");
-		$('#Farenheit').removeAttr("disabled");
-		$("#maximumValue").prop('required',true);
-		$("#minimumValue").prop('required',true);
-		// Check if scale set, if so don't re-add validation requirement
-		if ($("#Celsius").prop('checked') == false && $("#Farenheit").prop('checked') == false) {
-			$("#Celsius").prop('required',true);
-			$("#Farenheit").prop('required',true);
-		}
-		if ($('#HEAT').prop('checked') == false && $('#COOL').prop('checked') == false
-			&& $('#AUTO').prop('checked') == false && $('#ECO').prop('checked') == false
-			&& $('#OFF').prop('checked') == false && $('#ON').prop('checked') == false){
-				// By default, enable AUTO
-				$('#AUTO').prop('checked', true);
-			}
-		// Catch re-enable capability after disabling, to ensure device type correct
-		if ($('#OTHER').prop('checked') ==  false){
-			$('#THERMOSTAT').prop('checked', true);
-		}
-		// Prevent ColorTemperature and Thermostat interfaces co-exist
-		$("#ColorTemperatureController").prop('checked', false);
-	}
-});
-//Enable Celsius and Farenheit options for Temperature Sensor
-$("#TemperatureSensor").change(function(e) {
-	if ( $(this).is(':checked') == false) {
-		if ($('#ThermostatController').prop('checked') == false){
-			$('#validRangeScaleOptions').hide()
-			$("#Celsius").prop('required',false);
-			$("#Farenheit").prop('required',false);
-			$('#Celsius').attr("disabled", "disabled");
-			$('#Farenheit').attr("disabled", "disabled");
-			$('#Celsius').prop('checked', false);
-			$('#Farenheit').prop('checked', false);
-		};
-		if ($('#THERMOSTAT').prop('checked')){
-			$('#TEMPERATURE_SENSOR').prop('checked', false)
-		};
-	}
-	else {
-		$('#ReportState').prop('checked', true);
-		$('#stateReporting').show();
-		$('#validRangeScaleOptions').show();
-		$('#Celsius').removeAttr("disabled");
-		$('#Farenheit').removeAttr("disabled");
-		// Check if scale set, if so don't re-add validation requirement
-		if ($("#Celsius").prop('checked') == false && $("#Farenheit").prop('checked') == false) {
-			$("#Celsius").prop('required',true);
-			$("#Farenheit").prop('required',true);
-		}
-		if ($('#THERMOSTAT').prop('checked')){$('#TEMPERATURE_SENSOR').prop('checked', true)};
-	}
-});
-// Ensure only one Temp Scale Selected
-$("#Celsius").change(function(e) {
-	if ($(this).is(':checked') == true) {
-		$('#Farenheit').prop('checked', false);
-		$("#Farenheit").prop('required',false);
-	}
-	else if ($('#Farenheit').prop('checked') == false){
-		$("#Celsius").prop('required',true);
-	}
-});
-$("#Farenheit").change(function(e) {
-	if ($(this).is(':checked') == true) {
-		$('#Celsius').prop('checked', false);
-		$("#Celsius").prop('required',false);
-	}
-	else if ($('#Celsius').prop('checked') == false){
-		$("#Farenheit").prop('required',true);
-	}
-});
-//Enable/ disable minimumValue/ maximumValue elements
-$("#ColorTemperatureController").change(function(e) {
-	if ($(this).is(':checked') == false) {
-		$('#validRangeOptions').hide();
-		$('#maximumValue').attr("disabled", "disabled");
-		$('#minimumValue').attr("disabled", "disabled");
-		$("#maximumValue").prop('required',false);
-		$("#minimumValue").prop('required',false);
-	}
-	else {
-		$('#ReportState').prop('checked', true);
-		$('#stateReporting').show();
-		$('#validRangeOptions').show();
-		$('#maximumValue').removeAttr("disabled");
-		$('#minimumValue').removeAttr("disabled");
-		$("#maximumValue").prop('required',true);
-		$("#minimumValue").prop('required',true);
-		// Prevent ColorTemperature and Thermostat interfaces co-exist
-		$("#ThermostatController").prop('checked', false);
-	}
-});
-// Prevent Step Speaker and Speaker being enabled at the same time
-$("#Speaker").change(function(e) {
-	$('#ReportState').prop('checked', true);
-	$('#stateReporting').show();
-	if ( $(this).is(':checked') == true ) {
-		$('#StepSpeaker').prop('checked', false)
-	}
-});
-$("#StepSpeaker").change(function(e) {
-	$('#ReportState').prop('checked', false);
-	if ( $(this).is(':checked') == true ) {
-		$('#Speaker').prop('checked', false)
-	}
-});
-// Prevent Lock Controller co-exist
-$("#LockController").change(function(e) {
-	if ($(this).is(':checked')) {
-		$('#ReportState').prop('checked', true);
-		$('#stateReporting').show();
-		$("#LockController").prop('checked',true);
-		// Disable other capabilities
-		$('input[name=capabilities]').each(function(index){
-			if ($(this).attr("id") != "LockController"){
-				$('input[id^='+$(this).attr("id")+']').prop("checked", false);
-				$('input[id^='+$(this).attr("id")+']').attr("disabled", "disabled");
-			}
-			else {
-				$('input[id^='+$(this).attr("id")+']').prop("checked", true);
-				$('input[id^='+$(this).attr("id")+']').removeAttr("disabled");
-			}
-		});
-	}
-	else {
-		$('#ReportState').prop('checked', false);
-		// Enable other capabilities
-		$('input[name=capabilities]').each(function(index){
-			$('input[id^='+$(this).attr("id")+']').removeAttr("disabled");
-		});
-	}
-});
-// Ensure that if RequirePIN checked, PIN is entered/ required
-$("#RequirePIN").change(function(e) {
-	if ($(this).is(':checked')) {
-		$("#pin").prop('required',true);
-		$("#pin").removeAttr("disabled");
-	}
-	else {
-		$("#pin").prop('required',false);
-		$("#pin").attr("disabled", "disabled");
-	}
-});
-// Prevent Range and Percentage Controller co-exist
-$("#RangeController").change(function(e) {
-	if ($(this).is(':checked')) {
-		$('#PercentageController').prop('checked', false);
-	}
-});
-$("#PercentageController").change(function(e) {
-	if ($(this).is(':checked')) {
-		$('#RangeController').prop('checked', false);
-	}
-});
-// Prevent Scene Controller co-exist
-$("#SceneController").change(function(e) {
-	if ($(this).is(':checked')) {
-		$('#ReportState').prop('checked', false);
-		// Disable other capabilities
-		$('input[name=capabilities]').each(function(index){
-			if ($(this).attr("id") != "SceneController"){
-				$('input[id^='+$(this).attr("id")+']').prop("checked", false);
-				$('input[id^='+$(this).attr("id")+']').attr("disabled", "disabled");
-			}
-			else {
-				$('input[id^='+$(this).attr("id")+']').prop("checked", true);
-				$('input[id^='+$(this).attr("id")+']').removeAttr("disabled");
-			}
-		});
-	}
-	else {
-		// Enable other capabilities
-		$('input[name=capabilities]').each(function(index){
-			$('input[id^='+$(this).attr("id")+']').removeAttr("disabled");
-		});
-	}
-});
+                                } else {
+                                    $('#ReportState').prop('checked', true);
+                                    $('#stateReporting').show();
+                                    $('#validRangeOptions').show();
+                                    $('#validRangeScaleOptions').show();
+                                    $('#thermostatModeOptions').show();
+                                    $('#maximumValue').removeAttr("disabled");
+                                    $('#minimumValue').removeAttr("disabled");
+                                    $('#Celsius').removeAttr("disabled");
+                                    $('#Farenheit').removeAttr("disabled");
+                                    $("#maximumValue").prop('required', true);
+                                    $("#minimumValue").prop('required', true);
+                                    // Check if scale set, if so don't re-add validation requirement
+                                    if ($("#Celsius").prop('checked') == false && $("#Farenheit").prop('checked') == false) {
+                                        $("#Celsius").prop('required', true);
+                                        $("#Farenheit").prop('required', true);
+                                    }
+                                    if ($('#HEAT').prop('checked') == false && $('#COOL').prop('checked') == false &&
+                                        $('#AUTO').prop('checked') == false && $('#ECO').prop('checked') == false &&
+                                        $('#OFF').prop('checked') == false && $('#ON').prop('checked') == false) {
+                                        // By default, enable AUTO
+                                        $('#AUTO').prop('checked', true);
+                                    }
+                                    // Catch re-enable capability after disabling, to ensure device type correct
+                                    if ($('#OTHER').prop('checked') == false) {
+                                        $('#THERMOSTAT').prop('checked', true);
+                                    }
+                                    // Prevent ColorTemperature and Thermostat interfaces co-exist
+                                    $("#ColorTemperatureController").prop('checked', false);
+                                }
+                            });
+                            //Enable Celsius and Farenheit options for Temperature Sensor
+                            $("#TemperatureSensor").change(function(e) {
+                                if ($(this).is(':checked') == false) {
+                                    if ($('#ThermostatController').prop('checked') == false) {
+                                        $('#validRangeScaleOptions').hide()
+                                        $("#Celsius").prop('required', false);
+                                        $("#Farenheit").prop('required', false);
+                                        $('#Celsius').attr("disabled", "disabled");
+                                        $('#Farenheit').attr("disabled", "disabled");
+                                        $('#Celsius').prop('checked', false);
+                                        $('#Farenheit').prop('checked', false);
+                                    };
+                                    if ($('#THERMOSTAT').prop('checked')) {
+                                        $('#TEMPERATURE_SENSOR').prop('checked', false)
+                                    };
+                                } else {
+                                    $('#ReportState').prop('checked', true);
+                                    $('#stateReporting').show();
+                                    $('#validRangeScaleOptions').show();
+                                    $('#Celsius').removeAttr("disabled");
+                                    $('#Farenheit').removeAttr("disabled");
+                                    // Check if scale set, if so don't re-add validation requirement
+                                    if ($("#Celsius").prop('checked') == false && $("#Farenheit").prop('checked') == false) {
+                                        $("#Celsius").prop('required', true);
+                                        $("#Farenheit").prop('required', true);
+                                    }
+                                    if ($('#THERMOSTAT').prop('checked')) {
+                                        $('#TEMPERATURE_SENSOR').prop('checked', true)
+                                    };
+                                }
+                            });
+                            // Ensure only one Temp Scale Selected
+                            $("#Celsius").change(function(e) {
+                                if ($(this).is(':checked') == true) {
+                                    $('#Farenheit').prop('checked', false);
+                                    $("#Farenheit").prop('required', false);
+                                } else if ($('#Farenheit').prop('checked') == false) {
+                                    $("#Celsius").prop('required', true);
+                                }
+                            });
+                            $("#Farenheit").change(function(e) {
+                                if ($(this).is(':checked') == true) {
+                                    $('#Celsius').prop('checked', false);
+                                    $("#Celsius").prop('required', false);
+                                } else if ($('#Celsius').prop('checked') == false) {
+                                    $("#Farenheit").prop('required', true);
+                                }
+                            });
+                            //Enable/ disable minimumValue/ maximumValue elements
+                            $("#ColorTemperatureController").change(function(e) {
+                                if ($(this).is(':checked') == false) {
+                                    $('#validRangeOptions').hide();
+                                    $('#maximumValue').attr("disabled", "disabled");
+                                    $('#minimumValue').attr("disabled", "disabled");
+                                    $("#maximumValue").prop('required', false);
+                                    $("#minimumValue").prop('required', false);
+                                } else {
+                                    $('#ReportState').prop('checked', true);
+                                    $('#stateReporting').show();
+                                    $('#validRangeOptions').show();
+                                    $('#maximumValue').removeAttr("disabled");
+                                    $('#minimumValue').removeAttr("disabled");
+                                    $("#maximumValue").prop('required', true);
+                                    $("#minimumValue").prop('required', true);
+                                    // Prevent ColorTemperature and Thermostat interfaces co-exist
+                                    $("#ThermostatController").prop('checked', false);
+                                }
+                            });
+                            // Prevent Step Speaker and Speaker being enabled at the same time
+                            $("#Speaker").change(function(e) {
+                                $('#ReportState').prop('checked', true);
+                                $('#stateReporting').show();
+                                if ($(this).is(':checked') == true) {
+                                    $('#StepSpeaker').prop('checked', false)
+                                }
+                            });
+                            $("#StepSpeaker").change(function(e) {
+                                $('#ReportState').prop('checked', false);
+                                if ($(this).is(':checked') == true) {
+                                    $('#Speaker').prop('checked', false)
+                                }
+                            });
+                            // Prevent Lock Controller co-exist
+                            $("#LockController").change(function(e) {
+                                if ($(this).is(':checked')) {
+                                    $('#ReportState').prop('checked', true);
+                                    $('#stateReporting').show();
+                                    $("#LockController").prop('checked', true);
+                                    // Disable other capabilities
+                                    $('input[name=capabilities]').each(function(index) {
+                                        if ($(this).attr("id") != "LockController") {
+                                            $('input[id^=' + $(this).attr("id") + ']').prop("checked", false);
+                                            $('input[id^=' + $(this).attr("id") + ']').attr("disabled", "disabled");
+                                        } else {
+                                            $('input[id^=' + $(this).attr("id") + ']').prop("checked", true);
+                                            $('input[id^=' + $(this).attr("id") + ']').removeAttr("disabled");
+                                        }
+                                    });
+                                } else {
+                                    $('#ReportState').prop('checked', false);
+                                    // Enable other capabilities
+                                    $('input[name=capabilities]').each(function(index) {
+                                        $('input[id^=' + $(this).attr("id") + ']').removeAttr("disabled");
+                                    });
+                                }
+                            });
+                            // Ensure that if RequirePIN checked, PIN is entered/ required
+                            $("#RequirePIN").change(function(e) {
+                                if ($(this).is(':checked')) {
+                                    $("#pin").prop('required', true);
+                                    $("#pin").removeAttr("disabled");
+                                } else {
+                                    $("#pin").prop('required', false);
+                                    $("#pin").attr("disabled", "disabled");
+                                }
+                            });
+                            // Prevent Range and Percentage Controller co-exist
+                            $("#RangeController").change(function(e) {
+                                if ($(this).is(':checked')) {
+                                    $('#PercentageController').prop('checked', false);
+                                }
+                            });
+                            $("#PercentageController").change(function(e) {
+                                if ($(this).is(':checked')) {
+                                    $('#RangeController').prop('checked', false);
+                                }
+                            });
+                            // Prevent Scene Controller co-exist
+                            $("#SceneController").change(function(e) {
+                                if ($(this).is(':checked')) {
+                                    $('#ReportState').prop('checked', false);
+                                    // Disable other capabilities
+                                    $('input[name=capabilities]').each(function(index) {
+                                        if ($(this).attr("id") != "SceneController") {
+                                            $('input[id^=' + $(this).attr("id") + ']').prop("checked", false);
+                                            $('input[id^=' + $(this).attr("id") + ']').attr("disabled", "disabled");
+                                        } else {
+                                            $('input[id^=' + $(this).attr("id") + ']').prop("checked", true);
+                                            $('input[id^=' + $(this).attr("id") + ']').removeAttr("disabled");
+                                        }
+                                    });
+                                } else {
+                                    // Enable other capabilities
+                                    $('input[name=capabilities]').each(function(index) {
+                                        $('input[id^=' + $(this).attr("id") + ']').removeAttr("disabled");
+                                    });
+                                }
+                            });
 
 
-///////////////////////////////////////////////////////////////////////////
-// Device type-specific validation/ element show and hide
-///////////////////////////////////////////////////////////////////////////
-function checkType(type) {
-	// Clean-up modal elements in-case they are no longer needed
-	$('#thermostatModeOptions').hide();
-	$('#validRangeOptions').hide();
-	$('#validRangeScaleOptions').hide();
-	$('#Celsius').attr("disabled", "disabled");
-	$('#Farenheit').attr("disabled", "disabled");
-	$("#maximumValue").prop('required',false);
-	$("#minimumValue").prop('required',false);
-	$("#Celsius").prop('required',false);
-	$("#Farenheit").prop('required',false);
-	$('#stateReporting').hide();
-	$('#ghomeSecurity').hide();
-	if (type.id== "ACTIVITY_TRIGGER" && type.checked && !$('#OTHER').prop('checked')) {
-		$('#simpleOptions').show();
-		$("#SceneController").prop('checked',true);
-		$('#ReportState').prop('checked', false);
-		$('input[name=appType]').each(function(index){if ($(this).attr("id") != "ACTIVITY_TRIGGER") {$('input[id^='+$(this).attr("id")+']').prop("checked", false)}});
-		$('input[name=capabilities]').each(function(index){
-			if ($(this).attr("id") != "SceneController"){
-				$('input[id^='+$(this).attr("id")+']').prop("checked", false);
-				$('input[id^='+$(this).attr("id")+']').attr("disabled", "disabled");
-			}
-			else {
-				$('input[id^='+$(this).attr("id")+']').prop("checked", true);
-				$('input[id^='+$(this).attr("id")+']').removeAttr("disabled");
-			}
-		});
-	}
-	else if (type.id== "CONTACT_SENSOR" && type.checked && !$('#OTHER').prop('checked')) {
-		$('#simpleOptions').show();
-		$('#ReportState').prop('checked', true);
-		$('#stateReporting').show();
-		$("#ContactSensor").prop('checked',true);
-		$('input[name=appType]').each(function(index){if ($(this).attr("id") != "CONTACT_SENSOR") {$('input[id^='+$(this).attr("id")+']').prop("checked", false)}});
-		$('input[name=capabilities]').each(function(index){
-			if ($(this).attr("id") != "ContactSensor"){
-				$('input[id^='+$(this).attr("id")+']').prop("checked", false);
-				$('input[id^='+$(this).attr("id")+']').attr("disabled", "disabled");
-			}
-			else {
-				$('input[id^='+$(this).attr("id")+']').prop("checked", true);
-				$('input[id^='+$(this).attr("id")+']').removeAttr("disabled");
-			}
-		});
-	}
-	else if (type.id== "EXTERIOR_BLIND" && type.checked && !$('#OTHER').prop('checked')) {
-		$('#simpleOptions').show();
-		$('#ReportState').prop('checked', true);
-		$('#stateReporting').show();
-		$("#RangeController").prop('checked',true);
-		$('input[name=appType]').each(function(index){if ($(this).attr("id") != "EXTERIOR_BLIND") {$('input[id^='+$(this).attr("id")+']').prop("checked", false)}});
-		$('input[name=capabilities]').each(function(index){
-			if ($(this).attr("id") != "RangeController"){
-				$('input[id^='+$(this).attr("id")+']').prop("checked", false);
-				$('input[id^='+$(this).attr("id")+']').attr("disabled", "disabled");
-			}
-			else {
-				$('input[id^='+$(this).attr("id")+']').prop("checked", true);
-				$('input[id^='+$(this).attr("id")+']').removeAttr("disabled");
-			}
-		});
-	}
-	else if (type.id== "FAN" && type.checked && !$('#OTHER').prop('checked')) {
-		$('#simpleOptions').show();
-		$('#ReportState').prop('checked', true);
-		$('#stateReporting').show();
-		$("#RangeController").prop('checked',true);
-		$('input[name=appType]').each(function(index){if ($(this).attr("id") != "FAN") {$('input[id^='+$(this).attr("id")+']').prop("checked", false)}});
-		$('input[name=capabilities]').each(function(index){
-			if ($(this).attr("id") != "RangeController" && $(this).attr("id") != "PowerController"){
-				$('input[id^='+$(this).attr("id")+']').prop("checked", false);
-				$('input[id^='+$(this).attr("id")+']').attr("disabled", "disabled");
-			}
-			else {
-				if ($(this).attr("id") == "PowerController" || $(this).attr("id") == "RangeController"){$('input[id^='+$(this).attr("id")+']').prop("checked", false)}
-				else {$('input[id^='+$(this).attr("id")+']').prop("checked", true)};
-				$('input[id^='+$(this).attr("id")+']').removeAttr("disabled");
-			}
-		});
-	}
-	else if (type.id== "INTERIOR_BLIND" && type.checked && !$('#OTHER').prop('checked')) {
-		$('#simpleOptions').show();
-		$('#ReportState').prop('checked', true);
-		$('#stateReporting').show();
-		$("#RangeController").prop('checked',true);
-		$('input[name=appType]').each(function(index){if ($(this).attr("id") != "INTERIOR_BLIND") {$('input[id^='+$(this).attr("id")+']').prop("checked", false)}});
-		$('input[name=capabilities]').each(function(index){
-			if ($(this).attr("id") != "RangeController"){
-				$('input[id^='+$(this).attr("id")+']').prop("checked", false);
-				$('input[id^='+$(this).attr("id")+']').attr("disabled", "disabled");
-			}
-			else {
-				$('input[id^='+$(this).attr("id")+']').prop("checked", true);
-				$('input[id^='+$(this).attr("id")+']').removeAttr("disabled");
-			}
-		});
-	}
-	else if (type.id== "LIGHT" && type.checked &&  !$('#OTHER').prop('checked')) {
-		$('#simpleOptions').show();
-		$('#ReportState').prop('checked', true);
-		$('#stateReporting').show();
-		$("#PowerController").prop('checked',true);
-		//$('#validRangeOptions').show();
-		$('input[name=appType]').each(function(index){if ($(this).attr("id") != "LIGHT") {$('input[id^='+$(this).attr("id")+']').prop("checked", false)}});
-		$('input[name=capabilities]').each(function(index){
-			if ($(this).attr("id") != "PowerController" && $(this).attr("id") != "BrightnessController" && $(this).attr("id") != "ColorController" && $(this).attr("id") != "ColorTemperatureController"){
-				$('input[id^='+$(this).attr("id")+']').prop("checked", false);
-				$('input[id^='+$(this).attr("id")+']').attr("disabled", "disabled");
-			}
-			else {
-				if ($(this).attr("id") == "PowerController"){$('input[id^='+$(this).attr("id")+']').prop("checked", true)}
-				else {$('input[id^='+$(this).attr("id")+']').prop("checked", false)}
-				$('input[id^='+$(this).attr("id")+']').removeAttr("disabled");
-			}
-		});
-	}
-	else if (type.id== "MOTION_SENSOR" && type.checked && !$('#OTHER').prop('checked')) {
-		$('#simpleOptions').show();
-		$('#ReportState').prop('checked', true);
-		$('#stateReporting').show();
-		$("#MotionSensor").prop('checked',true);
-		$('input[name=appType]').each(function(index){if ($(this).attr("id") != "MOTION_SENSOR") {$('input[id^='+$(this).attr("id")+']').prop("checked", false)}});
-		$('input[name=capabilities]').each(function(index){
-			if ($(this).attr("id") != "MotionSensor"){
-				$('input[id^='+$(this).attr("id")+']').prop("checked", false);
-				$('input[id^='+$(this).attr("id")+']').attr("disabled", "disabled");
-			}
-			else {
-				$('input[id^='+$(this).attr("id")+']').prop("checked", true);
-				$('input[id^='+$(this).attr("id")+']').removeAttr("disabled");
-			}
-		});
-	}
-	else if (type.id== "SMARTLOCK" && type.checked && !$('#OTHER').prop('checked')) {
-		$('#simpleOptions').show();
-		$('#ReportState').prop('checked', true);
-		$('#stateReporting').show();
-		$('#ghomeSecurity').show();
-		$("#LockController").prop('checked',true);
-		$("#RequirePIN").change();
-		$('input[name=appType]').each(function(index){if ($(this).attr("id") != "SMARTLOCK") {$('input[id^='+$(this).attr("id")+']').prop("checked", false)}});
-		$('input[name=capabilities]').each(function(index){
-			if ($(this).attr("id") != "LockController"){
-				$('input[id^='+$(this).attr("id")+']').prop("checked", false);
-				$('input[id^='+$(this).attr("id")+']').attr("disabled", "disabled");
-			}
-			else {
-				$('input[id^='+$(this).attr("id")+']').prop("checked", true);
-				$('input[id^='+$(this).attr("id")+']').removeAttr("disabled");
-			}
-		});
-	}
-	else if (type.id== "SMARTPLUG" && type.checked &&  !$('#OTHER').prop('checked')) {
-		$('#simpleOptions').show();
-		$('#ReportState').prop('checked', true);
-		$('#stateReporting').show();
-		$("#PowerController").prop('checked',true);
-		$('input[name=appType]').each(function(index){if ($(this).attr("id") != "SMARTPLUG") {$('input[id^='+$(this).attr("id")+']').prop("checked", false)}});
-		$('input[name=capabilities]').each(function(index){
-			if ($(this).attr("id") != "PowerController"){
-				$('input[id^='+$(this).attr("id")+']').prop("checked", false);
-				$('input[id^='+$(this).attr("id")+']').attr("disabled", "disabled");
-			}
-			else {
-				$('input[id^='+$(this).attr("id")+']').prop("checked", true);
-				$('input[id^='+$(this).attr("id")+']').removeAttr("disabled");
-			}
-		});
-	}
-	else if (type.id== "SWITCH" && type.checked &&  !$('#OTHER').prop('checked')) {
-		$('#simpleOptions').show();
-		$('#ReportState').prop('checked', true);
-		$('#stateReporting').show();
-		$("#PowerController").prop('checked',true);
-		$('input[name=appType]').each(function(index){if ($(this).attr("id") != "SWITCH") {$('input[id^='+$(this).attr("id")+']').prop("checked", false)}});
-		$('input[name=capabilities]').each(function(index){
-			if ($(this).attr("id") != "PowerController"){
-				$('input[id^='+$(this).attr("id")+']').prop("checked", false);
-				$('input[id^='+$(this).attr("id")+']').attr("disabled", "disabled");
-			}
-			else {
-				$('input[id^='+$(this).attr("id")+']').prop("checked", true);
-				$('input[id^='+$(this).attr("id")+']').removeAttr("disabled");
-			}
-		});
-	}
-	else if (type.id== "SPEAKER" && type.checked &&  !$('#OTHER').prop('checked')) {
-		$('#simpleOptions').show();
-		$("#SpeakerController").prop('checked',true);
-		$('#ReportState').prop('checked', false);
-		$('#stateReporting').show();
-		$('input[name=appType]').each(function(index){if ($(this).attr("id") != "SPEAKER") {$('input[id^='+$(this).attr("id")+']').prop("checked", false)}});
-		$('input[name=capabilities]').each(function(index){
-			if ($(this).attr("id") != "Speaker" && $(this).attr("id") != "StepSpeaker"){
-				$('input[id^='+$(this).attr("id")+']').prop("checked", false);
-				$('input[id^='+$(this).attr("id")+']').attr("disabled", "disabled");
-			}
-			else {
-				//$('input[id^='+$(this).attr("id")+']').prop("checked", true);
-				$('input[id^='+$(this).attr("id")+']').removeAttr("disabled");
-			}
-		});
-	}
-	else if (type.id== "TEMPERATURE_SENSOR" && type.checked && !$('#THERMOSTAT').prop('checked') && !$('#OTHER').prop('checked')) {
-		$('#simpleOptions').show();
-		$("#TemperatureSensor").prop('checked',true);
-		$("#TemperatureSensor").change();
-		$('input[name=appType]').each(function(index){if ($(this).attr("id") != "TEMPERATURE_SENSOR") {$('input[id^='+$(this).attr("id")+']').prop("checked", false)}});
-		$('input[name=capabilities]').each(function(index){
-			if ($(this).attr("id") != "TemperatureSensor"){
-				$('input[id^='+$(this).attr("id")+']').prop("checked", false);
-				$('input[id^='+$(this).attr("id")+']').attr("disabled", "disabled");
-			}
-			else {
-				$('input[id^='+$(this).attr("id")+']').prop("checked", true);
-				$('input[id^='+$(this).attr("id")+']').removeAttr("disabled");
-			}
-		});
-	}
-	else if (type.id== "THERMOSTAT" && type.checked && !$('#OTHER').prop('checked')) {
-		$('#simpleOptions').show();
-		// Trigger ThermostatController onchange
-		$("#ThermostatController").prop('checked',true);
-		$("#ThermostatController").change();
-		$('input[name=appType]').each(function(index){
-			if ($(this).attr("id") != "TEMPERATURE_SENSOR" && $(this).attr("id") != "THERMOSTAT") {
-				$('input[id^='+$(this).attr("id")+']').prop("checked", false)
-			}
-		});
-		$('input[name=capabilities]').each(function(index){
-			if ($(this).attr("id") != "TemperatureSensor" && $(this).attr("id") != "ThermostatController" && $(this).attr("id") != "PowerController" && $(this).attr("id") != "PercentageController" && $(this).attr("id") != "RangeController"){
-				$('input[id^='+$(this).attr("id")+']').prop("checked", false);
-				$('input[id^='+$(this).attr("id")+']').attr("disabled", "disabled");
-			}
-			else {
-				if ($(this).attr("id") == "TemperatureSensor" || $(this).attr("id") == "RangeController" || $(this).attr("id") == "PowerController" || $(this).attr("id") == "PercentageController" ){$('input[id^='+$(this).attr("id")+']').prop("checked", false)}
-				else {$('input[id^='+$(this).attr("id")+']').prop("checked", true)}
-				$('input[id^='+$(this).attr("id")+']').removeAttr("disabled");
-			}
-		});
-		if ($('#TEMPERATURE_SENSOR').prop('checked')){$("#TemperatureSensor").prop('checked',true)}
-	}
-	// Handle combination of temperature sensor and thermostat
-	else if (type.id== "THERMOSTAT" && type.checked == false && !$('#OTHER').prop('checked')) {
-		if ($('#TEMPERATURE_SENSOR').prop('checked')){
-			$('#simpleOptions').show();
-			$("#ThermostatController").prop('checked',false);
-			$("#ThermostatController").change();
-			$("#TemperatureSensor").change();
-			$('input[name=capabilities]').each(function(index){
-				if ($(this).attr("id") != "TemperatureSensor" && $(this).attr("id") != "ThermostatController"){
-					$('input[id^='+$(this).attr("id")+']').prop("checked", false);
-					$('input[id^='+$(this).attr("id")+']').attr("disabled", "disabled");
-				}
-				else {
-					if ($(this).attr("id") == "TemperatureSensor"){$('input[id^='+$(this).attr("id")+']').prop("checked", true)}
-					else {$('input[id^='+$(this).attr("id")+']').prop("checked", false)}
-					$('input[id^='+$(this).attr("id")+']').removeAttr("disabled");
-				}
-			});
-		}
-		else {
-			$("#ThermostatController").prop('checked',false);
-			$("#ThermostatController").change();
-		}
-	}
-	else if (type.id== "TEMPERATURE_SENSOR" && type.checked && $('#THERMOSTAT').prop('checked') && !$('#OTHER').prop('checked')) {
-		$('#simpleOptions').show();
-		$("#TemperatureSensor").prop('checked',true);
-		$("#ThermostatController").change();
-		$("#TemperatureSensor").change();
-	}
-	else if  (type.id== "TEMPERATURE_SENSOR" && type.checked == false && $('#THERMOSTAT').prop('checked') && !$('#OTHER').prop('checked'))  {
-		$('#simpleOptions').show();
-		$("#TemperatureSensor").prop('checked',false);
-		$("#ThermostatController").change();
-		$("#TemperatureSensor").change();
-	}
-	else if (type.id== "TV" && type.checked && !$('#OTHER').prop('checked')) {
-		$('#simpleOptions').show();
-		$('#ReportState').prop('checked', false);
-		$('#stateReporting').show();
-		$("#PlaybackController").prop('checked',true);
-		$('input[name=appType]').each(function(index){
-			if ($(this).attr("id") != "TV") {
-				$('input[id^='+$(this).attr("id")+']').prop("checked", false)
-			}
-		});
-		$('input[name=capabilities]').each(function(index){
-			if ($(this).attr("id") != "PlaybackController" && $(this).attr("id") != "ChannelController" && $(this).attr("id") != "InputController" && $(this).attr("id") != "PowerController" && $(this).attr("id") != "Speaker" && $(this).attr("id") != "StepSpeaker"){
-				$('input[id^='+$(this).attr("id")+']').prop("checked", false);
-				$('input[id^='+$(this).attr("id")+']').attr("disabled", "disabled");
-			}
-			else {
-				if ($(this).attr("id") == "PlaybackController"){$('input[id^='+$(this).attr("id")+']').prop("checked", true)}
-				else {$('input[id^='+$(this).attr("id")+']').prop("checked", false)};
-				$('input[id^='+$(this).attr("id")+']').removeAttr("disabled");
-			}
-		});
-	}
-	else if (type.id== "OTHER" && type.checked) {
-		$('#simpleOptions').show();
-		$('#ReportState').prop('checked', false);
-		$('#stateReporting').show();
-		$('input[name=appType]').each(function(index){
-			if ($(this).attr("id") != "OTHER") {
-				$('input[id^='+$(this).attr("id")+']').prop("checked", false)
-				$('input[id^='+$(this).attr("id")+']').attr("disabled", "disabled");
-			}
-		});
-		$('input[name=capabilities]').each(function(index){
-			$('input[id^='+$(this).attr("id")+']').prop("checked", false);
-			$('input[id^='+$(this).attr("id")+']').removeAttr("disabled");
-		});
-	}
-	else {
-		$('#simpleOptions').hide();
-		$('input[name=appType]').each(function(index){
-				$('input[id^='+$(this).attr("id")+']').removeAttr("disabled");
-		});
-	}
-}
+                            ///////////////////////////////////////////////////////////////////////////
+                            // Device type-specific validation/ element show and hide
+                            ///////////////////////////////////////////////////////////////////////////
+                            function checkType(type) {
+                                // Clean-up modal elements in-case they are no longer needed
+                                $('#thermostatModeOptions').hide();
+                                $('#validRangeOptions').hide();
+                                $('#validRangeScaleOptions').hide();
+                                $('#Celsius').attr("disabled", "disabled");
+                                $('#Farenheit').attr("disabled", "disabled");
+                                $("#maximumValue").prop('required', false);
+                                $("#minimumValue").prop('required', false);
+                                $("#Celsius").prop('required', false);
+                                $("#Farenheit").prop('required', false);
+                                $('#stateReporting').hide();
+                                $('#ghomeSecurity').hide();
+                                if (type.id == "ACTIVITY_TRIGGER" && type.checked && !$('#OTHER').prop('checked')) {
+                                    $('#simpleOptions').show();
+                                    $("#SceneController").prop('checked', true);
+                                    $('#ReportState').prop('checked', false);
+                                    $('input[name=appType]').each(function(index) {
+                                        if ($(this).attr("id") != "ACTIVITY_TRIGGER") {
+                                            $('input[id^=' + $(this).attr("id") + ']').prop("checked", false)
+                                        }
+                                    });
+                                    $('input[name=capabilities]').each(function(index) {
+                                        if ($(this).attr("id") != "SceneController") {
+                                            $('input[id^=' + $(this).attr("id") + ']').prop("checked", false);
+                                            $('input[id^=' + $(this).attr("id") + ']').attr("disabled", "disabled");
+                                        } else {
+                                            $('input[id^=' + $(this).attr("id") + ']').prop("checked", true);
+                                            $('input[id^=' + $(this).attr("id") + ']').removeAttr("disabled");
+                                        }
+                                    });
+                                } else if (type.id == "CONTACT_SENSOR" && type.checked && !$('#OTHER').prop('checked')) {
+                                    $('#simpleOptions').show();
+                                    $('#ReportState').prop('checked', true);
+                                    $('#stateReporting').show();
+                                    $("#ContactSensor").prop('checked', true);
+                                    $('input[name=appType]').each(function(index) {
+                                        if ($(this).attr("id") != "CONTACT_SENSOR") {
+                                            $('input[id^=' + $(this).attr("id") + ']').prop("checked", false)
+                                        }
+                                    });
+                                    $('input[name=capabilities]').each(function(index) {
+                                        if ($(this).attr("id") != "ContactSensor") {
+                                            $('input[id^=' + $(this).attr("id") + ']').prop("checked", false);
+                                            $('input[id^=' + $(this).attr("id") + ']').attr("disabled", "disabled");
+                                        } else {
+                                            $('input[id^=' + $(this).attr("id") + ']').prop("checked", true);
+                                            $('input[id^=' + $(this).attr("id") + ']').removeAttr("disabled");
+                                        }
+                                    });
+                                } else if (type.id == "EXTERIOR_BLIND" && type.checked && !$('#OTHER').prop('checked')) {
+                                    $('#simpleOptions').show();
+                                    $('#ReportState').prop('checked', true);
+                                    $('#stateReporting').show();
+                                    $("#RangeController").prop('checked', true);
+                                    $('input[name=appType]').each(function(index) {
+                                        if ($(this).attr("id") != "EXTERIOR_BLIND") {
+                                            $('input[id^=' + $(this).attr("id") + ']').prop("checked", false)
+                                        }
+                                    });
+                                    $('input[name=capabilities]').each(function(index) {
+                                        if ($(this).attr("id") != "RangeController") {
+                                            $('input[id^=' + $(this).attr("id") + ']').prop("checked", false);
+                                            $('input[id^=' + $(this).attr("id") + ']').attr("disabled", "disabled");
+                                        } else {
+                                            $('input[id^=' + $(this).attr("id") + ']').prop("checked", true);
+                                            $('input[id^=' + $(this).attr("id") + ']').removeAttr("disabled");
+                                        }
+                                    });
+                                } else if (type.id == "FAN" && type.checked && !$('#OTHER').prop('checked')) {
+                                    $('#simpleOptions').show();
+                                    $('#ReportState').prop('checked', true);
+                                    $('#stateReporting').show();
+                                    $("#RangeController").prop('checked', true);
+                                    $('input[name=appType]').each(function(index) {
+                                        if ($(this).attr("id") != "FAN") {
+                                            $('input[id^=' + $(this).attr("id") + ']').prop("checked", false)
+                                        }
+                                    });
+                                    $('input[name=capabilities]').each(function(index) {
+                                        if ($(this).attr("id") != "RangeController" && $(this).attr("id") != "PowerController") {
+                                            $('input[id^=' + $(this).attr("id") + ']').prop("checked", false);
+                                            $('input[id^=' + $(this).attr("id") + ']').attr("disabled", "disabled");
+                                        } else {
+                                            if ($(this).attr("id") == "PowerController" || $(this).attr("id") == "RangeController") {
+                                                $('input[id^=' + $(this).attr("id") + ']').prop("checked", false)
+                                            } else {
+                                                $('input[id^=' + $(this).attr("id") + ']').prop("checked", true)
+                                            };
+                                            $('input[id^=' + $(this).attr("id") + ']').removeAttr("disabled");
+                                        }
+                                    });
+                                } else if (type.id == "INTERIOR_BLIND" && type.checked && !$('#OTHER').prop('checked')) {
+                                    $('#simpleOptions').show();
+                                    $('#ReportState').prop('checked', true);
+                                    $('#stateReporting').show();
+                                    $("#RangeController").prop('checked', true);
+                                    $('input[name=appType]').each(function(index) {
+                                        if ($(this).attr("id") != "INTERIOR_BLIND") {
+                                            $('input[id^=' + $(this).attr("id") + ']').prop("checked", false)
+                                        }
+                                    });
+                                    $('input[name=capabilities]').each(function(index) {
+                                        if ($(this).attr("id") != "RangeController") {
+                                            $('input[id^=' + $(this).attr("id") + ']').prop("checked", false);
+                                            $('input[id^=' + $(this).attr("id") + ']').attr("disabled", "disabled");
+                                        } else {
+                                            $('input[id^=' + $(this).attr("id") + ']').prop("checked", true);
+                                            $('input[id^=' + $(this).attr("id") + ']').removeAttr("disabled");
+                                        }
+                                    });
+                                } else if (type.id == "LIGHT" && type.checked && !$('#OTHER').prop('checked')) {
+                                    $('#simpleOptions').show();
+                                    $('#ReportState').prop('checked', true);
+                                    $('#stateReporting').show();
+                                    $("#PowerController").prop('checked', true);
+                                    //$('#validRangeOptions').show();
+                                    $('input[name=appType]').each(function(index) {
+                                        if ($(this).attr("id") != "LIGHT") {
+                                            $('input[id^=' + $(this).attr("id") + ']').prop("checked", false)
+                                        }
+                                    });
+                                    $('input[name=capabilities]').each(function(index) {
+                                        if ($(this).attr("id") != "PowerController" && $(this).attr("id") != "BrightnessController" && $(this).attr("id") != "ColorController" && $(this).attr("id") != "ColorTemperatureController") {
+                                            $('input[id^=' + $(this).attr("id") + ']').prop("checked", false);
+                                            $('input[id^=' + $(this).attr("id") + ']').attr("disabled", "disabled");
+                                        } else {
+                                            if ($(this).attr("id") == "PowerController") {
+                                                $('input[id^=' + $(this).attr("id") + ']').prop("checked", true)
+                                            } else {
+                                                $('input[id^=' + $(this).attr("id") + ']').prop("checked", false)
+                                            }
+                                            $('input[id^=' + $(this).attr("id") + ']').removeAttr("disabled");
+                                        }
+                                    });
+                                } else if (type.id == "MOTION_SENSOR" && type.checked && !$('#OTHER').prop('checked')) {
+                                    $('#simpleOptions').show();
+                                    $('#ReportState').prop('checked', true);
+                                    $('#stateReporting').show();
+                                    $("#MotionSensor").prop('checked', true);
+                                    $('input[name=appType]').each(function(index) {
+                                        if ($(this).attr("id") != "MOTION_SENSOR") {
+                                            $('input[id^=' + $(this).attr("id") + ']').prop("checked", false)
+                                        }
+                                    });
+                                    $('input[name=capabilities]').each(function(index) {
+                                        if ($(this).attr("id") != "MotionSensor") {
+                                            $('input[id^=' + $(this).attr("id") + ']').prop("checked", false);
+                                            $('input[id^=' + $(this).attr("id") + ']').attr("disabled", "disabled");
+                                        } else {
+                                            $('input[id^=' + $(this).attr("id") + ']').prop("checked", true);
+                                            $('input[id^=' + $(this).attr("id") + ']').removeAttr("disabled");
+                                        }
+                                    });
+                                } else if (type.id == "SMARTLOCK" && type.checked && !$('#OTHER').prop('checked')) {
+                                    $('#simpleOptions').show();
+                                    $('#ReportState').prop('checked', true);
+                                    $('#stateReporting').show();
+                                    $('#ghomeSecurity').show();
+                                    $("#LockController").prop('checked', true);
+                                    $("#RequirePIN").change();
+                                    $('input[name=appType]').each(function(index) {
+                                        if ($(this).attr("id") != "SMARTLOCK") {
+                                            $('input[id^=' + $(this).attr("id") + ']').prop("checked", false)
+                                        }
+                                    });
+                                    $('input[name=capabilities]').each(function(index) {
+                                        if ($(this).attr("id") != "LockController") {
+                                            $('input[id^=' + $(this).attr("id") + ']').prop("checked", false);
+                                            $('input[id^=' + $(this).attr("id") + ']').attr("disabled", "disabled");
+                                        } else {
+                                            $('input[id^=' + $(this).attr("id") + ']').prop("checked", true);
+                                            $('input[id^=' + $(this).attr("id") + ']').removeAttr("disabled");
+                                        }
+                                    });
+                                } else if (type.id == "SMARTPLUG" && type.checked && !$('#OTHER').prop('checked')) {
+                                    $('#simpleOptions').show();
+                                    $('#ReportState').prop('checked', true);
+                                    $('#stateReporting').show();
+                                    $("#PowerController").prop('checked', true);
+                                    $('input[name=appType]').each(function(index) {
+                                        if ($(this).attr("id") != "SMARTPLUG") {
+                                            $('input[id^=' + $(this).attr("id") + ']').prop("checked", false)
+                                        }
+                                    });
+                                    $('input[name=capabilities]').each(function(index) {
+                                        if ($(this).attr("id") != "PowerController") {
+                                            $('input[id^=' + $(this).attr("id") + ']').prop("checked", false);
+                                            $('input[id^=' + $(this).attr("id") + ']').attr("disabled", "disabled");
+                                        } else {
+                                            $('input[id^=' + $(this).attr("id") + ']').prop("checked", true);
+                                            $('input[id^=' + $(this).attr("id") + ']').removeAttr("disabled");
+                                        }
+                                    });
+                                } else if (type.id == "SWITCH" && type.checked && !$('#OTHER').prop('checked')) {
+                                    $('#simpleOptions').show();
+                                    $('#ReportState').prop('checked', true);
+                                    $('#stateReporting').show();
+                                    $("#PowerController").prop('checked', true);
+                                    $('input[name=appType]').each(function(index) {
+                                        if ($(this).attr("id") != "SWITCH") {
+                                            $('input[id^=' + $(this).attr("id") + ']').prop("checked", false)
+                                        }
+                                    });
+                                    $('input[name=capabilities]').each(function(index) {
+                                        if ($(this).attr("id") != "PowerController") {
+                                            $('input[id^=' + $(this).attr("id") + ']').prop("checked", false);
+                                            $('input[id^=' + $(this).attr("id") + ']').attr("disabled", "disabled");
+                                        } else {
+                                            $('input[id^=' + $(this).attr("id") + ']').prop("checked", true);
+                                            $('input[id^=' + $(this).attr("id") + ']').removeAttr("disabled");
+                                        }
+                                    });
+                                } else if (type.id == "SPEAKER" && type.checked && !$('#OTHER').prop('checked')) {
+                                    $('#simpleOptions').show();
+                                    $("#SpeakerController").prop('checked', true);
+                                    $('#ReportState').prop('checked', false);
+                                    $('#stateReporting').show();
+                                    $('input[name=appType]').each(function(index) {
+                                        if ($(this).attr("id") != "SPEAKER") {
+                                            $('input[id^=' + $(this).attr("id") + ']').prop("checked", false)
+                                        }
+                                    });
+                                    $('input[name=capabilities]').each(function(index) {
+                                        if ($(this).attr("id") != "Speaker" && $(this).attr("id") != "StepSpeaker") {
+                                            $('input[id^=' + $(this).attr("id") + ']').prop("checked", false);
+                                            $('input[id^=' + $(this).attr("id") + ']').attr("disabled", "disabled");
+                                        } else {
+                                            //$('input[id^='+$(this).attr("id")+']').prop("checked", true);
+                                            $('input[id^=' + $(this).attr("id") + ']').removeAttr("disabled");
+                                        }
+                                    });
+                                } else if (type.id == "TEMPERATURE_SENSOR" && type.checked && !$('#THERMOSTAT').prop('checked') && !$('#OTHER').prop('checked')) {
+                                    $('#simpleOptions').show();
+                                    $("#TemperatureSensor").prop('checked', true);
+                                    $("#TemperatureSensor").change();
+                                    $('input[name=appType]').each(function(index) {
+                                        if ($(this).attr("id") != "TEMPERATURE_SENSOR") {
+                                            $('input[id^=' + $(this).attr("id") + ']').prop("checked", false)
+                                        }
+                                    });
+                                    $('input[name=capabilities]').each(function(index) {
+                                        if ($(this).attr("id") != "TemperatureSensor") {
+                                            $('input[id^=' + $(this).attr("id") + ']').prop("checked", false);
+                                            $('input[id^=' + $(this).attr("id") + ']').attr("disabled", "disabled");
+                                        } else {
+                                            $('input[id^=' + $(this).attr("id") + ']').prop("checked", true);
+                                            $('input[id^=' + $(this).attr("id") + ']').removeAttr("disabled");
+                                        }
+                                    });
+                                } else if (type.id == "THERMOSTAT" && type.checked && !$('#OTHER').prop('checked')) {
+                                    $('#simpleOptions').show();
+                                    // Trigger ThermostatController onchange
+                                    $("#ThermostatController").prop('checked', true);
+                                    $("#ThermostatController").change();
+                                    $('input[name=appType]').each(function(index) {
+                                        if ($(this).attr("id") != "TEMPERATURE_SENSOR" && $(this).attr("id") != "THERMOSTAT") {
+                                            $('input[id^=' + $(this).attr("id") + ']').prop("checked", false)
+                                        }
+                                    });
+                                    $('input[name=capabilities]').each(function(index) {
+                                        if ($(this).attr("id") != "TemperatureSensor" && $(this).attr("id") != "ThermostatController" && $(this).attr("id") != "PowerController" && $(this).attr("id") != "PercentageController" && $(this).attr("id") != "RangeController") {
+                                            $('input[id^=' + $(this).attr("id") + ']').prop("checked", false);
+                                            $('input[id^=' + $(this).attr("id") + ']').attr("disabled", "disabled");
+                                        } else {
+                                            if ($(this).attr("id") == "TemperatureSensor" || $(this).attr("id") == "RangeController" || $(this).attr("id") == "PowerController" || $(this).attr("id") == "PercentageController") {
+                                                $('input[id^=' + $(this).attr("id") + ']').prop("checked", false)
+                                            } else {
+                                                $('input[id^=' + $(this).attr("id") + ']').prop("checked", true)
+                                            }
+                                            $('input[id^=' + $(this).attr("id") + ']').removeAttr("disabled");
+                                        }
+                                    });
+                                    if ($('#TEMPERATURE_SENSOR').prop('checked')) {
+                                        $("#TemperatureSensor").prop('checked', true)
+                                    }
+                                }
+                                // Handle combination of temperature sensor and thermostat
+                                else if (type.id == "THERMOSTAT" && type.checked == false && !$('#OTHER').prop('checked')) {
+                                    if ($('#TEMPERATURE_SENSOR').prop('checked')) {
+                                        $('#simpleOptions').show();
+                                        $("#ThermostatController").prop('checked', false);
+                                        $("#ThermostatController").change();
+                                        $("#TemperatureSensor").change();
+                                        $('input[name=capabilities]').each(function(index) {
+                                            if ($(this).attr("id") != "TemperatureSensor" && $(this).attr("id") != "ThermostatController") {
+                                                $('input[id^=' + $(this).attr("id") + ']').prop("checked", false);
+                                                $('input[id^=' + $(this).attr("id") + ']').attr("disabled", "disabled");
+                                            } else {
+                                                if ($(this).attr("id") == "TemperatureSensor") {
+                                                    $('input[id^=' + $(this).attr("id") + ']').prop("checked", true)
+                                                } else {
+                                                    $('input[id^=' + $(this).attr("id") + ']').prop("checked", false)
+                                                }
+                                                $('input[id^=' + $(this).attr("id") + ']').removeAttr("disabled");
+                                            }
+                                        });
+                                    } else {
+                                        $("#ThermostatController").prop('checked', false);
+                                        $("#ThermostatController").change();
+                                    }
+                                } else if (type.id == "TEMPERATURE_SENSOR" && type.checked && $('#THERMOSTAT').prop('checked') && !$('#OTHER').prop('checked')) {
+                                    $('#simpleOptions').show();
+                                    $("#TemperatureSensor").prop('checked', true);
+                                    $("#ThermostatController").change();
+                                    $("#TemperatureSensor").change();
+                                } else if (type.id == "TEMPERATURE_SENSOR" && type.checked == false && $('#THERMOSTAT').prop('checked') && !$('#OTHER').prop('checked')) {
+                                    $('#simpleOptions').show();
+                                    $("#TemperatureSensor").prop('checked', false);
+                                    $("#ThermostatController").change();
+                                    $("#TemperatureSensor").change();
+                                } else if (type.id == "TV" && type.checked && !$('#OTHER').prop('checked')) {
+                                    $('#simpleOptions').show();
+                                    $('#ReportState').prop('checked', false);
+                                    $('#stateReporting').show();
+                                    $("#PlaybackController").prop('checked', true);
+                                    $('input[name=appType]').each(function(index) {
+                                        if ($(this).attr("id") != "TV") {
+                                            $('input[id^=' + $(this).attr("id") + ']').prop("checked", false)
+                                        }
+                                    });
+                                    $('input[name=capabilities]').each(function(index) {
+                                        if ($(this).attr("id") != "PlaybackController" && $(this).attr("id") != "ChannelController" && $(this).attr("id") != "InputController" && $(this).attr("id") != "PowerController" && $(this).attr("id") != "Speaker" && $(this).attr("id") != "StepSpeaker") {
+                                            $('input[id^=' + $(this).attr("id") + ']').prop("checked", false);
+                                            $('input[id^=' + $(this).attr("id") + ']').attr("disabled", "disabled");
+                                        } else {
+                                            if ($(this).attr("id") == "PlaybackController") {
+                                                $('input[id^=' + $(this).attr("id") + ']').prop("checked", true)
+                                            } else {
+                                                $('input[id^=' + $(this).attr("id") + ']').prop("checked", false)
+                                            };
+                                            $('input[id^=' + $(this).attr("id") + ']').removeAttr("disabled");
+                                        }
+                                    });
+                                } else if (type.id == "OTHER" && type.checked) {
+                                    $('#simpleOptions').show();
+                                    $('#ReportState').prop('checked', false);
+                                    $('#stateReporting').show();
+                                    $('input[name=appType]').each(function(index) {
+                                        if ($(this).attr("id") != "OTHER") {
+                                            $('input[id^=' + $(this).attr("id") + ']').prop("checked", false)
+                                            $('input[id^=' + $(this).attr("id") + ']').attr("disabled", "disabled");
+                                        }
+                                    });
+                                    $('input[name=capabilities]').each(function(index) {
+                                        $('input[id^=' + $(this).attr("id") + ']').prop("checked", false);
+                                        $('input[id^=' + $(this).attr("id") + ']').removeAttr("disabled");
+                                    });
+                                } else {
+                                    $('#simpleOptions').hide();
+                                    $('input[name=appType]').each(function(index) {
+                                        $('input[id^=' + $(this).attr("id") + ']').removeAttr("disabled");
+                                    });
+                                }
+                            }
 
-function saveDevice() {
-	var devID = $('#devID').val();
-	// Add New Device
-	if ( devID === "") {
-		var device = {
-			attributes: {},
-			capabilities: [],
-			displayCategories: [],
-		};
-		device.friendlyName = $('#friendlyName').val();
-		device.description = $('#description').val();
-		// Google Home Room Hint
-		if ($('#roomHint').val() != "Optional") {
-			device.attributes.roomHint = $('#roomHint').val();
-		}
-		///////////////////////////////////////////////////////////////////////////
-		// Interface/ capability-specific device data-generation
-		///////////////////////////////////////////////////////////////////////////
-		// Get user-defined temperature scale
-		if ($('#ThermostatController').prop('checked') || $('#TemperatureSensor').prop('checked') || $('#ColorTemperatureController').prop('checked')) {
-			var scale;
-			$('input[name=radioScale]').each(function(index){
-				if (this.checked) {
-					scale = this.value;
-				}
-			});
-		}
-		if ($('#ThermostatController').prop('checked')) {
-			device.attributes.temperatureRange = {
-				temperatureMin: $('#minimumValue').val(),
-				temperatureMax: $('#maximumValue').val(),
-			}
-			device.attributes.temperatureScale = scale;
-			device.attributes.thermostatModes = [];
-			$('input[name=thermostatModes]').each(function(index){
-				if (this.checked) {
-					device.attributes.thermostatModes.push(this.value);
-				}
-			});
-		}
-		if ( $('#TemperatureSensor').prop('checked')) {
-			device.attributes.temperatureScale = scale;
-		}
-		if ($('#ColorController').prop('checked')) {
-			device.attributes.commandOnlyColorSetting = false;
-		}
-		if ($('#ColorTemperatureController').prop('checked')) {
-			device.attributes.colorTemperatureRange = {
-				temperatureMinK: $('#minimumValue').val(),
-				temperatureMaxK: $('#maximumValue').val()
-			}
-			device.attributes.commandOnlyColorSetting = false;
-		}
-		if ($('#SceneController').prop('checked')) {
-			device.attributes.sceneReversible = false;
-		}
-		if ($('#LockController').prop('checked'))  {
-			if ($('#RequirePIN').prop('checked') == true){
-				device.attributes.require2FA = true;
-				device.attributes.pin = $('#pin').val();
-				device.attributes.type2FA = "pin";
-			}
-			else {
-				device.attributes.require2FA = false;
-			}
-		}
-		$('input[name=capabilities]').each(function(index){
-			if (this.checked) {
-				device.capabilities.push(this.value);
-			}
-		});
-		$('input[name=appType]').each(function(index){
-			if (this.checked) {
-				device.displayCategories.push(this.value);
-			}
-		});
-		if ($('#ReportState').prop('checked')) {
-			device.reportState = true;
-		}
-		else {device.reportState = false}
-		// Generate/ save dummy state data for new device
-		// This will significantly reduce getstate API traffic and make usability far easier
-		device.state = generateState(null);
-		if (device.friendlyName && device.description && device.capabilities.length > 0) {
-			$.ajax({
-				url:"/devices",
-				type: 'PUT',
-				data: JSON.stringify(device),
-				dataType: 'json',
-				contentType: "application/json",
-				success: function(data){
-					//console.log(data);
-					//reload
-					document.location.reload();
-				}
-			}).fail(
-				function(jqXHR, textStatus, errorThrown) {
-					alert(jqXHR.responseText);
-				}
-			);
-		} else {
-			alert("Name or description can not be empty and at least one action is needed");
-		}
-	} else {
-		// Modify Existing Device
-		var device = devices[devID];
-		device.attributes = {};
-		device.description = $('#description').val();
-		// Google Home Room Hint
-		if ($('#roomHint').val() != "Optional") {
-			device.attributes.roomHint = $('#roomHint').val();
-		}
-		///////////////////////////////////////////////////////////////////////////
-		// Interface/ capability-specific device data-generation
-		///////////////////////////////////////////////////////////////////////////
-		if ($('#ThermostatController').prop('checked') || $('#TemperatureSensor').prop('checked')) {
-			var scale;
-			$('input[name=radioScale]').each(function(index){
-				if (this.checked) {
-					scale = this.value;
-				}
-			});
-		}
-		if ($('#ThermostatController').prop('checked')) {
-			device.attributes.temperatureRange = {
-				temperatureMin: $('#minimumValue').val(),
-				temperatureMax: $('#maximumValue').val(),
-			}
-			device.attributes.temperatureScale = scale;
-			device.attributes.thermostatModes = [];
-			$('input[name=thermostatModes]').each(function(index){
-				if (this.checked) {
-					device.attributes.thermostatModes.push(this.value);
-				}
-			});
-		}
-		if ( $('#TemperatureSensor').prop('checked')) {
-			device.attributes.temperatureScale = scale;
-		}
-		if ($('#ColorController').prop('checked')) {
-			device.attributes.commandOnlyColorSetting = false;
-		}
-		if ($('#ColorTemperatureController').prop('checked')) {
-			device.attributes.colorTemperatureRange = {
-				temperatureMinK: $('#minimumValue').val(),
-				temperatureMaxK: $('#maximumValue').val()
-			}
-			device.attributes.commandOnlyColorSetting = false;
-		}
-		if ($('#SceneController').prop('checked')) {
-			device.attributes.sceneReversible = false;
-		}
-		if ($('#LockController').prop('checked'))  {
-			if ($('#RequirePIN').prop('checked') == true){
-				device.attributes.require2FA = true;
-				device.attributes.pin = $('#pin').val();
-				device.attributes.type2FA = "pin";
-			}
-			else {
-				device.attributes.require2FA = false;
-			}
-		}
-		device.capabilities = [];
-		$('input[name=capabilities]').each(function(index){
-			if (this.checked) {
-				device.capabilities.push(this.value);
-			}
-		});
-		device.displayCategories = [];
-		$('input[name=appType]').each(function(index){
-			if (this.checked) {
-				device.displayCategories.push(this.value);
-			}
-		});
-		if ($('#ReportState').prop('checked')) {
-			device.reportState = true;
-		}
-		else {device.reportState = false}
-		// validate state data, create dummy state data in the event user added new capabilities
-		device.state = generateState(device.state);
-		if (device.friendlyName && device.description && device.capabilities.length > 0) {
-			//post update
-			$.ajax({
-				url: '/device/' + device._id,
-				type: 'POST',
-				data: JSON.stringify(device),
-				dataType: 'json',
-				contentType: "application/json",
-				success: function(data){
-					//console.log("post response");
-					//console.log(data);
-					//reload
-					document.location.reload();
-				},
-			}).fail(
-				function(jqXHR, textStatus, errorThrown) {
-					alert(jqXHR.responseText);
-				}
-			);
-			// console.log(JSON.stringify(device));
-		} else {
-			alert("Name or description can not be empty and at least one action is needed");
-		}
-	}
-}
+                            function saveDevice() {
+                                var devID = $('#devID').val();
+                                // Add New Device
+                                if (devID === "") {
+                                    var device = {
+                                        attributes: {},
+                                        capabilities: [],
+                                        displayCategories: [],
+                                    };
+                                    device.friendlyName = $('#friendlyName').val();
+                                    device.description = $('#description').val();
+                                    // Google Home Room Hint
+                                    if ($('#roomHint').val() != "Optional") {
+                                        device.attributes.roomHint = $('#roomHint').val();
+                                    }
+                                    ///////////////////////////////////////////////////////////////////////////
+                                    // Interface/ capability-specific device data-generation
+                                    ///////////////////////////////////////////////////////////////////////////
+                                    // Get user-defined temperature scale
+                                    if ($('#ThermostatController').prop('checked') || $('#TemperatureSensor').prop('checked') || $('#ColorTemperatureController').prop('checked')) {
+                                        var scale;
+                                        $('input[name=radioScale]').each(function(index) {
+                                            if (this.checked) {
+                                                scale = this.value;
+                                            }
+                                        });
+                                    }
+                                    if ($('#ThermostatController').prop('checked')) {
+                                        device.attributes.temperatureRange = {
+                                            temperatureMin: $('#minimumValue').val(),
+                                            temperatureMax: $('#maximumValue').val(),
+                                        }
+                                        device.attributes.temperatureScale = scale;
+                                        device.attributes.thermostatModes = [];
+                                        $('input[name=thermostatModes]').each(function(index) {
+                                            if (this.checked) {
+                                                device.attributes.thermostatModes.push(this.value);
+                                            }
+                                        });
+                                    }
+                                    if ($('#TemperatureSensor').prop('checked')) {
+                                        device.attributes.temperatureScale = scale;
+                                    }
+                                    if ($('#ColorController').prop('checked')) {
+                                        device.attributes.commandOnlyColorSetting = false;
+                                    }
+                                    if ($('#ColorTemperatureController').prop('checked')) {
+                                        device.attributes.colorTemperatureRange = {
+                                            temperatureMinK: $('#minimumValue').val(),
+                                            temperatureMaxK: $('#maximumValue').val()
+                                        }
+                                        device.attributes.commandOnlyColorSetting = false;
+                                    }
+                                    if ($('#SceneController').prop('checked')) {
+                                        device.attributes.sceneReversible = false;
+                                    }
+                                    if ($('#LockController').prop('checked')) {
+                                        if ($('#RequirePIN').prop('checked') == true) {
+                                            device.attributes.require2FA = true;
+                                            device.attributes.pin = $('#pin').val();
+                                            device.attributes.type2FA = "pin";
+                                        } else {
+                                            device.attributes.require2FA = false;
+                                        }
+                                    }
+                                    $('input[name=capabilities]').each(function(index) {
+                                        if (this.checked) {
+                                            device.capabilities.push(this.value);
+                                        }
+                                    });
+                                    $('input[name=appType]').each(function(index) {
+                                        if (this.checked) {
+                                            device.displayCategories.push(this.value);
+                                        }
+                                    });
+                                    if ($('#ReportState').prop('checked')) {
+                                        device.reportState = true;
+                                    } else {
+                                        device.reportState = false
+                                    }
+                                    // Generate/ save dummy state data for new device
+                                    // This will significantly reduce getstate API traffic and make usability far easier
+                                    device.state = generateState(null);
+                                    if (device.friendlyName && device.description && device.capabilities.length > 0) {
+                                        $.ajax({
+                                            url: "/devices",
+                                            type: 'PUT',
+                                            data: JSON.stringify(device),
+                                            dataType: 'json',
+                                            contentType: "application/json",
+                                            success: function(data) {
+                                                //console.log(data);
+                                                //reload
+                                                document.location.reload();
+                                            }
+                                        }).fail(
+                                            function(jqXHR, textStatus, errorThrown) {
+                                                alert(jqXHR.responseText);
+                                            }
+                                        );
+                                    } else {
+                                        alert("Name oder Beschreibung dürfen nicht leer sein und es ist mindestens eine Aktion erforderlich");
+                                    }
+                                } else {
+                                    // Modify Existing Device
+                                    var device = devices[devID];
+                                    device.attributes = {};
+                                    device.description = $('#description').val();
+                                    // Google Home Room Hint
+                                    if ($('#roomHint').val() != "Optional") {
+                                        device.attributes.roomHint = $('#roomHint').val();
+                                    }
+                                    ///////////////////////////////////////////////////////////////////////////
+                                    // Interface/ capability-specific device data-generation
+                                    ///////////////////////////////////////////////////////////////////////////
+                                    if ($('#ThermostatController').prop('checked') || $('#TemperatureSensor').prop('checked')) {
+                                        var scale;
+                                        $('input[name=radioScale]').each(function(index) {
+                                            if (this.checked) {
+                                                scale = this.value;
+                                            }
+                                        });
+                                    }
+                                    if ($('#ThermostatController').prop('checked')) {
+                                        device.attributes.temperatureRange = {
+                                            temperatureMin: $('#minimumValue').val(),
+                                            temperatureMax: $('#maximumValue').val(),
+                                        }
+                                        device.attributes.temperatureScale = scale;
+                                        device.attributes.thermostatModes = [];
+                                        $('input[name=thermostatModes]').each(function(index) {
+                                            if (this.checked) {
+                                                device.attributes.thermostatModes.push(this.value);
+                                            }
+                                        });
+                                    }
+                                    if ($('#TemperatureSensor').prop('checked')) {
+                                        device.attributes.temperatureScale = scale;
+                                    }
+                                    if ($('#ColorController').prop('checked')) {
+                                        device.attributes.commandOnlyColorSetting = false;
+                                    }
+                                    if ($('#ColorTemperatureController').prop('checked')) {
+                                        device.attributes.colorTemperatureRange = {
+                                            temperatureMinK: $('#minimumValue').val(),
+                                            temperatureMaxK: $('#maximumValue').val()
+                                        }
+                                        device.attributes.commandOnlyColorSetting = false;
+                                    }
+                                    if ($('#SceneController').prop('checked')) {
+                                        device.attributes.sceneReversible = false;
+                                    }
+                                    if ($('#LockController').prop('checked')) {
+                                        if ($('#RequirePIN').prop('checked') == true) {
+                                            device.attributes.require2FA = true;
+                                            device.attributes.pin = $('#pin').val();
+                                            device.attributes.type2FA = "pin";
+                                        } else {
+                                            device.attributes.require2FA = false;
+                                        }
+                                    }
+                                    device.capabilities = [];
+                                    $('input[name=capabilities]').each(function(index) {
+                                        if (this.checked) {
+                                            device.capabilities.push(this.value);
+                                        }
+                                    });
+                                    device.displayCategories = [];
+                                    $('input[name=appType]').each(function(index) {
+                                        if (this.checked) {
+                                            device.displayCategories.push(this.value);
+                                        }
+                                    });
+                                    if ($('#ReportState').prop('checked')) {
+                                        device.reportState = true;
+                                    } else {
+                                        device.reportState = false
+                                    }
+                                    // validate state data, create dummy state data in the event user added new capabilities
+                                    device.state = generateState(device.state);
+                                    if (device.friendlyName && device.description && device.capabilities.length > 0) {
+                                        //post update
+                                        $.ajax({
+                                            url: '/device/' + device._id,
+                                            type: 'POST',
+                                            data: JSON.stringify(device),
+                                            dataType: 'json',
+                                            contentType: "application/json",
+                                            success: function(data) {
+                                                //console.log("post response");
+                                                //console.log(data);
+                                                //reload
+                                                document.location.reload();
+                                            },
+                                        }).fail(
+                                            function(jqXHR, textStatus, errorThrown) {
+                                                alert(jqXHR.responseText);
+                                            }
+                                        );
+                                        // console.log(JSON.stringify(device));
+                                    } else {
+                                        alert("Name oder Beschreibung dürfen nicht leer sein und es ist mindestens eine Aktion erforderlich");
+                                    }
+                                }
+                            }
 
-function addDevice() {
-	clearDevice();
-	$("#newDeviceModal").modal();
-}
+                            function addDevice() {
+                                clearDevice();
+                                $("#newDeviceModal").modal();
+                            }
 
-function clearDevice() {
-	// Hide modal elements
-	$('#simpleOptions').hide();
-	$('#ghomeSecurity').hide();
-	$('#advancedCapabilities').hide();
-	$('#advancedOptions').hide();
-	$('#stateReporting').hide();
-	$('#validRangeOptions').hide();
-	$('#validRangeScaleOptions').hide();
-	$('#thermostatModeOptions').hide();
-	// Set default values
-	$('#devID').val("");
-	$('#friendlyName').val("");
-	$('#description').val("");
-	$('#roomHint').val("");
-	$('#maximumValue').val("");
-	$('#minimumValue').val("");
-	$('#pin').val("");
-	// Reset checkboxes
-	$('input[name=appType]').each(function(index){
-		$('input[id^='+$(this).attr("id")+']').prop("checked", false)
-		$('input[id^='+$(this).attr("id")+']').removeAttr("disabled");
-	});
-	$('input[name=capabilities]').each(function(index){
-		$('input[id^='+$(this).attr("id")+']').prop("checked", false);
-		$('input[id^='+$(this).attr("id")+']').removeAttr("disabled");
-	});
-	$('input[name=radioScale]').each(function(index){
-		$('input[id^='+$(this).attr("id")+']').prop("checked", false);
-	});
-	$('#ReportState').prop('checked', false)
-	$('#HEAT').prop('checked', false);
-	$('#COOL').prop('checked', false);
-	$('#AUTO').prop('checked', false);
-	$('#ECO').prop('checked', false);
-	$('#OFF').prop('checked', false);
-	$('#ON').prop('checked', false);
-	$('#RequirePIN').prop('checked', false);
-	// Remove read-only property for new devices
-	$('#friendlyName').prop('readonly', false);
-	// Remove "required" property
-	$('#maximumValue').attr("disabled", "disabled");
-	$('#minimumValue').attr("disabled", "disabled");
-	$('#Celsius').attr("disabled", "disabled");
-	$('#Farenheit').attr("disabled", "disabled");
-	// Remove "required" property
-	$("#maximumValue").prop('required',false);
-	$("#minimumValue").prop('required',false);
-	$("#Celsius").prop('required',false);
-	$("#Farenheit").prop('required',false);
-}
+                            function clearDevice() {
+                                // Hide modal elements
+                                $('#simpleOptions').hide();
+                                $('#ghomeSecurity').hide();
+                                $('#advancedCapabilities').hide();
+                                $('#advancedOptions').hide();
+                                $('#stateReporting').hide();
+                                $('#validRangeOptions').hide();
+                                $('#validRangeScaleOptions').hide();
+                                $('#thermostatModeOptions').hide();
+                                // Set default values
+                                $('#devID').val("");
+                                $('#friendlyName').val("");
+                                $('#description').val("");
+                                $('#roomHint').val("");
+                                $('#maximumValue').val("");
+                                $('#minimumValue').val("");
+                                $('#pin').val("");
+                                // Reset checkboxes
+                                $('input[name=appType]').each(function(index) {
+                                    $('input[id^=' + $(this).attr("id") + ']').prop("checked", false)
+                                    $('input[id^=' + $(this).attr("id") + ']').removeAttr("disabled");
+                                });
+                                $('input[name=capabilities]').each(function(index) {
+                                    $('input[id^=' + $(this).attr("id") + ']').prop("checked", false);
+                                    $('input[id^=' + $(this).attr("id") + ']').removeAttr("disabled");
+                                });
+                                $('input[name=radioScale]').each(function(index) {
+                                    $('input[id^=' + $(this).attr("id") + ']').prop("checked", false);
+                                });
+                                $('#ReportState').prop('checked', false)
+                                $('#HEAT').prop('checked', false);
+                                $('#COOL').prop('checked', false);
+                                $('#AUTO').prop('checked', false);
+                                $('#ECO').prop('checked', false);
+                                $('#OFF').prop('checked', false);
+                                $('#ON').prop('checked', false);
+                                $('#RequirePIN').prop('checked', false);
+                                // Remove read-only property for new devices
+                                $('#friendlyName').prop('readonly', false);
+                                // Remove "required" property
+                                $('#maximumValue').attr("disabled", "disabled");
+                                $('#minimumValue').attr("disabled", "disabled");
+                                $('#Celsius').attr("disabled", "disabled");
+                                $('#Farenheit').attr("disabled", "disabled");
+                                // Remove "required" property
+                                $("#maximumValue").prop('required', false);
+                                $("#minimumValue").prop('required', false);
+                                $("#Celsius").prop('required', false);
+                                $("#Farenheit").prop('required', false);
+                            }
 
-function edit(id) {
-	// Flush Modal
-	clearDevice();
-	// Show modal, with Interfaces/ Capability options
-	$("#newDeviceModal").modal();
-	$('#simpleOptions').show();
-	// Load basic device data into modal
-	var device = devices[id];
-	$('#devID').val(device._id);
-	$('#friendlyName').val(device.friendlyName);
-	// Set friendlyName read-only on Edit
-	// $('#friendlyName').prop('readonly', true);
-	$('#description').val(device.description);
-	// Disable all Interfaces/ Capabilities
-	$('input[name=capabilities]').each(function(index){
-		$('input[id^='+$(this).attr("id")+']').attr("disabled", "disabled");
-	});
-	// Pre-select and enable specific capabilities
-	device.capabilities.forEach(function(action){
-		$('#' + action).prop('checked',true);
-		$('#' + action).removeAttr("disabled");
-	});
-	// Pre-select and enable specific device types
-	device.displayCategories.forEach(function(type){
-		$('#' + type).prop('checked',true);
-	});
-	///////////////////////////////////////////////////////////////////////////
-	// Device type-specific interfaces/ capabilities/ element unhide
-	///////////////////////////////////////////////////////////////////////////
-	// Re-enable specific interfaces/ capabilities based on displayCategories
-	if ($('#THERMOSTAT').prop('checked')){
-		$('#ThermostatController').removeAttr("disabled");
-		$('#TemperatureSensor').removeAttr("disabled");
-	}
-	else if ($('#LIGHT').prop('checked')){
-		$('#BrightnessController').removeAttr("disabled");
-		$('#ColorController').removeAttr("disabled");
-		$('#ColorTemperatureController').removeAttr("disabled");
-	}
-	else if ($('#SMARTLOCK').prop('checked')){
-		$("#ghomeSecurity").show();
-	}
-	else if ($('#SPEAKER').prop('checked')){
-		$('#Speaker').removeAttr("disabled");
-		$('#StepSpeaker').removeAttr("disabled");
-	}
-	else if ($('#TV').prop('checked')){
-		$('#PowerController').removeAttr("disabled");
-		$('#InputController').removeAttr("disabled");
-		$('#ChannelController').removeAttr("disabled");
-		$('#Speaker').removeAttr("disabled");
-		$('#StepSpeaker').removeAttr("disabled");
-	}
-	else if ($('#OTHER').prop('checked')) {
-		// Re-enable *ALL* interfaces/ capabilities for selection
-		$('input[name=capabilities]').each(function(index){
-			$('input[id^='+$(this).attr("id")+']').removeAttr("disabled");
-		});
-		// Disable *ALL* other device types
-		$('input[name=appType]').each(function(index){
-			if ($(this).attr("id") != "OTHER") {
-				$('input[id^='+$(this).attr("id")+']').prop("checked", false)
-				$('input[id^='+$(this).attr("id")+']').attr("disabled", "disabled");
-			}
-		});
-	}
-	// Show State Reporting options unless Scene Controller
-	if (device.capabilities.indexOf('SceneController') == -1) {
-		$('#stateReporting').show();
-	}
-	// Capabilities with range/ scale for element un-hide/ population
-	var colorTemperature = $('#ColorTemperatureController').prop('checked');
-	var thermostat = $('#ThermostatController').prop('checked');
-	var temperature = $('#TemperatureSensor').prop('checked');
-	// ReportState Boolean
-	if (device.hasOwnProperty('reportState')) {
-		if (device.reportState == true) {$('#ReportState').prop('checked', true)};
-		if (device.reportState == false) {$('#ReportState').prop('checked', false)};
-	}
-	// Load device attribtes into modal
-	if (device.hasOwnProperty('attributes')){
-		// Google Home Room Hint
-		if (device.attributes.hasOwnProperty('roomHint')) {
-			$("#roomHint").val(device.attributes.roomHint);
-		}
-		// Google Home 2FA/ PIN
-		if (device.attributes.hasOwnProperty('require2FA') && device.attributes.require2FA == true) {
-			$("#ghomeSecurity").show();
-			$("#RequirePIN").prop('checked', true);
-			$('#pin').removeAttr("disabled");
-			if (device.attributes.hasOwnProperty('pin')){
-				$("#pin").val(device.attributes.pin);
-				$('#pin').removeAttr("disabled");
-			};
-		}
-		// Color Controller
-		if (colorTemperature && device.attributes.hasOwnProperty('colorTemperatureRange')) {
-			if (device.attributes.colorTemperatureRange.hasOwnProperty('temperatureMaxK')) {
-				$('#validRangeOptions').show();
-				$("#maximumValue").prop('required',true);
-				$('#maximumValue').removeAttr("disabled");
-				$("#maximumValue").val(device.attributes.colorTemperatureRange.temperatureMaxK);
-			}
-			if (device.attributes.colorTemperatureRange.hasOwnProperty('temperatureMinK')) {
-				$('#validRangeOptions').show();
-				$("#minimumValue").prop('required',true);
-				$('#minimumValue').removeAttr("disabled");
-				$("#minimumValue").val(device.attributes.colorTemperatureRange.temperatureMinK);
-			}
-		}
-		// Thermostat or Temperature Sensor
-		if (thermostat || temperature) {
-			if (device.attributes.hasOwnProperty('temperatureScale')) {
-				$('#validRangeScaleOptions').show();
-				$('#Celsius').removeAttr("disabled");
-				$('#Farenheit').removeAttr("disabled");
-				//$("#Celsius").prop('required',true);
-				//$("#Farenheit").prop('required',true);
-				if (device.attributes.temperatureScale == 'CELSIUS') {$("#Celsius").prop('checked', true)}
-				if (device.attributes.temperatureScale == 'FARENHEIT' || device.attributes.temperatureScale == 'FAHRENHEIT') {$("#Farenheit").prop('checked', true)}
-			}
-			// Handle user-selected thermostatModes
-			if (device.attributes.hasOwnProperty('thermostatModes')) {
-				$('#thermostatModeOptions').show();
-				device.attributes.thermostatModes.forEach(function(mode){
-					$('#' + mode).prop('checked',true);
-				});
-			}
-			if (device.attributes.hasOwnProperty('temperatureRange')) {
-				if (device.attributes.temperatureRange.hasOwnProperty('temperatureMax')) {
-					$('#validRangeOptions').show();
-					$("#maximumValue").prop('required',true);
-					$('#maximumValue').removeAttr("disabled");
-					$("#maximumValue").val(device.attributes.temperatureRange.temperatureMax);
-				}
-				if (device.attributes.temperatureRange.hasOwnProperty('temperatureMin')) {
-					$('#validRangeOptions').show();
-					$("#minimumValue").prop('required',true);
-					$('#minimumValue').removeAttr("disabled");
-					$("#minimumValue").val(device.attributes.temperatureRange.temperatureMin);
-				}
-			}
-		}
-	}
-}
+                            function edit(id) {
+                                // Flush Modal
+                                clearDevice();
+                                // Show modal, with Interfaces/ Capability options
+                                $("#newDeviceModal").modal();
+                                $('#simpleOptions').show();
+                                // Load basic device data into modal
+                                var device = devices[id];
+                                $('#devID').val(device._id);
+                                $('#friendlyName').val(device.friendlyName);
+                                // Set friendlyName read-only on Edit
+                                // $('#friendlyName').prop('readonly', true);
+                                $('#description').val(device.description);
+                                // Disable all Interfaces/ Capabilities
+                                $('input[name=capabilities]').each(function(index) {
+                                    $('input[id^=' + $(this).attr("id") + ']').attr("disabled", "disabled");
+                                });
+                                // Pre-select and enable specific capabilities
+                                device.capabilities.forEach(function(action) {
+                                    $('#' + action).prop('checked', true);
+                                    $('#' + action).removeAttr("disabled");
+                                });
+                                // Pre-select and enable specific device types
+                                device.displayCategories.forEach(function(type) {
+                                    $('#' + type).prop('checked', true);
+                                });
+                                ///////////////////////////////////////////////////////////////////////////
+                                // Device type-specific interfaces/ capabilities/ element unhide
+                                ///////////////////////////////////////////////////////////////////////////
+                                // Re-enable specific interfaces/ capabilities based on displayCategories
+                                if ($('#THERMOSTAT').prop('checked')) {
+                                    $('#ThermostatController').removeAttr("disabled");
+                                    $('#TemperatureSensor').removeAttr("disabled");
+                                } else if ($('#LIGHT').prop('checked')) {
+                                    $('#BrightnessController').removeAttr("disabled");
+                                    $('#ColorController').removeAttr("disabled");
+                                    $('#ColorTemperatureController').removeAttr("disabled");
+                                } else if ($('#SMARTLOCK').prop('checked')) {
+                                    $("#ghomeSecurity").show();
+                                } else if ($('#SPEAKER').prop('checked')) {
+                                    $('#Speaker').removeAttr("disabled");
+                                    $('#StepSpeaker').removeAttr("disabled");
+                                } else if ($('#TV').prop('checked')) {
+                                    $('#PowerController').removeAttr("disabled");
+                                    $('#InputController').removeAttr("disabled");
+                                    $('#ChannelController').removeAttr("disabled");
+                                    $('#Speaker').removeAttr("disabled");
+                                    $('#StepSpeaker').removeAttr("disabled");
+                                } else if ($('#OTHER').prop('checked')) {
+                                    // Re-enable *ALL* interfaces/ capabilities for selection
+                                    $('input[name=capabilities]').each(function(index) {
+                                        $('input[id^=' + $(this).attr("id") + ']').removeAttr("disabled");
+                                    });
+                                    // Disable *ALL* other device types
+                                    $('input[name=appType]').each(function(index) {
+                                        if ($(this).attr("id") != "OTHER") {
+                                            $('input[id^=' + $(this).attr("id") + ']').prop("checked", false)
+                                            $('input[id^=' + $(this).attr("id") + ']').attr("disabled", "disabled");
+                                        }
+                                    });
+                                }
+                                // Show State Reporting options unless Scene Controller
+                                if (device.capabilities.indexOf('SceneController') == -1) {
+                                    $('#stateReporting').show();
+                                }
+                                // Capabilities with range/ scale for element un-hide/ population
+                                var colorTemperature = $('#ColorTemperatureController').prop('checked');
+                                var thermostat = $('#ThermostatController').prop('checked');
+                                var temperature = $('#TemperatureSensor').prop('checked');
+                                // ReportState Boolean
+                                if (device.hasOwnProperty('reportState')) {
+                                    if (device.reportState == true) {
+                                        $('#ReportState').prop('checked', true)
+                                    };
+                                    if (device.reportState == false) {
+                                        $('#ReportState').prop('checked', false)
+                                    };
+                                }
+                                // Load device attribtes into modal
+                                if (device.hasOwnProperty('attributes')) {
+                                    // Google Home Room Hint
+                                    if (device.attributes.hasOwnProperty('roomHint')) {
+                                        $("#roomHint").val(device.attributes.roomHint);
+                                    }
+                                    // Google Home 2FA/ PIN
+                                    if (device.attributes.hasOwnProperty('require2FA') && device.attributes.require2FA == true) {
+                                        $("#ghomeSecurity").show();
+                                        $("#RequirePIN").prop('checked', true);
+                                        $('#pin').removeAttr("disabled");
+                                        if (device.attributes.hasOwnProperty('pin')) {
+                                            $("#pin").val(device.attributes.pin);
+                                            $('#pin').removeAttr("disabled");
+                                        };
+                                    }
+                                    // Color Controller
+                                    if (colorTemperature && device.attributes.hasOwnProperty('colorTemperatureRange')) {
+                                        if (device.attributes.colorTemperatureRange.hasOwnProperty('temperatureMaxK')) {
+                                            $('#validRangeOptions').show();
+                                            $("#maximumValue").prop('required', true);
+                                            $('#maximumValue').removeAttr("disabled");
+                                            $("#maximumValue").val(device.attributes.colorTemperatureRange.temperatureMaxK);
+                                        }
+                                        if (device.attributes.colorTemperatureRange.hasOwnProperty('temperatureMinK')) {
+                                            $('#validRangeOptions').show();
+                                            $("#minimumValue").prop('required', true);
+                                            $('#minimumValue').removeAttr("disabled");
+                                            $("#minimumValue").val(device.attributes.colorTemperatureRange.temperatureMinK);
+                                        }
+                                    }
+                                    // Thermostat or Temperature Sensor
+                                    if (thermostat || temperature) {
+                                        if (device.attributes.hasOwnProperty('temperatureScale')) {
+                                            $('#validRangeScaleOptions').show();
+                                            $('#Celsius').removeAttr("disabled");
+                                            $('#Farenheit').removeAttr("disabled");
+                                            //$("#Celsius").prop('required',true);
+                                            //$("#Farenheit").prop('required',true);
+                                            if (device.attributes.temperatureScale == 'CELSIUS') {
+                                                $("#Celsius").prop('checked', true)
+                                            }
+                                            if (device.attributes.temperatureScale == 'FARENHEIT' || device.attributes.temperatureScale == 'FAHRENHEIT') {
+                                                $("#Farenheit").prop('checked', true)
+                                            }
+                                        }
+                                        // Handle user-selected thermostatModes
+                                        if (device.attributes.hasOwnProperty('thermostatModes')) {
+                                            $('#thermostatModeOptions').show();
+                                            device.attributes.thermostatModes.forEach(function(mode) {
+                                                $('#' + mode).prop('checked', true);
+                                            });
+                                        }
+                                        if (device.attributes.hasOwnProperty('temperatureRange')) {
+                                            if (device.attributes.temperatureRange.hasOwnProperty('temperatureMax')) {
+                                                $('#validRangeOptions').show();
+                                                $("#maximumValue").prop('required', true);
+                                                $('#maximumValue').removeAttr("disabled");
+                                                $("#maximumValue").val(device.attributes.temperatureRange.temperatureMax);
+                                            }
+                                            if (device.attributes.temperatureRange.hasOwnProperty('temperatureMin')) {
+                                                $('#validRangeOptions').show();
+                                                $("#minimumValue").prop('required', true);
+                                                $('#minimumValue').removeAttr("disabled");
+                                                $("#minimumValue").val(device.attributes.temperatureRange.temperatureMin);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
 
-function deleteDevice(id) {
-	var answer = confirm("Sind Sie sicher, das Sie das Gerät löschen möchten?");
-	if(answer) {
-		$.ajax({
-			url:"/device/" + id,
-			type: 'DELETE',
-			success: function(data){
-				document.location.reload();
-			}
-		});
-	}
-}
-function clearStateModal() {
-	$('#state').val("");
-}
+                            function deleteDevice(id) {
+                                var answer = confirm("Sind Sie sicher, das Sie das Gerät löschen möchten?");
+                                if (answer) {
+                                    $.ajax({
+                                        url: "/device/" + id,
+                                        type: 'DELETE',
+                                        success: function(data) {
+                                            document.location.reload();
+                                        }
+                                    });
+                                }
+                            }
 
-function viewState(id) {
-	clearStateModal()
-	var device = devices[id];
-	$('#state').val(JSON.stringify(device.state));
-	$("#stateModal").modal('show');
-}
-///////////////////////////////////////////////////////////////////////////
-// Interface/ capability-specific state-generation
-///////////////////////////////////////////////////////////////////////////
-function generateState(deviceState) {
-	var dt = new Date().toISOString();
-	var dummyState = {};
-	dummyState.time = dt;
-	//console.log("deviceState: " + JSON.stringify(deviceState));
-	if (deviceState == null) { // new device, no existing state
-		//console.log("No device state, generating dummy state");
-		$('input[name=capabilities]:checked').each(function(index){
-			switch ($(this).attr("id"))  {
-				case "BrightnessController":
-					dummyState.brightness = 75;
-					break;
-				case "ColorController": // set to green
-					dummyState.colorHue = 120;
-					dummyState.colorSaturation = 1;
-					dummyState.colorBrightness = 1;
-					break;
-				case "ColorTemperatureController": // set to warm white
-					dummyState.colorTemperature = 2200;
-					break;
-				case "ContactSensor": // set to closed
-					dummyState.contact = "DETECTED";
-					break;
-				case "MotionSensor": // set to not detected
-					dummyState.motion = "NOT_DETECTED";
-					break;
-				case "LockController":
-					dummyState.lock = "UNLOCKED";
-					break;
-				case "PercentageController":
-					dummyState.percentage = 100;
-					break;
-				case "PowerController":
-					dummyState.power = "OFF";
-					break;
-				case "RangeController":
-					dummyState.rangeValue = 5;
-					break;
-				case "Speaker":
-					dummyState.volume = 50;
-					break;
-				case "TemperatureSensor":
-					dummyState.temperature = 22;
-					break;
-				case "ThermostatController":
-					if ($("#Celsius").prop('checked') == true){dummyState.thermostatSetPoint = 22};
-					if ($("#Farenheit").prop('checked') == true){dummyState.thermostatSetPoint = 74};
-					dummyState.thermostatMode = "HEAT";
-					break;
-				}
-		});
-	}
-	else { // device has some state data already, ensure each capability has valid state data
-		$('input[name=capabilities]:checked').each(function(index){
-			//console.log("Existing device state, generating dummy state");
-			switch ($(this).attr("id"))  {
-				case "BrightnessController":
-						if (deviceState.hasOwnProperty('brightness')) {
-							if (typeof deviceState.brightness == 'number' && (deviceState.brightness >= 0 || deviceState.brightness <= 100)) {
-								dummyState.brightness = deviceState.brightness;
-							}
-						}
-						else {dummyState.brightness = 75}
-						break;
-				case "ColorController": // if no existing state set to green
-					if (deviceState.hasOwnProperty('colorHue')) {
-							if (typeof deviceState.colorHue == 'number' && (deviceState.colorHue >= 0 || deviceState.colorHue <= 360)) {
-								dummyState.colorHue = deviceState.colorHue;
-							}
-					}
-					else {dummyState.colorHue = 120}
-					if (deviceState.hasOwnProperty('colorSaturation')) {
-						if (typeof deviceState.colorSaturation == 'number' && (deviceState.colorSaturation >= 0 || deviceState.colorSaturation <= 1)) {
-							dummyState.colorSaturation = deviceState.colorSaturation;
-						}
-					}
-					else {dummyState.colorSaturation = 1}
-					if (deviceState.hasOwnProperty('colorBrightness')) {
-						if (typeof deviceState.colorBrightness == 'number' && (deviceState.colorBrightness >= 0 || deviceState.colorBrightness <= 1)) {
-							dummyState.colorBrightness = deviceState.colorBrightness;
-						}
-					}
-					else {dummyState.colorBrightness = 1}
-					break;
-				case "ColorTemperatureController": // if no existing state set to warm white
-					if (deviceState.hasOwnProperty('colorTemperature')) {
-						if (typeof deviceState.colorTemperature == 'number' && (deviceState.colorTemperature >= 1000 || deviceState.colorTemperature <= 10000)) {
-							dummyState.colorTemperature = deviceState.colorTemperature;
-						}
-					}
-					else {dummyState.colorTemperature = 2200}
-					break;
-				case "ContactSensor":
-					if (deviceState.hasOwnProperty('contact')) {
-						if (typeof deviceState.contact == 'string' && (deviceState.contact == 'DETECTED' || deviceState.contact == 'NOT_DETECTED')) {
-							dummyState.contact = deviceState.contact;
-						}
-					}
-					else {dummyState.contact = "DETECTED"}
-					break;
-				case "LockController":
-					if (deviceState.hasOwnProperty('lock')) {
-						if (typeof deviceState.lock == 'string' && (deviceState.lock == 'UNLOCKED' || deviceState.lock == 'LOCKED')) {
-							dummyState.lock = deviceState.lock;
-						}
-					}
-					else {dummyState.lock = "UNLOCKED"}
-					break;
-				case "MotionSensor":
-					if (deviceState.hasOwnProperty('motion')) {
-						if (typeof deviceState.motion == 'string' && (deviceState.motion == 'DETECTED' || deviceState.motion == 'NOT_DETECTED')) {
-							dummyState.motion = deviceState.motion;
-						}
-					}
-					else {dummyState.motion = "NOT_DETECTED"}
-					break;
-				case "PercentageController":
-					if (deviceState.hasOwnProperty('percentage')) {
-						if (typeof deviceState.percentage == 'number') {
-							dummyState.percentage = deviceState.percentage;
-						}
-					}
-					else {dummyState.percentage = 100}
-					break;
-				case "PowerController":
-					if (deviceState.hasOwnProperty('power')) {
-						if (typeof deviceState.power == 'string' && (deviceState.power == 'ON' || deviceState.power == 'OFF')) {
-							dummyState.power = deviceState.power;
-						}
-					}
-					else {dummyState.power = "OFF"}
-					break;
-				case "RangeController":
-					if (deviceState.hasOwnProperty('rangeValue')) {
-						if (typeof deviceState.rangeValue == 'number') {
-							dummyState.rangeValue = deviceState.rangeValue;
-						}
-					}
-					else {dummyState.rangeValue = 5}
-					break;
-				case "Speaker":
-					if (deviceState.hasOwnProperty('volume')) {
-						if (typeof deviceState.volume == 'number') {
-							dummyState.volume = deviceState.volume;
-						}
-					}
-					else {dummyState.volume = 50}
-					break;
-				case "TemperatureSensor":
-					if (deviceState.hasOwnProperty('temperature')) {
-						if (typeof deviceState.temperature == 'number') {
-							dummyState.temperature = deviceState.temperature;
-						}
-					}
-					else {dummyState.temperature = 22}
-					break;
-				case "ThermostatController":
-					if (deviceState.hasOwnProperty('thermostatSetPoint')) {
-						if (typeof deviceState.thermostatSetPoint == 'number') {
-							dummyState.thermostatSetPoint = deviceState.thermostatSetPoint;
-						}
-					}
-					else {
-						if ($("#Celsius").prop('checked') == true){dummyState.thermostatSetPoint = 22}
-						else if ($("#Farenheit").prop('checked') == true){dummyState.thermostatSetPoint = 74}
-					}
-					if (deviceState.hasOwnProperty('thermostatMode')) {
-						if (typeof deviceState.thermostatMode == 'string') {
-							dummyState.thermostatMode = deviceState.thermostatMode;
-						}
-					}
-					else {dummyState.thermostatMode = "HEAT"}
-					break;
-				}
-			}
-		);
-	}
-	//console.log("Dummy state: " + JSON.stringify(dummyState));
-	return dummyState;
-}
+                            function clearStateModal() {
+                                $('#state').val("");
+                            }
 
-var devices = {};
-<%- JSON.stringify(devices) %>.forEach(function(device){
-	devices[device._id] = device;
-});
+                            function viewState(id) {
+                                clearStateModal()
+                                var device = devices[id];
+                                $('#state').val(JSON.stringify(device.state));
+                                $("#stateModal").modal('show');
+                            }
+                            ///////////////////////////////////////////////////////////////////////////
+                            // Interface/ capability-specific state-generation
+                            ///////////////////////////////////////////////////////////////////////////
+                            function generateState(deviceState) {
+                                var dt = new Date().toISOString();
+                                var dummyState = {};
+                                dummyState.time = dt;
+                                //console.log("deviceState: " + JSON.stringify(deviceState));
+                                if (deviceState == null) { // new device, no existing state
+                                    //console.log("No device state, generating dummy state");
+                                    $('input[name=capabilities]:checked').each(function(index) {
+                                        switch ($(this).attr("id")) {
+                                            case "BrightnessController":
+                                                dummyState.brightness = 75;
+                                                break;
+                                            case "ColorController": // set to green
+                                                dummyState.colorHue = 120;
+                                                dummyState.colorSaturation = 1;
+                                                dummyState.colorBrightness = 1;
+                                                break;
+                                            case "ColorTemperatureController": // set to warm white
+                                                dummyState.colorTemperature = 2200;
+                                                break;
+                                            case "ContactSensor": // set to closed
+                                                dummyState.contact = "DETECTED";
+                                                break;
+                                            case "MotionSensor": // set to not detected
+                                                dummyState.motion = "NOT_DETECTED";
+                                                break;
+                                            case "LockController":
+                                                dummyState.lock = "UNLOCKED";
+                                                break;
+                                            case "PercentageController":
+                                                dummyState.percentage = 100;
+                                                break;
+                                            case "PowerController":
+                                                dummyState.power = "OFF";
+                                                break;
+                                            case "RangeController":
+                                                dummyState.rangeValue = 5;
+                                                break;
+                                            case "Speaker":
+                                                dummyState.volume = 50;
+                                                break;
+                                            case "TemperatureSensor":
+                                                dummyState.temperature = 22;
+                                                break;
+                                            case "ThermostatController":
+                                                if ($("#Celsius").prop('checked') == true) {
+                                                    dummyState.thermostatSetPoint = 22
+                                                };
+                                                if ($("#Farenheit").prop('checked') == true) {
+                                                    dummyState.thermostatSetPoint = 74
+                                                };
+                                                dummyState.thermostatMode = "HEAT";
+                                                break;
+                                        }
+                                    });
+                                } else { // device has some state data already, ensure each capability has valid state data
+                                    $('input[name=capabilities]:checked').each(function(index) {
+                                        //console.log("Existing device state, generating dummy state");
+                                        switch ($(this).attr("id")) {
+                                            case "BrightnessController":
+                                                if (deviceState.hasOwnProperty('brightness')) {
+                                                    if (typeof deviceState.brightness == 'number' && (deviceState.brightness >= 0 || deviceState.brightness <= 100)) {
+                                                        dummyState.brightness = deviceState.brightness;
+                                                    }
+                                                } else {
+                                                    dummyState.brightness = 75
+                                                }
+                                                break;
+                                            case "ColorController": // if no existing state set to green
+                                                if (deviceState.hasOwnProperty('colorHue')) {
+                                                    if (typeof deviceState.colorHue == 'number' && (deviceState.colorHue >= 0 || deviceState.colorHue <= 360)) {
+                                                        dummyState.colorHue = deviceState.colorHue;
+                                                    }
+                                                } else {
+                                                    dummyState.colorHue = 120
+                                                }
+                                                if (deviceState.hasOwnProperty('colorSaturation')) {
+                                                    if (typeof deviceState.colorSaturation == 'number' && (deviceState.colorSaturation >= 0 || deviceState.colorSaturation <= 1)) {
+                                                        dummyState.colorSaturation = deviceState.colorSaturation;
+                                                    }
+                                                } else {
+                                                    dummyState.colorSaturation = 1
+                                                }
+                                                if (deviceState.hasOwnProperty('colorBrightness')) {
+                                                    if (typeof deviceState.colorBrightness == 'number' && (deviceState.colorBrightness >= 0 || deviceState.colorBrightness <= 1)) {
+                                                        dummyState.colorBrightness = deviceState.colorBrightness;
+                                                    }
+                                                } else {
+                                                    dummyState.colorBrightness = 1
+                                                }
+                                                break;
+                                            case "ColorTemperatureController": // if no existing state set to warm white
+                                                if (deviceState.hasOwnProperty('colorTemperature')) {
+                                                    if (typeof deviceState.colorTemperature == 'number' && (deviceState.colorTemperature >= 1000 || deviceState.colorTemperature <= 10000)) {
+                                                        dummyState.colorTemperature = deviceState.colorTemperature;
+                                                    }
+                                                } else {
+                                                    dummyState.colorTemperature = 2200
+                                                }
+                                                break;
+                                            case "ContactSensor":
+                                                if (deviceState.hasOwnProperty('contact')) {
+                                                    if (typeof deviceState.contact == 'string' && (deviceState.contact == 'DETECTED' || deviceState.contact == 'NOT_DETECTED')) {
+                                                        dummyState.contact = deviceState.contact;
+                                                    }
+                                                } else {
+                                                    dummyState.contact = "DETECTED"
+                                                }
+                                                break;
+                                            case "LockController":
+                                                if (deviceState.hasOwnProperty('lock')) {
+                                                    if (typeof deviceState.lock == 'string' && (deviceState.lock == 'UNLOCKED' || deviceState.lock == 'LOCKED')) {
+                                                        dummyState.lock = deviceState.lock;
+                                                    }
+                                                } else {
+                                                    dummyState.lock = "UNLOCKED"
+                                                }
+                                                break;
+                                            case "MotionSensor":
+                                                if (deviceState.hasOwnProperty('motion')) {
+                                                    if (typeof deviceState.motion == 'string' && (deviceState.motion == 'DETECTED' || deviceState.motion == 'NOT_DETECTED')) {
+                                                        dummyState.motion = deviceState.motion;
+                                                    }
+                                                } else {
+                                                    dummyState.motion = "NOT_DETECTED"
+                                                }
+                                                break;
+                                            case "PercentageController":
+                                                if (deviceState.hasOwnProperty('percentage')) {
+                                                    if (typeof deviceState.percentage == 'number') {
+                                                        dummyState.percentage = deviceState.percentage;
+                                                    }
+                                                } else {
+                                                    dummyState.percentage = 100
+                                                }
+                                                break;
+                                            case "PowerController":
+                                                if (deviceState.hasOwnProperty('power')) {
+                                                    if (typeof deviceState.power == 'string' && (deviceState.power == 'ON' || deviceState.power == 'OFF')) {
+                                                        dummyState.power = deviceState.power;
+                                                    }
+                                                } else {
+                                                    dummyState.power = "OFF"
+                                                }
+                                                break;
+                                            case "RangeController":
+                                                if (deviceState.hasOwnProperty('rangeValue')) {
+                                                    if (typeof deviceState.rangeValue == 'number') {
+                                                        dummyState.rangeValue = deviceState.rangeValue;
+                                                    }
+                                                } else {
+                                                    dummyState.rangeValue = 5
+                                                }
+                                                break;
+                                            case "Speaker":
+                                                if (deviceState.hasOwnProperty('volume')) {
+                                                    if (typeof deviceState.volume == 'number') {
+                                                        dummyState.volume = deviceState.volume;
+                                                    }
+                                                } else {
+                                                    dummyState.volume = 50
+                                                }
+                                                break;
+                                            case "TemperatureSensor":
+                                                if (deviceState.hasOwnProperty('temperature')) {
+                                                    if (typeof deviceState.temperature == 'number') {
+                                                        dummyState.temperature = deviceState.temperature;
+                                                    }
+                                                } else {
+                                                    dummyState.temperature = 22
+                                                }
+                                                break;
+                                            case "ThermostatController":
+                                                if (deviceState.hasOwnProperty('thermostatSetPoint')) {
+                                                    if (typeof deviceState.thermostatSetPoint == 'number') {
+                                                        dummyState.thermostatSetPoint = deviceState.thermostatSetPoint;
+                                                    }
+                                                } else {
+                                                    if ($("#Celsius").prop('checked') == true) {
+                                                        dummyState.thermostatSetPoint = 22
+                                                    } else if ($("#Farenheit").prop('checked') == true) {
+                                                        dummyState.thermostatSetPoint = 74
+                                                    }
+                                                }
+                                                if (deviceState.hasOwnProperty('thermostatMode')) {
+                                                    if (typeof deviceState.thermostatMode == 'string') {
+                                                        dummyState.thermostatMode = deviceState.thermostatMode;
+                                                    }
+                                                } else {
+                                                    dummyState.thermostatMode = "HEAT"
+                                                }
+                                                break;
+                                        }
+                                    });
+                                }
+                                //console.log("Dummy state: " + JSON.stringify(dummyState));
+                                return dummyState;
+                            }
 
-</script>
-<%- include('../fragments/footer'); -%>
+                            var devices = {};
+                            <%- JSON.stringify(devices) %>.forEach(function(device) {
+                                devices[device._id] = device;
+                            });
+                        </script>
+                        <%- include('../fragments/footer'); -%>

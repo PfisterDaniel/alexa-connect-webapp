@@ -1,58 +1,56 @@
 <%- include('../fragments/header'); -%>
-  <%- include('../fragments/privacy-modal'); -%>
+    <%- include('../fragments/privacy-modal'); -%>
 
-  <div class="container main-content">
-    <% if (allow_user_registration == "true" ) {%>
-      <form class="form-register" id="form-register">
-        <%- include('../fragments/register'); -%>
-      </form>
-      <script type="application/javascript">
-        // Load CountrySelect
-        //$("#country").countrySelect();
+        <div class="container main-content">
+            <% if (allow_user_registration == "true" ) {%>
+                <form class="form-register" id="form-register">
+                    <%- include('../fragments/register'); -%>
+                </form>
+                <script type="application/javascript">
+                    // Load CountrySelect
+                    //$("#country").countrySelect();
 
-        $('a[href$="#privacyModal"]').on( "click", function() {
-          $('#privacyModal').modal('show');
-        });
+                    $('a[href$="#privacyModal"]').on("click", function() {
+                        $('#privacyModal').modal('show');
+                    });
 
-        $("#form-register").submit(function(e) {
-          e.preventDefault();
-          // Username validation built-into input box
-          var username = $('#username').val().trim().toLowerCase();
-          var password = $('#password').val().trim();
-          var email = $('#email').val().trim();
-          //var country = $("#country_code").val().trim();
-	        var country = "de";
+                    $("#form-register").submit(function(e) {
+                        e.preventDefault();
+                        // Username validation built-into input box
+                        var username = $('#username').val().trim().toLowerCase();
+                        var password = $('#password').val().trim();
+                        var email = $('#email').val().trim();
+                        //var country = $("#country_code").val().trim();
+                        var country = "de";
 
-          // Build Submit Paramaters
-          var params = "username=" + encodeURIComponent(username)
-          + "&password=" + encodeURIComponent(password)
-          + "&email=" + encodeURIComponent(email)
-          + "&country=" + encodeURIComponent(country);
+                        // Build Submit Paramaters
+                        var params = "username=" + encodeURIComponent(username) +
+                            "&password=" + encodeURIComponent(password) +
+                            "&email=" + encodeURIComponent(email) +
+                            "&country=" + encodeURIComponent(country);
 
-          // Post update
-          var xhr = new XMLHttpRequest();
-          xhr.open('POST', '/new-user',true);
-          xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-          xhr.onreadystatechange = function () {
-            if( xhr.readyState == 4 && xhr.status == 201) {
-              console.log("Created new user")
-              //new user created, flash that a verification email has been sent
-              alert(xhr.responseText);
-              window.location.href = "/";
-            }
-            else if (xhr.readyState == 4 && (xhr.status == 400 || xhr.status == 409 || xhr.status == 500)) {
-              alert("Fehler beim erstellen des Benutzerkontos: " + xhr.responseText);
-            }
-          }
-          xhr.send(params);
+                        // Post update
+                        var xhr = new XMLHttpRequest();
+                        xhr.open('POST', '/new-user', true);
+                        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+                        xhr.onreadystatechange = function() {
+                            if (xhr.readyState == 4 && xhr.status == 201) {
+                                console.log("Created new user")
+                                    //new user created, flash that a verification email has been sent
+                                alert(xhr.responseText);
+                                window.location.href = "/";
+                            } else if (xhr.readyState == 4 && (xhr.status == 400 || xhr.status == 409 || xhr.status == 500)) {
+                                alert("Fehler beim erstellen des Benutzerkontos: " + xhr.responseText);
+                            }
+                        }
+                        xhr.send(params);
 
-        });
-
-      </script>
-      <% } else { %>
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-          <strong>Fehler!</strong> Die Benutzer-Registrierung ist auf diesem Server nicht gestattet!</a>
+                    });
+                </script>
+                <% } else { %>
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>Fehler!</strong> Die Benutzer-Registrierung ist auf diesem Server nicht aktiviert!</a>
+                    </div>
+                    <% } %>
         </div>
-      <% } %>
-  </div>
-<%- include('../fragments/footer'); -%>
+        <%- include('../fragments/footer'); -%>
